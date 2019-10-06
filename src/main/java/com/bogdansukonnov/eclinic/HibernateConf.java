@@ -1,5 +1,6 @@
-package com.bogdansukonnov.eclinic.dao;
+package com.bogdansukonnov.eclinic;
 
+import com.bogdansukonnov.eclinic.entity.Patient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
@@ -19,15 +20,16 @@ public class HibernateConf {
     public LocalSessionFactoryBean sessionFactory() {
         LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
         sessionFactory.setDataSource(dataSource());
-        sessionFactory.setPackagesToScan("com.bogdansukonnov.eclinic.dao");
+        sessionFactory.setPackagesToScan("com.bogdansukonnov.eclinic.entity");
         sessionFactory.setHibernateProperties(hibernateProperties());
-
         return sessionFactory;
     }
 
     @Bean
     public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
+
+        // ToDo: properties to file
         dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
         dataSource.setUrl("jdbc:mysql://localhost:3306/eclinic?useSSL=false");
         dataSource.setUsername("root");
@@ -46,6 +48,8 @@ public class HibernateConf {
 
     private final Properties hibernateProperties() {
         Properties hibernateProperties = new Properties();
+
+        // ToDo: properties to file
         hibernateProperties.setProperty(
                 "hibernate.hbm2ddl.auto", "update");
         hibernateProperties.setProperty(

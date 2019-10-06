@@ -12,14 +12,10 @@ import java.util.Optional;
 @Repository
 public class PatientDao implements Dao<Patient> {
 
+    @Autowired
     private SessionFactory sessionFactory;
 
     public PatientDao() {
-    }
-
-    @Autowired
-    public PatientDao(SessionFactory sessionFactory) {
-        this.sessionFactory = sessionFactory;
     }
 
     @Override
