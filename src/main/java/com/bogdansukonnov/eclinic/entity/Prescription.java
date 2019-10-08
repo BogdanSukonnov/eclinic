@@ -1,17 +1,20 @@
 package com.bogdansukonnov.eclinic.entity;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import java.time.LocalDateTime;
 
 @Entity
-@Data
-public class Prescription {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+@Getter
+@Setter
+@NoArgsConstructor
+public class Prescription extends AbstractEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "patient_id")
@@ -21,7 +24,11 @@ public class Prescription {
     @JoinColumn(name = "doctor_id")
     private Doctor doctor;
 
-    private LocalDateTime dateTime;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "pattern_id")
+    private Pattern pattern;
+
+    private LocalDateTime creationTime;
 
     short duration; // days
 

@@ -1,16 +1,16 @@
 package com.bogdansukonnov.eclinic.entity;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
 
 @Entity
-@Data
-public class Diagnosis {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+@Getter
+@Setter
+@NoArgsConstructor
+public class Diagnosis extends AbstractEntity {
 
     private String diagnosis;
 

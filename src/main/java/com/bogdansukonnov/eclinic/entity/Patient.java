@@ -1,20 +1,22 @@
 package com.bogdansukonnov.eclinic.entity;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 
 @Entity
-@Data
-public class Patient {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+@Getter
+@Setter
+@NoArgsConstructor
+public class Patient extends AbstractEntity {
 
     private String fullName;
 
-    private String insurance;
+    private String insuranceNumber;
 
     @Enumerated(EnumType.ORDINAL)
     private PatientStatus patientStatus;
