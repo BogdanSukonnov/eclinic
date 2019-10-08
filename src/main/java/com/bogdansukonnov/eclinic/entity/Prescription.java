@@ -28,10 +28,14 @@ public class Prescription extends AbstractEntity {
     @JoinColumn(name = "pattern_id")
     private Pattern pattern;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "treatment_id")
+    private Treatment treatment;
+
     private LocalDateTime creationTime;
 
-    short duration; // days
+    Short duration; // days
 
-    short dosage; // ml, only for drugs
+    Short dosage; // ml, only for drugs
 
 }
