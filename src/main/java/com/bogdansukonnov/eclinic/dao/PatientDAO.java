@@ -1,22 +1,23 @@
 package com.bogdansukonnov.eclinic.dao;
 
 import com.bogdansukonnov.eclinic.entity.Patient;
+import lombok.Data;
+import lombok.RequiredArgsConstructor;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
 
 @Repository
-public class PatientDao implements Dao<Patient> {
+@Data
+public class PatientDAO implements DAO<Patient> {
 
-    @Autowired
+    @NonNull
     private SessionFactory sessionFactory;
-
-    public PatientDao() {
-    }
 
     @Override
     public Optional<Patient> get(long id) {

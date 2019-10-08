@@ -1,36 +1,37 @@
 package com.bogdansukonnov.eclinic.controller;
 
-import com.bogdansukonnov.eclinic.entity.Patient;
+import com.bogdansukonnov.eclinic.dto.PatientDTO;
+import com.bogdansukonnov.eclinic.service.NewPatientService;
 import com.bogdansukonnov.eclinic.service.PatientsListService;
+import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 
 @Controller
+@AllArgsConstructor
 public class PatientsListController {
 
     private PatientsListService patientsListService;
+    private NewPatientService newPatientService;
 
-    @Autowired
-    public PatientsListController(PatientsListService patientsListService) {
-        this.patientsListService = patientsListService;
-    }
-
-    @RequestMapping("/patients")
+    @GetMapping("/patients")
     public ModelAndView patients() {
-        List<Patient> patients = patientsListService.getAll();
+        List<PatientDTO> patients = patientsListService.getAll();
         ModelAndView model = new ModelAndView("patients");
         model.addObject("patients", patients);
         return model;
     }
 
-    @RequestMapping(value = "/newPatient", method = RequestMethod.POST)
-    public void newPatient(Patient patient) {
-        patientsListService.save(patient);
+    @PostMapping("/newPatient")
+    public void newPatient(@RequestParam("fullName") String fullName) {
+        newPatientService.addNew(fullName);
     }
 
 }

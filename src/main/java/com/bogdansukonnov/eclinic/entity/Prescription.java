@@ -7,23 +7,24 @@ import java.time.LocalDateTime;
 
 @Entity
 @Data
-public class Event {
+public class Prescription {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-
-    private LocalDateTime dateTime;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "patient_id")
     private Patient patient;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "prescription_id")
-    private Prescription prescription;
+    @JoinColumn(name = "doctor_id")
+    private Doctor doctor;
 
-    @Enumerated(EnumType.ORDINAL)
-    EventStatus eventStatus;
+    private LocalDateTime dateTime;
+
+    short duration; // days
+
+    short dosage; // ml, only for drugs
 
 }

@@ -1,20 +1,30 @@
-package com.bogdansukonnov.eclinic;
+package com.bogdansukonnov.eclinic.config;
 
-import com.bogdansukonnov.eclinic.entity.Patient;
+import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.lang.NonNull;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.sql.DataSource;
+import java.util.Objects;
 import java.util.Properties;
 
 @Configuration
 @EnableTransactionManagement
-public class HibernateConf {
+@PropertySource({"classpath:hibernate-properties.properties"})
+@AllArgsConstructor
+public class HibernateConfig {
+
+    private Environment environment;
 
     @Bean
     public LocalSessionFactoryBean sessionFactory() {
@@ -29,11 +39,10 @@ public class HibernateConf {
     public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
 
-        // ToDo: properties to file
-        dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
-        dataSource.setUrl("jdbc:mysql://localhost:3306/eclinic?useSSL=false");
-        dataSource.setUsername("root");
-        dataSource.setPassword("");
+        dataSource.setDriverClassName(Objects.requireNonNull(environment.getProperty("jdbc.driverClassName")));
+        dataSource.setUrl(environment.getProperty("jdbc.url"));
+        dataSource.setUsername(environment.getProperty("jdbc.user"));
+        dataSource.setPassword(environment.getProperty("jdbc.pass"));
 
         return dataSource;
     }
@@ -49,14 +58,14 @@ public class HibernateConf {
     private final Properties hibernateProperties() {
         Properties hibernateProperties = new Properties();
 
-        // ToDo: properties to file
         hibernateProperties.setProperty(
-                "hibernate.hbm2ddl.auto", "update");
+                "hibernate.hbm2ddl.auto", environment.getProperty("hibernate.hdm2ddl.auto"));
         hibernateProperties.setProperty(
-                "hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect");
+                "hibernate.dialect", environment.getProperty("hibernate.dialect"));
         hibernateProperties.setProperty(
-                "hibernate.show_sql", "true");
+                "hibernate.show_sql", environment.getProperty("hibernate.show_sql"));
 
         return hibernateProperties;
     }
+
 }

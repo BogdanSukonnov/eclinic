@@ -1,29 +1,29 @@
 package com.bogdansukonnov.eclinic.service;
 
-import com.bogdansukonnov.eclinic.dao.PatientDao;
+import com.bogdansukonnov.eclinic.dao.PatientDAO;
+import com.bogdansukonnov.eclinic.dto.PatientDTO;
 import com.bogdansukonnov.eclinic.entity.Patient;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
-@Transactional
+@AllArgsConstructor
 public class PatientsListService {
 
-    private PatientDao patientDao;
+    private PatientDAO patientDAO;
+    private ModelMapper modelMapper;
 
-    @Autowired
-    public PatientsListService(PatientDao patientDao) {
-        this.patientDao = patientDao;
+    @Transactional( readOnly = true )
+    public List<PatientDTO> getAll() {
+        return patientDAO.getAll().stream()
+                .map(patient -> modelMapper.map(patient, PatientDTO.class))
+                .collect(Collectors.toList());
     }
 
-    public List<Patient> getAll() {
-        return patientDao.getAll();
-    }
-
-    public void save(Patient patient) {
-        patientDao.save(patient);
-    }
 }

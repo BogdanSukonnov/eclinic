@@ -6,8 +6,10 @@
 <body>
     <h1>Patients</h1>
     <form action="/newPatient" method="post">
-        Full name: <input type="text" name="fullname"/><br />
-        <input type="submit" value ="submit"/>
+        <label>Full name:
+            <input type="text" name="fullName"/>
+        </label><br>
+        <input type="submit" />
     </form>
 </body>
 </html>
