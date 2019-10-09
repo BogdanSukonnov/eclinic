@@ -48,6 +48,9 @@
           <element id="library" level="project" name="Maven: org.jvnet.staxex:stax-ex:1.8" />
           <element id="library" level="project" name="Maven: com.sun.xml.fastinfoset:FastInfoset:1.2.15" />
           <element id="library" level="project" name="Maven: org.modelmapper:modelmapper:2.3.5" />
+          <element id="library" level="project" name="Maven: org.springframework.security:spring-security-core:5.2.0.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework.security:spring-security-web:5.2.0.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework.security:spring-security-config:5.2.0.RELEASE" />
         </element>
       </element>
       <element id="directory" name="META-INF">
