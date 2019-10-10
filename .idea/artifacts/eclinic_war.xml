@@ -7,7 +7,7 @@
         <packaging>war</packaging>
       </options>
     </properties>
-    <root id="archive" name="eclinic-1.0-SNAPSHOT.war">
+    <root id="archive" name="eClinic.war">
       <element id="artifact" artifact-name="eclinic:war exploded" />
     </root>
   </artifact>
