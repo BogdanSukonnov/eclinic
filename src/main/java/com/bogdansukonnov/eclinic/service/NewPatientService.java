@@ -4,13 +4,16 @@ import com.bogdansukonnov.eclinic.dao.PatientDAO;
 import com.bogdansukonnov.eclinic.entity.Patient;
 import com.bogdansukonnov.eclinic.entity.PatientStatus;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class NewPatientService {
 
+    @NonNull
     private PatientDAO patientDAO;
 
     @Transactional
@@ -19,7 +22,7 @@ public class NewPatientService {
         patient.setFullName(fullNAme);
         patient.setPatientStatus(PatientStatus.PATIENT);
         // ToDo: insurance, doctor
-        patientDAO.save(patient);
+        patientDAO.create(patient);
     }
 
 }

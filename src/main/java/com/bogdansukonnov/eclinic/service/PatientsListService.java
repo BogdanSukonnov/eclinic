@@ -6,6 +6,7 @@ import com.bogdansukonnov.eclinic.entity.Patient;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,10 +14,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class PatientsListService {
 
+    @NonNull
     private PatientDAO patientDAO;
+
+    @NonNull
     private ModelMapper modelMapper;
 
     @Transactional( readOnly = true )
