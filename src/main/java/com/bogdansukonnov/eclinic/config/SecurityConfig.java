@@ -1,7 +1,6 @@
 package com.bogdansukonnov.eclinic.config;
 
 import com.bogdansukonnov.eclinic.service.AppUserDetailsService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -11,8 +10,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.factory.PasswordEncoderFactories;
-import org.springframework.security.crypto.password.PasswordEncoder;
+
+import static com.bogdansukonnov.eclinic.security.AuthorityType.*;
 
 @Configuration
 @EnableWebSecurity
@@ -48,7 +47,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .permitAll()
                 .and().authorizeRequests()
                     .antMatchers("/doctor/*")
-                    .authenticated()
+                    .hasRole(ROLE_DOCTOR.toString())
+                .and().authorizeRequests()
+                    .antMatchers("/admin/*")
+                    .hasRole(ROLE_ADMIN.toString())
+                .and().authorizeRequests()
+                    .antMatchers("/nurse/*")
+                    .hasRole(ROLE_NURSE.toString())
                 .and().formLogin()
                     .loginPage("/login/sign-in")
                     .usernameParameter("login")
