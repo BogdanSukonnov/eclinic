@@ -1,7 +1,6 @@
 package com.bogdansukonnov.eclinic.dao;
 
 import com.bogdansukonnov.eclinic.entity.AppUser;
-import org.hibernate.Session;
 import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,9 +14,13 @@ public class AppUserDAO extends AbstractDAO<AppUser> {
     }
 
     public AppUser findByUsername(String username) {
-        Query<AppUser> query = sessionFactory.getCurrentSession()
-                .createQuery("FROM AppUser u where u.username=:username", AppUser.class);
+
+        String queryText = "FROM AppUser u where u.username=:username";
+
+        Query<AppUser> query = sessionFactory.getCurrentSession().createQuery(queryText, AppUser.class);
+
         query.setParameter("username", username);
+
         return query.uniqueResult();
     }
 

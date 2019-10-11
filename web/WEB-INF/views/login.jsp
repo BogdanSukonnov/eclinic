@@ -7,7 +7,7 @@
     <h1>Login</h1>
     <form action="${pageContext.request.contextPath}/login/doLogin" method="post">
         <label>login:
-            <input type="text" name="login"/>
+            <input type="text" name="username"/>
         </label><br>
         <label>password:
             <input type="text" name="password"/>

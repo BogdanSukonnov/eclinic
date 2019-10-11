@@ -21,8 +21,8 @@ public class AddUserController {
     }
 
     @PostMapping("/admin/addUser")
-    public void addUser(@RequestParam("login") String login, @RequestParam("password") String password) {
-        addUserService.addUser(login, password);
+    public void addUser(@RequestParam("username") String username, @RequestParam("password") String password) {
+        addUserService.addUser(username, password);
     }
 
 }

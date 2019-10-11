@@ -42,28 +42,35 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .authorizeRequests()
-                    .antMatchers("/", "/login/*", "/resource/**")
-                    .permitAll()
-                .and().authorizeRequests()
-                    .antMatchers("/doctor/*")
-                    .hasRole(ROLE_DOCTOR.toString())
-                .and().authorizeRequests()
-                    .antMatchers("/admin/*")
-                    .hasRole(ROLE_ADMIN.toString())
-                .and().authorizeRequests()
-                    .antMatchers("/nurse/*")
-                    .hasRole(ROLE_NURSE.toString())
+                .csrf().disable()
+
+                .authorizeRequests().antMatchers("/", "/login/**", "/resource/**")
+                .permitAll()
+
                 .and().formLogin()
-                    .loginPage("/login/sign-in")
-                    .usernameParameter("login")
-                    .passwordParameter("password")
-                    .permitAll()
-                .and().authorizeRequests()
-                    .anyRequest()
-                    .permitAll()
+                .loginPage("/login/sign-in")
+                .usernameParameter("username")
+                .passwordParameter("password")
+                .permitAll()
+                .loginProcessingUrl("/login/doLogin")
+                .successForwardUrl("/login/postLogin")
+                .failureUrl("/login/loginFailed")
                 .and()
-                    .csrf().disable();
+                .logout()
+                .logoutUrl("/login/doLogout")
+                .logoutSuccessUrl("/login/logout")
+                .permitAll()
+
+                .and().authorizeRequests().antMatchers("/doctor/**")
+                .hasAnyRole(ROLE_DOCTOR.toString(), ROLE_ADMIN.toString())
+
+                .and().authorizeRequests().antMatchers("/admin/*")
+                .hasAnyRole(ROLE_ADMIN.toString())
+
+                .and().authorizeRequests().antMatchers("/nurse/*")
+                .hasAnyRole(ROLE_NURSE.toString(), ROLE_ADMIN.toString(), ROLE_DOCTOR.toString())
+        ;
+
     }
 
 }
