@@ -1,6 +1,8 @@
 package com.bogdansukonnov.eclinic.security;
 
 import com.bogdansukonnov.eclinic.entity.AppUser;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.lang.NonNull;
 import org.springframework.security.core.GrantedAuthority;
@@ -10,10 +12,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
-@RequiredArgsConstructor
-public class AppUserPrincipal implements UserDetails {
+@AllArgsConstructor
+@Getter
+public class UserPrincipal implements UserDetails {
 
-    @NonNull
     private AppUser appUser;
 
     @Override
@@ -52,4 +54,5 @@ public class AppUserPrincipal implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
 }

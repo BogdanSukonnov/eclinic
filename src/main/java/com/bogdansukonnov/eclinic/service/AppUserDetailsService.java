@@ -1,10 +1,8 @@
 package com.bogdansukonnov.eclinic.service;
 
-import com.bogdansukonnov.eclinic.security.AppUserPrincipal;
-import com.bogdansukonnov.eclinic.dao.AppUserDAO;
+import com.bogdansukonnov.eclinic.security.UserPrincipal;
+import com.bogdansukonnov.eclinic.dao.UserDAO;
 import com.bogdansukonnov.eclinic.entity.AppUser;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,15 +15,15 @@ public class AppUserDetailsService implements UserDetailsService {
 
     @NonNull
     @Autowired
-    private AppUserDAO appUserDAO;
+    private UserDAO userDAO;
 
     @Override
     public UserDetails loadUserByUsername(String username) {
-        AppUser user = appUserDAO.findByUsername(username);
+        AppUser user = userDAO.findByUsername(username);
         if (user == null) {
             throw new UsernameNotFoundException(username);
         }
-        return new AppUserPrincipal(user);
+        return new UserPrincipal(user);
     }
 
 }

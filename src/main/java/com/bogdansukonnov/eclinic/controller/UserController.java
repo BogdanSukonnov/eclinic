@@ -1,6 +1,7 @@
 package com.bogdansukonnov.eclinic.controller;
 
-import com.bogdansukonnov.eclinic.service.AddUserService;
+import com.bogdansukonnov.eclinic.service.UserService;
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Controller;
@@ -9,11 +10,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
-@RequiredArgsConstructor
-public class AddUserController {
+@AllArgsConstructor
+public class UserController {
 
-    @NonNull
-    private AddUserService addUserService;
+    private UserService userService;
 
     @GetMapping("/admin/addUser")
     public String addUserPage() {
@@ -22,7 +22,7 @@ public class AddUserController {
 
     @PostMapping("/admin/addUser")
     public void addUser(@RequestParam("username") String username, @RequestParam("password") String password) {
-        addUserService.addUser(username, password);
+        userService.addUser(username, password);
     }
 
 }

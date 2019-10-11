@@ -62,13 +62,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll()
 
                 .and().authorizeRequests().antMatchers("/doctor/**")
-                .hasAnyRole(ROLE_DOCTOR.toString(), ROLE_ADMIN.toString())
+                .hasAnyRole(ROLE_DOCTOR.getRole(), ROLE_ADMIN.getRole())
 
-                .and().authorizeRequests().antMatchers("/admin/*")
-                .hasAnyRole(ROLE_ADMIN.toString())
+                .and().authorizeRequests().antMatchers("/admin/**")
+                .hasAnyRole(ROLE_ADMIN.getRole())
 
-                .and().authorizeRequests().antMatchers("/nurse/*")
-                .hasAnyRole(ROLE_NURSE.toString(), ROLE_ADMIN.toString(), ROLE_DOCTOR.toString())
+                .and().authorizeRequests().antMatchers("/nurse/**")
+                .hasAnyRole(ROLE_NURSE.getRole(), ROLE_ADMIN.getRole(), ROLE_DOCTOR.getRole())
         ;
 
     }

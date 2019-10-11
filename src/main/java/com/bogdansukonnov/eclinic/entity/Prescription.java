@@ -3,39 +3,49 @@ package com.bogdansukonnov.eclinic.entity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.lang.NonNull;
 
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
+@Table(name = "prescription")
 public class Prescription extends AbstractEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "patient_id")
+    @JoinColumn(name = "patient_id", foreignKey = @ForeignKey(name = "FK_patient"))
+    @NonNull
     private Patient patient;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "doctor_id")
+    @JoinColumn(name = "doctor_id", foreignKey = @ForeignKey(name = "FK_doctor"))
+    @NonNull
     private Doctor doctor;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "pattern_id")
+    @JoinColumn(name = "pattern_id", foreignKey = @ForeignKey(name = "FK_pattern"))
+    @NonNull
     private Pattern pattern;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "treatment_id")
+    @JoinColumn(name = "treatment_id", foreignKey = @ForeignKey(name = "FK_treatment"))
+    @NonNull
     private Treatment treatment;
 
-    private LocalDateTime creationTime;
+    @Column(name = "creationDateTime")
+    private LocalDateTime creationDateTime;
 
-    Short duration; // days
+    // days
+    @Column(name = "duration")
+    @NonNull
+    Short duration;
 
-    Short dosage; // ml, only for drugs
+    // ml, only for drugs
+    @Column(name = "dosage")
+    @NonNull
+    Float dosage;
 
 }

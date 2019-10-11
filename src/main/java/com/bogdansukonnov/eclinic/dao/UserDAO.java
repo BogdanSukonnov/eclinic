@@ -5,14 +5,15 @@ import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-@Repository
-@Transactional
-public class AppUserDAO extends AbstractDAO<AppUser> {
 
-    public AppUserDAO() {
+@Repository
+public class UserDAO extends AbstractDAO<AppUser> {
+
+    public UserDAO() {
         setClazz(AppUser.class);
     }
 
+    @Transactional
     public AppUser findByUsername(String username) {
 
         String queryText = "FROM AppUser u where u.username=:username";

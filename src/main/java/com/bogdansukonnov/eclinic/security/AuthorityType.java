@@ -16,8 +16,4 @@ public enum AuthorityType {
         return role;
     }
 
-    @Override
-    public String toString() {
-        return getRole();
-    }
 }

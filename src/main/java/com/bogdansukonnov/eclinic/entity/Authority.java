@@ -2,20 +2,21 @@ package com.bogdansukonnov.eclinic.entity;
 
 import com.bogdansukonnov.eclinic.security.AuthorityType;
 import lombok.*;
+import org.springframework.lang.NonNull;
 
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
+import javax.persistence.*;
 
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
-@RequiredArgsConstructor
+@AllArgsConstructor
+@Table(name = "authority")
 public class Authority extends AbstractEntity {
 
-    @NonNull
     @Enumerated(EnumType.STRING)
+    @Column(name = "name", unique = true)
+    @NonNull
     private AuthorityType name;
 
 }
