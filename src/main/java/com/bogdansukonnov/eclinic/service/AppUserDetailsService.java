@@ -13,10 +13,10 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service("appUserDetailsService")
-@Setter
 public class AppUserDetailsService implements UserDetailsService {
 
     @NonNull
+    @Autowired
     private AppUserDAO appUserDAO;
 
     @Override
