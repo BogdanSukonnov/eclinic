@@ -13,7 +13,7 @@ public class UserDAO extends AbstractDAO<AppUser> {
         setClazz(AppUser.class);
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public AppUser findByUsername(String username) {
 
         String queryText = "FROM AppUser u where u.username=:username";

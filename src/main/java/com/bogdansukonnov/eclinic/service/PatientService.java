@@ -5,9 +5,7 @@ import com.bogdansukonnov.eclinic.dto.PatientDTO;
 import com.bogdansukonnov.eclinic.entity.Patient;
 import com.bogdansukonnov.eclinic.entity.PatientStatus;
 import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,7 +20,7 @@ public class PatientService {
 
     private ModelMapper modelMapper;
 
-    @Transactional( readOnly = true )
+    @Transactional(readOnly = true)
     public List<PatientDTO> getAll() {
         return patientDAO.getAll().stream()
                 .map(patient -> modelMapper.map(patient, PatientDTO.class))

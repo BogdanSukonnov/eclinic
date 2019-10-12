@@ -1,6 +1,5 @@
 package com.bogdansukonnov.eclinic.entity;
 
-import com.sun.istack.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

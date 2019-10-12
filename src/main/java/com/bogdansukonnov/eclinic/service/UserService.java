@@ -3,8 +3,6 @@ package com.bogdansukonnov.eclinic.service;
 import com.bogdansukonnov.eclinic.dao.UserDAO;
 import com.bogdansukonnov.eclinic.entity.AppUser;
 import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
-import org.springframework.lang.NonNull;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

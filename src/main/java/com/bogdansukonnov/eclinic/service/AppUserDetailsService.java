@@ -1,8 +1,8 @@
 package com.bogdansukonnov.eclinic.service;
 
-import com.bogdansukonnov.eclinic.security.UserPrincipal;
 import com.bogdansukonnov.eclinic.dao.UserDAO;
 import com.bogdansukonnov.eclinic.entity.AppUser;
+import com.bogdansukonnov.eclinic.security.UserPrincipal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
 import org.springframework.security.core.userdetails.UserDetails;

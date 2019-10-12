@@ -1,7 +1,10 @@
 package com.bogdansukonnov.eclinic.entity;
 
 import com.bogdansukonnov.eclinic.security.AuthorityType;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.lang.NonNull;
 
 import javax.persistence.*;
