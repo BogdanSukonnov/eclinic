@@ -24,6 +24,10 @@ public class AppUser extends AbstractEntity {
     @NonNull
     private String password;
 
+    @Column(name = "fullName", unique = true)
+    @NonNull
+    private String fullName;
+
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name = "user_authority",
             joinColumns = {@JoinColumn(name = "user_id", nullable = false

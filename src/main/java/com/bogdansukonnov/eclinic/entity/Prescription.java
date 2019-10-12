@@ -23,7 +23,7 @@ public class Prescription extends AbstractEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "doctor_id", foreignKey = @ForeignKey(name = "FK_doctor"))
     @NonNull
-    private Doctor doctor;
+    private AppUser doctor;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "pattern_id", foreignKey = @ForeignKey(name = "FK_pattern"))
