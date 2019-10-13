@@ -1,9 +1,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html lang="en">
-  <jsp:include page="head.jsp"/>
+  <jsp:include page="common/head.jsp"/>
   <body>
-  <jsp:include page="header.jsp"/>
+  <jsp:include page="common/header.jsp"/>
 
     <h1>eClinic</h1>
     <p>temp menu</p>
@@ -13,6 +13,6 @@
       <li><a href="${pageContext.request.contextPath}/login/sign-in">sign in</a></li>
     </ul>
 
-    <jsp:include page="scripts.jsp"/>
+    <jsp:include page="common/scripts.jsp"/>
   </body>
 </html>
