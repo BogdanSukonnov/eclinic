@@ -1,3 +1,5 @@
+/*Bootstrap CSS*/
+@import url(/static/css/bootstrap/bootstrap.min.css);
 
 .bd-navbar {
     background-color: lightgrey;
