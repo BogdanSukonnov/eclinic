@@ -1,11 +1,11 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
   <head>
-    <title>welcome</title>
+    <title>temp menu</title>
   </head>
   <body>
   <h1>eClinic</h1>
-  <p>Welcome to eClinic!</p>
+  <p>temp menu</p>
   <ul>
     <li><a href="${pageContext.request.contextPath}/doctor/patients">patients</a></li>
     <li><a href="${pageContext.request.contextPath}/admin/addUser">new user</a></li>

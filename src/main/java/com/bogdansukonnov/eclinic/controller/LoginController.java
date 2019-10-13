@@ -55,7 +55,7 @@ public class LoginController {
 //        model.addAttribute("currentUser", loggedInUser.getUsername());
         session.setAttribute("userId", loggedInUser.getId());
 
-        return "redirect:/";
+        return "redirect:/temp-menu";
     }
 
     private void validatePrinciple(Object principal) {

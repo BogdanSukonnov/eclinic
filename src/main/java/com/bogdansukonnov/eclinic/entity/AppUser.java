@@ -13,10 +13,12 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
-@Table(name = "user")
+@Table(name = "user",
+        uniqueConstraints = {@UniqueConstraint(columnNames = {"username"}, name = "UK_user_username")
+                , @UniqueConstraint(columnNames = {"fullName"}, name = "UK_user_fullName")})
 public class AppUser extends AbstractEntity {
 
-    @Column(name = "username", unique = true)
+    @Column(name = "username")
     @NonNull
     private String username;
 
@@ -24,7 +26,7 @@ public class AppUser extends AbstractEntity {
     @NonNull
     private String password;
 
-    @Column(name = "fullName", unique = true)
+    @Column(name = "fullName")
     @NonNull
     private String fullName;
 

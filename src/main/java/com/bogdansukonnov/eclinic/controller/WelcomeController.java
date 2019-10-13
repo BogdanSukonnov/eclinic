@@ -1,15 +1,19 @@
 package com.bogdansukonnov.eclinic.controller;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class WelcomeController {
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
+    @GetMapping("/")
     public String welcome() {
-        return "welcome";
+        return "login";
+    }
+
+    @GetMapping("temp-menu")
+    public String tempMenu() {
+        return "temp-menu";
     }
 
 }

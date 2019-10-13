@@ -11,7 +11,9 @@ import javax.persistence.*;
 @Getter
 @Setter
 @NoArgsConstructor
-@Table(name = "patient")
+@Table(name = "patient", uniqueConstraints =
+        {@UniqueConstraint(columnNames = {"fullName", "insuranceNumber"},
+                name = "UK_patient_fullName_insuranceNumber")})
 public class Patient extends AbstractEntity {
 
     @Column(name = "fullName")
