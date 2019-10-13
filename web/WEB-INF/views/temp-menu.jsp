@@ -13,8 +13,6 @@
       <li><a href="${pageContext.request.contextPath}/login/sign-in">sign in</a></li>
     </ul>
 
-    <!-- Bootstrap JS: jQuery first, then bootstrap.bundle includes Popper.js -->
-    <script src="${pageContext.request.contextPath}/static/script/jquery.min.js"></script>
-    <script src="${pageContext.request.contextPath}/static/script/bootstrap.bundle.min.js"></script>
+    <jsp:include page="scripts.jsp"/>
   </body>
 </html>
