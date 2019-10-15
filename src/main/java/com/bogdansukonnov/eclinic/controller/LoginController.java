@@ -29,11 +29,6 @@ public class LoginController {
         return "login";
     }
 
-    @GetMapping("error-forbidden")
-    public String errorForbidden() {
-        return "error-forbidden";
-    }
-
     @GetMapping("logout")
     public String logout(SessionStatus session) {
         SecurityContextHolder.getContext().setAuthentication(null);

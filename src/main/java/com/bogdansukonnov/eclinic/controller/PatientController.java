@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.io.IOException;
 import java.util.List;
 
 @Controller
@@ -18,7 +19,7 @@ public class PatientController {
     private PatientService patientService;
 
     @GetMapping("/doctor/patients")
-    public ModelAndView patients() {
+    public ModelAndView patients() throws IOException {
         List<PatientDTO> patients = patientService.getAll();
         ModelAndView model = new ModelAndView("patients");
         model.addObject("patients", patients);

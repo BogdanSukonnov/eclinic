@@ -44,7 +44,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
 
-                .authorizeRequests().antMatchers("/", "/login/**", "/static/**")
+                .authorizeRequests().antMatchers("/", "/login/**", "/static/**", "/error/**")
                 .permitAll()
 
                 .and().formLogin()
@@ -69,6 +69,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
                 .and().authorizeRequests().antMatchers("/nurse/**")
                 .hasAnyRole(ROLE_NURSE.getRole(), ROLE_ADMIN.getRole(), ROLE_DOCTOR.getRole())
+
+                .and()
+                .exceptionHandling().accessDeniedPage("/error/access-denied")
         ;
 
     }
