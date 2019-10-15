@@ -6,9 +6,9 @@
 <div id="ecl-main-wrapper">
     <jsp:include page="common/header.jsp"/>
     <div id="ecl-login-content">
-        <form action="${pageContext.request.contextPath}/login/doLogin" method="post">
+        <form id="ecl-login-form" action="${pageContext.request.contextPath}/login/doLogin" method="post">
             <fieldset>
-                <legend>Please sign in</legend>
+                <legend align="center">Sign In</legend>
                 <c:if test="${not empty error}">
                     <div class="alert alert-danger">
                         Username or password didn't match!
@@ -16,14 +16,14 @@
                     </div>
                 </c:if>
                 <div class="form-group">
-                    <input class="form:input-large" placeholder="User Name"
+                    <input class="form-control" placeholder="User Name"
                            name='username' type="text">
                 </div>
                 <div class="form-group">
-                    <input class=" form:input-large" placeholder="Password"
+                    <input class="form-control" placeholder="Password"
                            name='password' type="password" value="">
                 </div>
-                <input class="btn" type="submit" value="Login">
+                <input id="ecl-login-submit" class="btn" type="submit" value="Login">
             </fieldset>
         </form>
     </div>

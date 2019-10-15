@@ -18,10 +18,33 @@ body, html {
 #ecl-login-content {
     background: rgb(0,231,255);
     background: radial-gradient(circle, rgba(255,255,255,0) 0%, rgba(0,0,33,0.25) 100%),
-    url(/static/images/scrubs_bab6_2880x1800.jpg);
+    url(/static/images/login-background.jpg);
     background-size: cover;
     height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+#ecl-login-form {
+    background: rgba(255,255,255,0.5);
+    padding: 6px 18px 18px;
+    width: 270px;
+}
+
+#ecl-login-form * {
+    width: 100%;
+    border: none;
+    border-radius: 0;
+}
+
+#ecl-login-form input {
+    text-align: center;
+}
+
+#ecl-login-submit {
+    color: white;
+    background-color: #222e3a;
+    width: 100%;
+    border-radius: 0;
 }
