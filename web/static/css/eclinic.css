@@ -1,6 +1,27 @@
 /*Bootstrap CSS*/
 @import url(/static/css/bootstrap/bootstrap.min.css);
 
-.bd-navbar {
-    background-color: lightgrey;
+body, html {
+    height: 100%;
+}
+
+#ecl-main-wrapper {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+#ecl-main-navbar {
+    background-color: #222e3a;
+}
+
+#ecl-login-content {
+    background: rgb(0,231,255);
+    background: radial-gradient(circle, rgba(255,255,255,0) 0%, rgba(0,0,33,0.25) 100%),
+    url(/static/images/scrubs_bab6_2880x1800.jpg);
+    background-size: cover;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -14,5 +15,7 @@
     <!-- app css       -->
     <link rel="stylesheet" href="<c:url value="/static/css/eclinic.css" />">
 
-    <title>company.name</title>
+    <title>
+        <spring:eval expression="@environment.getProperty('company.name')" />
+    </title>
 </head>
