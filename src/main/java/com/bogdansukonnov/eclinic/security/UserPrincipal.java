@@ -3,6 +3,8 @@ package com.bogdansukonnov.eclinic.security;
 import com.bogdansukonnov.eclinic.entity.AppUser;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,6 +17,10 @@ import java.util.stream.Collectors;
 public class UserPrincipal implements UserDetails {
 
     private AppUser appUser;
+
+    public String getFullName() {
+        return appUser.getFullName();
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

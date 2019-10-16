@@ -22,6 +22,11 @@ public class LoginController {
         return "login";
     }
 
+    @GetMapping("sign-out")
+    public String logoutPage() {
+        return "login";
+    }
+
     @GetMapping("loginFailed")
     public String loginError(Model model) {
         // ToDo: log.info("Login attempt failed");

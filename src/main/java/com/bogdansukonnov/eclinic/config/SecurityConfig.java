@@ -57,8 +57,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .failureUrl("/login/loginFailed")
                 .and()
                 .logout()
-                .logoutUrl("/login/doLogout")
-                .logoutSuccessUrl("/login/logout")
+                .logoutUrl("/login/sign-out")
+                .invalidateHttpSession(true)
+                .deleteCookies("JSESSIONID")
+                .logoutSuccessUrl("/")
                 .permitAll()
 
                 .and().authorizeRequests().antMatchers("/doctor/**")
