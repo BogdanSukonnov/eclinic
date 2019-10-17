@@ -1,9 +1,13 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
-<head>
-    <title>patients</title>
-</head>
-<body>
+<%--Common part start--%>
+<%@ page contentType="text/html;charset=UTF-8" %>
+<%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+<t:generic-page>
+<jsp:attribute name="content">
+<%--Common part end--%>
+
+<div>
     <h1>Add user</h1>
     <form action="${pageContext.request.contextPath}/admin/addUser" method="post">
         <label>login:
@@ -14,5 +18,9 @@
         </label><br>
         <input type="submit" />
     </form>
-</body>
-</html>
+</div>
+
+<%--Common part start--%>
+</jsp:attribute>
+</t:generic-page>
+<%--Common part end--%>

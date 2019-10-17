@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("error")
-public class ErrorsController {
+public class ErrorController {
 
     @GetMapping("access-denied")
     public String accessDenied(Model model) {

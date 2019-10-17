@@ -3,7 +3,7 @@
 
 :root {
     --nav-color: #222e3a;
-    --header-color: #939393;
+    --header-color: #888f8b;
 }
 
 /*CSS Grid*/
@@ -28,7 +28,7 @@
 .main-wrapper {
     display: grid;
     height: 100vh;
-    grid-template-columns: 200px 1fr;
+    grid-template-columns: 190px 1fr;
     grid-template-rows: 48px 1fr;
     grid-template-areas:
             "nav header"
@@ -54,15 +54,48 @@
     background-color: var(--header-color);
 }
 
+#main-header-brand {
+    color: var(--nav-color);
+    font-weight: bold;
+}
+
 .main-nav {
     background-color: var(--nav-color);
 }
 
-.main-nav .navbar-nav .nav-link {
+#main-nav button {
     background-color: var(--nav-color);
     border: none;
     width: 100%;
     text-align: left;
+}
+
+#main-nav button:hover {
+     background-color: gray;
+}
+
+#main-nav button:focus {
+    border: none;
+    font-weight: bold;
+    outline: none;
+}
+
+#main-nav {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+#UserDropdown {
+    text-align: center;
+}
+
+#logout {
+    left: 16px;
+    padding: 0;
+}
+
+#main-nav .nav-item {
+    padding-left: 16px;
 }
 
 .main-login-content {
