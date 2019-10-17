@@ -1,65 +1,110 @@
 /*Bootstrap CSS*/
 @import url(/static/css/bootstrap/bootstrap.min.css);
 
-body, html {
-    height: 100%;
+:root {
+    --nav-color: #222e3a;
+    --header-color: #939393;
 }
 
-.ecl-main-wrapper {
-    height: 100%;
-    display: flex;
+/*CSS Grid*/
+
+/*Set grid names*/
+
+.main-header {
+    grid-area: header;
+}
+.main-content {
+    grid-area: content;
+}
+.main-nav {
+    grid-area: nav;
+}
+.main-footer {
+    grid-area: footer;
+}
+
+/*Grid wrapper*/
+
+.main-wrapper {
+    display: grid;
+    height: 100vh;
+    grid-template-columns: 200px 1fr;
+    grid-template-rows: 48px 1fr;
+    grid-template-areas:
+            "nav header"
+            "nav content";
+}
+
+/*END og GRID*/
+
+.main-nav {
     flex-direction: column;
 }
 
-.ecl-header {
-    background-color: #222e3a;
+.main-navlist {
+    flex-direction: column;
 }
 
-.ecl-login-content {
+.main-nav .navbar-nav {
+    flex-direction: column;
+    width: 100%;
+}
+
+.main-header {
+    background-color: var(--header-color);
+}
+
+.main-nav {
+    background-color: var(--nav-color);
+}
+
+.main-nav .navbar-nav .nav-link {
+    background-color: var(--nav-color);
+    border: none;
+    width: 100%;
+    text-align: left;
+}
+
+.main-login-content {
     background: rgb(0,231,255);
     background: radial-gradient(circle, rgba(255,255,255,0) 0%, rgba(0,0,33,0.25) 100%),
     url(/static/images/login-background.jpg);
     background-size: cover;
-    height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.ecl-login-form {
+.login-form {
     background: rgba(255,255,255,0.5);
     padding: 6px 18px 18px;
     width: 270px;
 }
 
-.ecl-login-form * {
+.login-form * {
     width: 100%;
     border: none;
     border-radius: 0;
-}
-
-.ecl-login-form input {
     text-align: center;
 }
 
-.ecl-login-submit {
+.login-submit {
     color: white;
     background-color: #222e3a;
     width: 100%;
     border-radius: 0;
 }
 
-.ecl-error-content {
+.error-content {
     background: rgb(0,231,255);
     background: radial-gradient(circle, rgba(255,255,255,0) 0%, rgba(0,0,15,0.7) 100%),
     url(/static/images/error.png);
     background-size: cover;
-    height: 100%;
     color: white;
     padding: 50px;
 }
 
-.ecl-access-denied-content {
+.access-denied-content {
     background: rgb(0,231,255);
     background: radial-gradient(circle, rgba(255,255,255,0) 0%, rgba(0,0,15,0.7) 100%),
     url(/static/images/accessDenied.jpg);

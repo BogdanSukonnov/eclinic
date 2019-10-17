@@ -5,10 +5,10 @@
 <body>
 <div id="ecl-main-wrapper">
     <jsp:include page="common/header.jsp"/>
-    <div class="ecl-error-content $
+    <div class="error-content $
                  {<c:choose>
                   <c:when test="${isAccessDenied}">
-                    ecl-access-denied-content
+                    access-denied-content
                   </c:when>
                   <c:otherwise>
                   </c:otherwise>

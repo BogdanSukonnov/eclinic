@@ -25,4 +25,8 @@ public class UserService {
         userDAO.create(user);
     }
 
+    public String defaultPage() {
+        return "redirect:/doctor/patients";
+    }
+
 }
