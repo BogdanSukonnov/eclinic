@@ -3,10 +3,11 @@
 <html lang="en">
 <jsp:include page="common/head.jsp"/>
 <body>
-<div id="ecl-main-wrapper">
+<div class="ecl-main-wrapper">
     <jsp:include page="common/header.jsp"/>
-    <div id="ecl-login-content">
-        <form id="ecl-login-form" action="${pageContext.request.contextPath}/login/doLogin" method="post">
+    <nav class="ecl-main-nav"></nav>
+    <div class="ecl-login-content ecl-content">
+        <form class="ecl-login-form" action="${pageContext.request.contextPath}/login/doLogin" method="post">
             <fieldset>
                 <legend align="center">Sign In</legend>
                 <c:if test="${not empty error}">
@@ -23,7 +24,7 @@
                     <input class="form-control" placeholder="Password"
                            name='password' type="password" value="">
                 </div>
-                <input id="ecl-login-submit" class="btn" type="submit" value="Login">
+                <input class="ecl-login-submit btn" type="submit" value="Login">
             </fieldset>
         </form>
     </div>
