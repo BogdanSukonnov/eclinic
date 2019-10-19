@@ -21,8 +21,16 @@ public class AbstractDAO<T>  {
         return (T) getCurrentSession().get(clazz, id);
     }
 
-    public List<T> getAll() {
-        return getCurrentSession().createQuery("from " + clazz.getName()).list();
+    public List<T> getAll(SortBy sortBy) {
+        String orderField;
+        if (sortBy == SortBy.NAME) {
+            orderField = getOrderField();
+        }
+        else {
+            orderField = "createdDateTime desc";
+        }
+        String query = "from " + clazz.getName() + " order by " + orderField;
+        return getCurrentSession().createQuery(query).list();
     }
 
     public T create(T entity) {
@@ -41,6 +49,10 @@ public class AbstractDAO<T>  {
     public void deleteById(long entityId) {
         T entity = findOne(entityId);
         delete(entity);
+    }
+
+    protected String getOrderField() {
+        return "id";
     }
 
     protected Session getCurrentSession() {

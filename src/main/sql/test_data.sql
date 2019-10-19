@@ -107,8 +107,8 @@ VALUES (1, 2),
        (7, 3);
 
 
-INSERT INTO prescription (id, creationDateTime, dosage, duration, doctor_id, patient_id, pattern_id, treatment_id)
+INSERT INTO prescription (id, createdDateTime, dosage, duration, doctor_id, patient_id, pattern_id, treatment_id)
 VALUES (1, '2019-10-11 11:30:45', 1.3, 14, 1, 2, 2, 4),
-       (2, '2019-10-11 12:07:28', null, 7, 2, 4, 3, 6),
-       (3, '2019-10-11 13:43:19', 200, 7, 4, 6, 1, 1);
+       (2, '2019-10-13 12:07:28', null, 7, 2, 4, 3, 6),
+       (3, '2019-10-15 13:43:19', 200, 7, 4, 6, 1, 1);
 

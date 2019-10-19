@@ -6,7 +6,6 @@ import lombok.Setter;
 import org.springframework.lang.NonNull;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -34,9 +33,6 @@ public class Prescription extends AbstractEntity {
     @JoinColumn(name = "treatment_id", foreignKey = @ForeignKey(name = "FK_treatment"))
     @NonNull
     private Treatment treatment;
-
-    @Column(name = "creationDateTime")
-    private LocalDateTime creationDateTime;
 
     // days
     @Column(name = "duration")

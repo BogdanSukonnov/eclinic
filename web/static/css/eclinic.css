@@ -37,8 +37,9 @@
 
 /*END og GRID*/
 
-.main-nav {
+#main-nav {
     flex-direction: column;
+    height: unset;
 }
 
 .main-navlist {
@@ -170,4 +171,8 @@ table a {
 
 .field {
 
+}
+
+.navbar {
+    height: 54px;
 }

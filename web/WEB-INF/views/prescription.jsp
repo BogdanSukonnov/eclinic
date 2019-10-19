@@ -9,21 +9,21 @@
 
 <div>
     <div>
-        <h1>Patient - ${patient.fullName}</h1>
-        <div class="patient-prop-list">
-            <div class="patient-prop-row">
-                <div class="field-label">Full name:</div>
-                <div class="field">${patient.fullName}</div>
-            </div>
-            <div class="patient-prop-row">
-                <div class="field-label">Insurance:</div>
-                <div class="field">${patient.insuranceNumber}</div>
-            </div>
-            <div class="patient-prop-row">
-                <div class="field-label">Status:</div>
-                <div class="field">${patient.patientStatus}</div>
-             </div>
-        </div>
+        <h1>Prescription</h1>
+<%--        <div class="patient-prop-list">--%>
+<%--            <div class="patient-prop-row">--%>
+<%--                <div class="field-label">Full name:</div>--%>
+<%--                <div class="field">${patient.fullName}</div>--%>
+<%--            </div>--%>
+<%--            <div class="patient-prop-row">--%>
+<%--                <div class="field-label">Insurance:</div>--%>
+<%--                <div class="field">${patient.insuranceNumber}</div>--%>
+<%--            </div>--%>
+<%--            <div class="patient-prop-row">--%>
+<%--                <div class="field-label">Status:</div>--%>
+<%--                <div class="field">${patient.patientStatus}</div>--%>
+<%--             </div>--%>
+<%--        </div>--%>
 
     </div>
 </div>

@@ -25,4 +25,9 @@ public class UserDAO extends AbstractDAO<AppUser> {
         return query.uniqueResult();
     }
 
+    @Override
+    protected String getOrderField() {
+        return "fullName";
+    }
+
 }

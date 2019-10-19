@@ -10,4 +10,8 @@ public class PatientDAO extends AbstractDAO<Patient> {
         setClazz(Patient.class);
     }
 
+    @Override
+    protected String getOrderField() {
+        return "fullName";
+    }
 }

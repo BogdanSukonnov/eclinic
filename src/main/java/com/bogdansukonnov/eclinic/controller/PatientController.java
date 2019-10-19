@@ -1,10 +1,12 @@
 package com.bogdansukonnov.eclinic.controller;
 
+import com.bogdansukonnov.eclinic.dao.SortBy;
 import com.bogdansukonnov.eclinic.dto.PatientDTO;
 import com.bogdansukonnov.eclinic.service.PatientService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
@@ -21,7 +23,7 @@ public class PatientController {
 
     @GetMapping("patients")
     public ModelAndView patients() {
-        List<PatientDTO> patients = patientService.getAll();
+        List<PatientDTO> patients = patientService.getAll(SortBy.CREATION);
         ModelAndView model = new ModelAndView("patients");
         model.addObject("patients", patients);
         return model;
@@ -32,6 +34,13 @@ public class PatientController {
         ModelAndView model = new ModelAndView("patient");
         model.addObject("patient", patientService.getOne(id));
         return model;
+    }
+
+    @PostMapping("newPatient")
+    public String newPatient(@RequestParam("fullName") String fullName,
+                           @RequestParam("insurance") String insurance) {
+        patientService.addNew(fullName, insurance);
+        return "redirect:/doctor/patients";
     }
 
 }

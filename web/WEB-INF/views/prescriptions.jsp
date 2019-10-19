@@ -23,21 +23,21 @@
     <div class="container-fluid">
         <table class="table">
             <tr>
+                <th scope="col">Date</th>
                 <th scope="col">Patient</th>
                 <th scope="col">Type</th>
                 <th scope="col">Pattern</th>
                 <th scope="col">Days</th>
                 <th scope="col">Doctor</th>
-                <th scope="col">Date</th>
             </tr>
             <c:forEach items="${prescriptions}" var="prescription">
                 <tr>
+                    <td><a href="${pageContext.request.contextPath}/doctor/prescription?id=${prescription.id}">${prescription.dateTimeFormatted}</a></td>
                     <td>${prescription.patient.fullName}</td>
                     <td>${prescription.treatmentType}</td>
                     <td>${prescription.patternName}</td>
                     <td>${prescription.duration}</td>
                     <td>${prescription.doctorFullName}</td>
-                    <td><a href="${pageContext.request.contextPath}/doctor/prescription?id=${prescription.id}">${prescription.creationDateTime}</a></td>
                 </tr>
             </c:forEach>
         </table>

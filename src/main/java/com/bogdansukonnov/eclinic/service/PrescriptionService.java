@@ -1,10 +1,11 @@
 package com.bogdansukonnov.eclinic.service;
 
+import com.bogdansukonnov.eclinic.converter.PrescriptionConverter;
 import com.bogdansukonnov.eclinic.dao.PrescriptionDAO;
+import com.bogdansukonnov.eclinic.dao.SortBy;
 import com.bogdansukonnov.eclinic.dto.PrescriptionDTO;
 import com.bogdansukonnov.eclinic.entity.Prescription;
 import lombok.AllArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,12 +18,12 @@ public class PrescriptionService {
 
     private PrescriptionDAO prescriptionDAO;
 
-    private ModelMapper modelMapper;
+    private PrescriptionConverter converter;
 
     @Transactional(readOnly = true)
-    public List<PrescriptionDTO> getAll() {
-        return prescriptionDAO.getAll().stream()
-                .map(prescription -> modelMapper.map(prescription, PrescriptionDTO.class))
+    public List<PrescriptionDTO> getAll(SortBy sortBy) {
+        return prescriptionDAO.getAll(sortBy).stream()
+                .map(prescription -> converter.toDTO(prescription))
                 .collect(Collectors.toList());
     }
 
@@ -36,9 +37,7 @@ public class PrescriptionService {
     @Transactional(readOnly = true)
     public PrescriptionDTO getOne(Long id) {
         Prescription prescription = prescriptionDAO.findOne(id);
-        PrescriptionDTO prescriptionDTO = new PrescriptionDTO();
-        modelMapper.map(prescription, prescriptionDTO);
-        return prescriptionDTO;
+        return converter.toDTO(prescription);
     }
 
 }

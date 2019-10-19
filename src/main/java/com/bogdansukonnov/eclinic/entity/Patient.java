@@ -28,4 +28,8 @@ public class Patient extends AbstractEntity {
     @NonNull
     private PatientStatus patientStatus;
 
+    public static String getOrderField() {
+        return "fullName";
+    }
+
 }

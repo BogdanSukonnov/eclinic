@@ -1,5 +1,6 @@
 package com.bogdansukonnov.eclinic.controller;
 
+import com.bogdansukonnov.eclinic.dao.SortBy;
 import com.bogdansukonnov.eclinic.dto.PrescriptionDTO;
 import com.bogdansukonnov.eclinic.service.PrescriptionService;
 import lombok.AllArgsConstructor;
@@ -20,7 +21,7 @@ public class PrescriptionController {
 
     @GetMapping("prescriptions")
     public ModelAndView prescriptions() {
-        List<PrescriptionDTO> prescriptions = prescriptionService.getAll();
+        List<PrescriptionDTO> prescriptions = prescriptionService.getAll(SortBy.CREATION);
         ModelAndView model = new ModelAndView("prescriptions");
         model.addObject("prescriptions", prescriptions);
         return model;

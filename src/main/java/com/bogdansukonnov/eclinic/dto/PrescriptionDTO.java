@@ -4,8 +4,6 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
-
 @EqualsAndHashCode(callSuper = true)
 @Getter
 @Setter
@@ -29,6 +27,6 @@ public class PrescriptionDTO extends AbstractDTO {
 
     private Float dosage;
 
-    private LocalDateTime creationDateTime;
+    private String dateTimeFormatted;
 
 }
