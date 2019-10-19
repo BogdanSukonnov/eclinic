@@ -1,5 +1,6 @@
 package com.bogdansukonnov.eclinic.service;
 
+import com.bogdansukonnov.eclinic.converter.PatientConverter;
 import com.bogdansukonnov.eclinic.dao.PatientDAO;
 import com.bogdansukonnov.eclinic.dto.PatientDTO;
 import com.bogdansukonnov.eclinic.entity.Patient;
@@ -18,12 +19,12 @@ public class PatientService {
 
     private PatientDAO patientDAO;
 
-    private ModelMapper modelMapper;
+    private PatientConverter patientConverter;
 
     @Transactional(readOnly = true)
     public List<PatientDTO> getAll() {
         return patientDAO.getAll().stream()
-                .map(patient -> modelMapper.map(patient, PatientDTO.class))
+                .map(patient -> patientConverter.toDTO(patient))
                 .collect(Collectors.toList());
     }
 
@@ -39,9 +40,7 @@ public class PatientService {
     @Transactional(readOnly = true)
     public PatientDTO getOne(Long id) {
         Patient patient = patientDAO.findOne(id);
-        PatientDTO patientDTO = new PatientDTO();
-        modelMapper.map(patient, patientDTO);
-        return patientDTO;
+        return patientConverter.toDTO(patient);
     }
 
 }

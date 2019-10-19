@@ -15,9 +15,9 @@ import java.util.List;
 @Table(name = "pattern")
 public class Pattern extends AbstractEntity {
 
-    @Column(name = "description")
+    @Column(name = "name")
     @NonNull
-    private String description;
+    private String name;
 
     //days, always 7 for weekCycle
     @Column(name = "cycleLength")

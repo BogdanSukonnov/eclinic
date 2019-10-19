@@ -57,7 +57,7 @@ VALUES (1, 'Lennon John', '697-28-0304', 'DISCHARGED'),
        (7, 'Ray Charles', '350-05-4685', 'DISCHARGED');
 
 
-INSERT INTO pattern (id, cycleLength, description, isWeekCycle)
+INSERT INTO pattern (id, cycleLength, name, isWeekCycle)
 VALUES (1, 7, 'two days a week: Tu Th', true),
        (2, 1, 'twice a day: morning evening', false),
        (3, 1, 'every day: 2PM', false);
@@ -71,7 +71,7 @@ VALUES (1, 2, '10:00', 1),
        (5, 1, '14:00', 3);
 
 
-INSERT INTO treatment (id, treatmentName, treatmentType)
+INSERT INTO treatment (id, name, type)
 VALUES (1, 'levothyroxine', 'Medicine'),
        (2, 'rosuvastatin', 'Medicine'),
        (3, 'albuterol', 'Medicine'),

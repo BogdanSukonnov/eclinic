@@ -36,7 +36,7 @@
                     <td>${prescription.treatmentType}</td>
                     <td>${prescription.patternName}</td>
                     <td>${prescription.duration}</td>
-                    <td>${prescription.doctor}</td>
+                    <td>${prescription.doctorFullName}</td>
                     <td><a href="${pageContext.request.contextPath}/doctor/prescription?id=${prescription.id}">${prescription.creationDateTime}</a></td>
                 </tr>
             </c:forEach>

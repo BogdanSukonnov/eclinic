@@ -32,7 +32,7 @@ DROP TABLE IF EXISTS `pattern`;
 CREATE TABLE `pattern` (
                            `id` bigint(20) NOT NULL AUTO_INCREMENT,
                            `cycleLength` smallint(6) DEFAULT NULL,
-                           `description` varchar(255) DEFAULT NULL,
+                           `name` varchar(255) DEFAULT NULL,
                            `isWeekCycle` bit(1) DEFAULT NULL,
                            PRIMARY KEY (`id`)
 );
@@ -40,10 +40,10 @@ CREATE TABLE `pattern` (
 DROP TABLE IF EXISTS `treatment`;
 CREATE TABLE `treatment` (
                              `id` bigint(20) NOT NULL AUTO_INCREMENT,
-                             `treatmentName` varchar(255) DEFAULT NULL,
-                             `treatmentType` varchar(255) DEFAULT NULL,
+                             `name` varchar(255) DEFAULT NULL,
+                             `type` varchar(255) DEFAULT NULL,
                              PRIMARY KEY (`id`),
-                             UNIQUE KEY `UK_treatment_treatmentName` (`treatmentName`)
+                             UNIQUE KEY `UK_treatment_name` (`name`)
 );
 
 DROP TABLE IF EXISTS `user`;

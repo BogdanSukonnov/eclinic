@@ -12,16 +12,16 @@ import javax.persistence.*;
 @Setter
 @NoArgsConstructor
 @Table(name = "treatment",
-        uniqueConstraints = {@UniqueConstraint(columnNames = {"treatmentName"}, name = "UK_treatment_treatmentName")})
+        uniqueConstraints = {@UniqueConstraint(columnNames = {"name"}, name = "UK_treatment_name")})
 public class Treatment extends AbstractEntity {
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "treatmentType")
+    @Column(name = "type")
     @NonNull
-    private TreatmentType treatmentType;
+    private TreatmentType type;
 
-    @Column(name = "treatmentName")
+    @Column(name = "name")
     @NonNull
-    private String treatmentName;
+    private String name;
 
 }
