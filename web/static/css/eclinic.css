@@ -154,12 +154,12 @@ table a {
     color: black;
 }
 
-.patient-prop-list {
+.prop-list {
     padding-left: 20px;
     padding-top: 8px;
 }
 
-.patient-prop-row {
+.prop-row {
     display: flex;
     flex-direction: row;
     padding-top: 8px;
