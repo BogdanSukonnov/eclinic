@@ -85,7 +85,7 @@
     padding-right: 0;
 }
 
-#UserDropdown {
+#UserDropdown, #NotAuthorized {
     text-align: center;
 }
 
@@ -142,4 +142,32 @@
     background: radial-gradient(circle, rgba(255,255,255,0) 0%, rgba(0,0,15,0.7) 100%),
     url(/static/images/accessDenied.jpg);
     background-size: cover;
+}
+
+h1 {
+    padding-left: 18px;
+    padding-top: 8px;
+}
+
+table a {
+    color: black;
+}
+
+.patient-prop-list {
+    padding-left: 20px;
+    padding-top: 8px;
+}
+
+.patient-prop-row {
+    display: flex;
+    flex-direction: row;
+    padding-top: 8px;
+}
+
+.field-label {
+    width: 150px;
+}
+
+.field {
+
 }

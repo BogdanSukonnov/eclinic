@@ -3,7 +3,7 @@
 <nav id="main-nav" class="main-nav navbar navbar-expand-lg navbar-dark">
     <sec:authorize access="isAuthenticated()">
         <div class="navbar-nav dropdown">
-            <a class="nav-link dropdown-toggle" href="" id="UserDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <a id="UserDropdown" class="nav-link dropdown-toggle" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <sec:authentication property="principal.fullName" />
             </a>
             <div id="logout" class="dropdown-menu" aria-labelledby="UserDropdown">
@@ -11,14 +11,14 @@
             </div>
         </div>
         <div class="navbar-nav">
-            <button class="nav-item nav-link">Patients</button>
-            <button class="nav-item nav-link">Precsriptions</button>
+            <button class="nav-item nav-link" onclick="window.location.href = '/doctor/patients';">Patients</button>
+            <button class="nav-item nav-link" onclick="window.location.href = '/doctor/prescriptions';">Prescriptions</button>
         </div>
     </sec:authorize>
 
     <sec:authorize access="!isAuthenticated()">
         <div class="navbar-nav">
-            <div class="nav-item nav-link">Not Authorized</div>
+            <div id="NotAuthorized" class="nav-link">Not Authorized</div>
         </div>
     </sec:authorize>
 </nav>

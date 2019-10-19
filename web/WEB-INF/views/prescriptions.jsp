@@ -9,29 +9,35 @@
 
 <div>
     <div>
-        <h1>Patients</h1>
+        <h1>Prescriptions</h1>
         <nav class="navbar navbar-light bg-light">
             <form class="form-inline">
                 <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
                 <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
             </form>
             <a class="btn btn-outline-success my-2 my-sm-0" href="">
-                New patient
+                New prescription
             </a>
         </nav>
     </div>
     <div class="container-fluid">
         <table class="table">
             <tr>
-                <th scope="col">Name</th>
-                <th scope="col">Status</th>
-                <th scope="col">Insurance</th>
+                <th scope="col">Patient</th>
+                <th scope="col">Type</th>
+                <th scope="col">Pattern</th>
+                <th scope="col">Days</th>
+                <th scope="col">Doctor</th>
+                <th scope="col">Date</th>
             </tr>
-            <c:forEach items="${patients}" var="prescription">
+            <c:forEach items="${prescriptions}" var="prescription">
                 <tr>
-                    <td><a href="${pageContext.request.contextPath}/doctor/patient?id=${prescription.id}">${prescription.fullName}</a></td>
-                    <td>${prescription.patientStatus}</td>
-                    <td>${prescription.insuranceNumber}</td>
+                    <td>${prescription.patient.fullName}</td>
+                    <td>${prescription.treatmentType}</td>
+                    <td>${prescription.patternName}</td>
+                    <td>${prescription.duration}</td>
+                    <td>${prescription.doctor}</td>
+                    <td><a href="${pageContext.request.contextPath}/doctor/prescription?id=${prescription.id}">${prescription.creationDateTime}</a></td>
                 </tr>
             </c:forEach>
         </table>

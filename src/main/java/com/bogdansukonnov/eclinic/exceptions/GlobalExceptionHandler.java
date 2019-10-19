@@ -11,12 +11,12 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(NoHandlerFoundException.class)
     public String error404(Model model) {
         model.addAttribute("headerText", "Page not found");
-        model.addAttribute("exceptionObj", "2");
+        model.addAttribute("exceptionObj", "");
         return "errorPage";
     }
 
-    @ExceptionHandler(Throwable.class)
-    public String allErrors(Throwable ex, Model model) {
+    @ExceptionHandler(Exception.class)
+    public String allErrors(Exception ex, Model model) {
         model.addAttribute("headerText", "Something went wrong");
         model.addAttribute("exceptionObj", ex);
         return "errorPage";

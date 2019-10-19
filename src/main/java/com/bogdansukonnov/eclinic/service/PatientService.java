@@ -36,4 +36,12 @@ public class PatientService {
         patientDAO.create(patient);
     }
 
+    @Transactional(readOnly = true)
+    public PatientDTO getOne(Long id) {
+        Patient patient = patientDAO.findOne(id);
+        PatientDTO patientDTO = new PatientDTO();
+        modelMapper.map(patient, patientDTO);
+        return patientDTO;
+    }
+
 }

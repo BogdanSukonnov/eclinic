@@ -7,14 +7,11 @@
 <jsp:attribute name="content">
 <%--Common part end--%>
 
-<div class="error-content $
-             {<c:choose>
-              <c:when test="${isAccessDenied}">
-                access-denied-content
-              </c:when>
-              <c:otherwise>
-              </c:otherwise>
-            </c:choose>}">
+<div class="error-content $ {<c:choose>
+                                  <c:when test="${isAccessDenied}">
+                                        access-denied-content
+                                  </c:when>
+                            </c:choose>}">
     <h2>${headerText}</h2>
     <p>${exceptionObj}</p>
 </div>
