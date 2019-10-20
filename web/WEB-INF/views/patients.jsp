@@ -27,11 +27,11 @@
                 <th scope="col">Status</th>
                 <th scope="col">Insurance</th>
             </tr>
-            <c:forEach items="${patients}" var="prescription">
+            <c:forEach var="patient" items="${patients}" >
                 <tr>
-                    <td><a href="${pageContext.request.contextPath}/doctor/patient?id=${prescription.id}">${prescription.fullName}</a></td>
-                    <td>${prescription.patientStatus}</td>
-                    <td>${prescription.insuranceNumber}</td>
+                    <td><a href="${pageContext.request.contextPath}/doctor/patient?id=${patient.id}">${patient.fullName}</a></td>
+                    <td>${patient.patientStatus}</td>
+                    <td>${patient.insuranceNumber}</td>
                 </tr>
             </c:forEach>
         </table>

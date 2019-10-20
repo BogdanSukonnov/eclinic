@@ -30,14 +30,14 @@
                 <th scope="col">Days</th>
                 <th scope="col">Doctor</th>
             </tr>
-            <c:forEach items="${prescriptions}" var="prescription">
+            <c:forEach items="${prescriptions}" var="patient">
                 <tr>
-                    <td><a href="${pageContext.request.contextPath}/doctor/prescription?id=${prescription.id}">${prescription.dateTimeFormatted}</a></td>
-                    <td>${prescription.patient.fullName}</td>
-                    <td>${prescription.treatmentType}</td>
-                    <td>${prescription.patternName}</td>
-                    <td>${prescription.duration}</td>
-                    <td>${prescription.doctorFullName}</td>
+                    <td><a href="${pageContext.request.contextPath}/doctor/prescription?id=${patient.id}">${patient.dateTimeFormatted}</a></td>
+                    <td>${patient.patient.fullName}</td>
+                    <td>${patient.treatmentType}</td>
+                    <td>${patient.patternName}</td>
+                    <td>${patient.duration}</td>
+                    <td>${patient.doctorFullName}</td>
                 </tr>
             </c:forEach>
         </table>

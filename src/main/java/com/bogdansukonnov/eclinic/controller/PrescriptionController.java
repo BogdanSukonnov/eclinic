@@ -2,7 +2,10 @@ package com.bogdansukonnov.eclinic.controller;
 
 import com.bogdansukonnov.eclinic.dao.SortBy;
 import com.bogdansukonnov.eclinic.dto.PrescriptionDTO;
+import com.bogdansukonnov.eclinic.entity.TreatmentType;
 import com.bogdansukonnov.eclinic.service.PrescriptionService;
+import com.bogdansukonnov.eclinic.service.TimePatternService;
+import com.bogdansukonnov.eclinic.service.TreatmentService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,6 +22,10 @@ import java.util.List;
 public class PrescriptionController {
 
     private PrescriptionService prescriptionService;
+
+    private TimePatternService timePatternService;
+
+    private TreatmentService treatmentService;
 
     @GetMapping("prescriptions")
     public ModelAndView prescriptions() {
@@ -41,7 +48,17 @@ public class PrescriptionController {
         ModelAndView model = new ModelAndView("prescription");
         model.addObject("patient_id", patient_id);
         model.addObject("patient_fullName", patient_fullName);
+        model.addObject("allProcedures", treatmentService.getAll(TreatmentType.Procedure));
+        model.addObject("allMedicine", treatmentService.getAll(TreatmentType.Medicine));
+        model.addObject("allPatterns", timePatternService.getAll(SortBy.NAME));
         return model;
+    }
+
+    @PostMapping("saveNewPrescription")
+    public String newPrescription(@RequestParam("pattern_id") Long pattern_id,
+                                  @RequestParam("patient_id") Long patient_id) {
+        String page = "redirect:/doctor/patients";
+        return page;
     }
 
 }
