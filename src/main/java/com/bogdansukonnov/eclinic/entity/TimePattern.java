@@ -12,8 +12,8 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-@Table(name = "pattern")
-public class Pattern extends AbstractEntity {
+@Table(name = "timePattern")
+public class TimePattern extends AbstractEntity {
 
     @Column(name = "name")
     @NonNull
@@ -27,7 +27,7 @@ public class Pattern extends AbstractEntity {
     @Column(name = "isWeekCycle")
     private Boolean isWeekCycle;
 
-    @OneToMany(targetEntity = PatternItem.class, mappedBy = "pattern", cascade = CascadeType.ALL)
-    private List<PatternItem> items;
+    @OneToMany(targetEntity = TimePatternItem.class, mappedBy = "timePattern", cascade = CascadeType.ALL)
+    private List<TimePatternItem> items;
 
 }

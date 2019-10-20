@@ -13,10 +13,10 @@ DELETE
 FROM patient;
 
 DELETE
-FROM pattern;
+FROM timePattern;
 
 DELETE
-FROM patternitem;
+FROM timePatternItem;
 
 DELETE
 FROM treatment;
@@ -57,13 +57,13 @@ VALUES (1, 'Lennon John', '697-28-0304', 'DISCHARGED'),
        (7, 'Ray Charles', '350-05-4685', 'DISCHARGED');
 
 
-INSERT INTO pattern (id, cycleLength, name, isWeekCycle)
+INSERT INTO timePattern (id, cycleLength, name, isWeekCycle)
 VALUES (1, 7, 'two days a week: Tu Th', true),
        (2, 1, 'twice a day: morning evening', false),
        (3, 1, 'every day: 2PM', false);
 
 
-INSERT INTO patternitem (id, dayOfCycle, time, pattern_id)
+INSERT INTO timePatternItem (id, dayOfCycle, time, timePattern_id)
 VALUES (1, 2, '10:00', 1),
        (2, 4, '10:00', 1),
        (3, 1, '09:00', 2),
@@ -107,7 +107,7 @@ VALUES (1, 2),
        (7, 3);
 
 
-INSERT INTO prescription (id, createdDateTime, dosage, duration, doctor_id, patient_id, pattern_id, treatment_id)
+INSERT INTO prescription (id, createdDateTime, dosage, duration, doctor_id, patient_id, timePattern_id, treatment_id)
 VALUES (1, '2019-10-11 11:30:45', 1.3, 14, 1, 2, 2, 4),
        (2, '2019-10-13 12:07:28', null, 7, 2, 4, 3, 6),
        (3, '2019-10-15 13:43:19', 200, 7, 4, 6, 1, 1);

@@ -37,8 +37,8 @@ CREATE TABLE `patient` (
                            UNIQUE KEY `UK_patient_fullName_insuranceNumber` (`fullName`,`insuranceNumber`)
 );
 
-DROP TABLE IF EXISTS `pattern`;
-CREATE TABLE `pattern` (
+DROP TABLE IF EXISTS `timePattern`;
+CREATE TABLE `timePattern` (
                            `id` bigint(20) NOT NULL AUTO_INCREMENT,
                            `createdDateTime` datetime(6),
                            `updatedDateTime` datetime(6),
@@ -88,18 +88,18 @@ CREATE TABLE `user_authority` (
                                   CONSTRAINT `FK_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
 );
 
-DROP TABLE IF EXISTS `patternitem`;
-CREATE TABLE `patternitem` (
+DROP TABLE IF EXISTS `timePatternItem`;
+CREATE TABLE `timePatternItem` (
                                `id` bigint(20) NOT NULL AUTO_INCREMENT,
                                `createdDateTime` datetime(6),
                                `updatedDateTime` datetime(6),
                                `version`         int(11),
                                `dayOfCycle` smallint(6) DEFAULT NULL,
                                `time` time DEFAULT NULL,
-                               `pattern_id` bigint(20) DEFAULT NULL,
+                               `timePattern_id` bigint(20) DEFAULT NULL,
                                PRIMARY KEY (`id`),
-                               KEY `FK_pattern` (`pattern_id`),
-                               CONSTRAINT `FK_pattern` FOREIGN KEY (`pattern_id`) REFERENCES `pattern` (`id`)
+                               KEY `FK_pattern` (`timePattern_id`),
+                               CONSTRAINT `FK_pattern` FOREIGN KEY (`timePattern_id`) REFERENCES `timePattern` (`id`)
 );
 
 DROP TABLE IF EXISTS `prescription`;
@@ -112,12 +112,14 @@ CREATE TABLE `prescription` (
                                 `duration` smallint(6) DEFAULT NULL,
                                 `doctor_id` bigint(20) DEFAULT NULL,
                                 `patient_id` bigint(20) DEFAULT NULL,
-                                `pattern_id` bigint(20) DEFAULT NULL,
+                                `timePattern_id` bigint(20) DEFAULT NULL,
                                 `treatment_id` bigint(20) DEFAULT NULL,
                                 PRIMARY KEY (`id`),
                                 KEY `FK_doctor` (`doctor_id`),
                                 KEY `FK_treatment` (`treatment_id`),
+                                KEY `FK_timePattern` (`timePattern_id`),
                                 CONSTRAINT `FK_doctor` FOREIGN KEY (`doctor_id`) REFERENCES `user` (`id`),
+                                CONSTRAINT `FK_timePattern` FOREIGN KEY (`timePattern_id`) REFERENCES `timePattern` (`id`),
                                 CONSTRAINT `FK_treatment` FOREIGN KEY (`treatment_id`) REFERENCES `treatment` (`id`)
 );
 
