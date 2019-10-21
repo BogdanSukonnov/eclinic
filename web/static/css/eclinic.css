@@ -6,7 +6,7 @@
     --header-color: #888f8b;
 }
 
-/*CSS Grid*/
+/* main CSS Grid*/
 
 /*Set grid names*/
 
@@ -175,4 +175,24 @@ table a {
 
 .navbar {
     height: 54px;
+}
+
+/*Prescription Grid*/
+
+#prescriptionLeft {
+    grid-area: prescriptionLeft;
+}
+#prescriptionForm {
+    grid-area: prescriptionForm;
+}
+#prescriptionRight {
+    grid-area: prescriptionRight;
+}
+
+/*Grid wrapper*/
+
+#prescriptionWrapper {
+    display: grid;
+    grid-template-columns: 1fr 600px 1fr;
+    grid-template-areas: "prescriptionLeft prescriptionForm prescriptionRight";
 }
