@@ -108,7 +108,7 @@ CREATE TABLE `prescription` (
                                 `createdDateTime` datetime(6),
                                 `updatedDateTime` datetime(6),
                                 `version`         int(11),
-                                `dosage` float DEFAULT NULL,
+                                `dosage` varchar(255) DEFAULT NULL,
                                 `duration` smallint(6) DEFAULT NULL,
                                 `doctor_id` bigint(20) DEFAULT NULL,
                                 `patient_id` bigint(20) DEFAULT NULL,

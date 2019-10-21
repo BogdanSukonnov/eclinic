@@ -193,6 +193,6 @@ table a {
 
 #prescriptionWrapper {
     display: grid;
-    grid-template-columns: 1fr 600px 1fr;
+    grid-template-columns: 1fr 550px 1fr;
     grid-template-areas: "prescriptionLeft prescriptionForm prescriptionRight";
 }

@@ -39,9 +39,9 @@ public class Prescription extends AbstractEntity {
     @NonNull
     Short duration;
 
-    // ml, only for drugs
+    // only for drugs, any text
     @Column(name = "dosage")
     @NonNull
-    Float dosage;
+    String dosage;
 
 }
