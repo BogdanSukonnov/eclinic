@@ -10,8 +10,15 @@ function onTreatmentTypeChange() {
     document.querySelector("#dosageGroup").hidden = treatmentType_ !== 'Medicine';
 }
 
-let els = document.querySelectorAll('input[name="treatmentType"]');
-els.forEach(function(elem) {elem.addEventListener("click", onTreatmentTypeChange)});
+function eventListenersInit() {
+    let els = document.querySelectorAll('input[name="treatmentType"]');
+    els.forEach(function(elem) {elem.addEventListener("click", onTreatmentTypeChange)});
+}
 
-onTreatmentTypeChange();
+function onStart() {
+    eventListenersInit();
+    onTreatmentTypeChange();
+}
+
+onStart();
 

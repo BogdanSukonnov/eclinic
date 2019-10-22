@@ -13,12 +13,10 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
-@Table(name = "user",
-        uniqueConstraints = {@UniqueConstraint(columnNames = {"username"}, name = "UK_user_username")
-                , @UniqueConstraint(columnNames = {"fullName"}, name = "UK_user_fullName")})
+@Table(name = "app_user")
 public class AppUser extends AbstractEntity {
 
-    @Column(name = "username")
+    @Column(name = "username", unique = true)
     @NonNull
     private String username;
 
@@ -26,16 +24,14 @@ public class AppUser extends AbstractEntity {
     @NonNull
     private String password;
 
-    @Column(name = "fullName")
+    @Column(name = "full_name", unique = true)
     @NonNull
     private String fullName;
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinTable(name = "user_authority",
-            joinColumns = {@JoinColumn(name = "user_id", nullable = false
-                    , foreignKey = @ForeignKey(name = "FK_user")) },
-            inverseJoinColumns = { @JoinColumn(name = "authority_id", nullable = false
-                    , foreignKey = @ForeignKey(name = "FK_authority")) })
+    @JoinTable(name = "app_user_authority",
+            joinColumns = {@JoinColumn(name = "app_user_id") },
+            inverseJoinColumns = { @JoinColumn(name = "authority_id") })
     private Set<Authority> authorities = new HashSet<>();
 
 }

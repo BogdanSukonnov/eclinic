@@ -69,14 +69,9 @@
             <version>1.1.2</version>
         </dependency>
         <dependency>
-            <groupId>org.flywaydb</groupId>
-            <artifactId>flyway-core</artifactId>
-            <version>6.0.4</version>
-        </dependency>
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <version>8.0.17</version>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>42.2.8</version>
         </dependency>
         <dependency>
             <groupId>org.hibernate</groupId>
@@ -137,6 +132,22 @@
                 <groupId>org.sonarsource.scanner.maven</groupId>
                 <artifactId>sonar-maven-plugin</artifactId>
                 <version>3.6.1.1688</version>
+            </plugin>
+            <plugin>
+                <groupId>org.flywaydb</groupId>
+                <artifactId>flyway-maven-plugin</artifactId>
+                <version>6.0.7</version>
+                <configuration>
+                    <url>jdbc:postgresql://localhost:5432/eclinic</url>
+                    <user>postgres</user>
+                    <password>PostgreSQL9)</password>
+                    <schemas>
+                        <schema>clinic</schema>
+                    </schemas>
+                    <locations>
+                        <location>filesystem:db/migration</location>
+                    </locations>
+                </configuration>
             </plugin>
         </plugins>
     </build>

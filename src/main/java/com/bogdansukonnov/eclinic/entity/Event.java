@@ -15,22 +15,22 @@ import java.time.LocalDateTime;
 @Table(name = "event")
 public class Event extends AbstractEntity {
 
-    @Column(name = "dateTime")
+    @Column(name = "datetime")
     @NonNull
     private LocalDateTime dateTime;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "patient_id", foreignKey = @ForeignKey(name = "FK_patient"))
+    @JoinColumn(name = "patient_id")
     @NonNull
     private Patient patient;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "prescription_id", foreignKey = @ForeignKey(name = "FK_prescription"))
+    @JoinColumn(name = "prescription_id")
     @NonNull
     private Prescription prescription;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "eventStatus")
+    @Column(name = "event_status")
     @NonNull
     EventStatus eventStatus;
 

@@ -12,7 +12,7 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-@Table(name = "timePattern")
+@Table(name = "time_pattern")
 public class TimePattern extends AbstractEntity {
 
     @Column(name = "name")
@@ -20,11 +20,11 @@ public class TimePattern extends AbstractEntity {
     private String name;
 
     //days, always 7 for weekCycle
-    @Column(name = "cycleLength")
+    @Column(name = "cycle_length")
     @NonNull
     private Short cycleLength;
 
-    @Column(name = "isWeekCycle")
+    @Column(name = "is_week_cycle")
     private Boolean isWeekCycle;
 
     @OneToMany(targetEntity = TimePatternItem.class, mappedBy = "timePattern", cascade = CascadeType.ALL)

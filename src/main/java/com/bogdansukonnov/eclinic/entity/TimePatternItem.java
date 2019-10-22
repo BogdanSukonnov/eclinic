@@ -12,19 +12,19 @@ import java.time.LocalTime;
 @Getter
 @Setter
 @NoArgsConstructor
-@Table(name = "timePatternItem")
+@Table(name = "time_pattern_item")
 public class TimePatternItem extends AbstractEntity {
 
     @Column(name = "time")
     @NonNull
     private LocalTime time;
 
-    @Column(name = "dayOfCycle")
+    @Column(name = "day_of_cycle")
     @NonNull
     private Short dayOfCycle;
 
     @ManyToOne
-    @JoinColumn(name="timePattern_id", foreignKey = @ForeignKey(name = "FK_timePattern"))
+    @JoinColumn(name="time_pattern_id")
     @NonNull
     private TimePattern timePattern;
 

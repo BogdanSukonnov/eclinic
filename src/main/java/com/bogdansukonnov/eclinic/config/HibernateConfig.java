@@ -24,7 +24,7 @@ public class HibernateConfig {
     private Environment environment;
 
     @Bean
-    public LocalSessionFactoryBean sessionFactory() {
+    public LocalSessionFactoryBean sessionFactoryBean() {
         LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
         sessionFactory.setDataSource(dataSource());
         sessionFactory.setPackagesToScan("com.bogdansukonnov.eclinic.entity");
@@ -48,7 +48,7 @@ public class HibernateConfig {
     public PlatformTransactionManager hibernateTransactionManager() {
         HibernateTransactionManager transactionManager
                 = new HibernateTransactionManager();
-        transactionManager.setSessionFactory(sessionFactory().getObject());
+        transactionManager.setSessionFactory(sessionFactoryBean().getObject());
         return transactionManager;
     }
 
@@ -62,7 +62,7 @@ public class HibernateConfig {
         hibernateProperties.setProperty(
                 "hibernate.show_sql", environment.getProperty("hibernate.show_sql"));
         hibernateProperties.setProperty(
-                "hibernate.jdbc.time_zone", environment.getProperty("hibernate.jdbc.time_zone"));
+                "hibernate.default_schema", environment.getProperty("hibernate.default_schema"));
 
         return hibernateProperties;
     }

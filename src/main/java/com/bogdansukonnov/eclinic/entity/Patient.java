@@ -11,25 +11,23 @@ import javax.persistence.*;
 @Getter
 @Setter
 @NoArgsConstructor
-@Table(name = "patient", uniqueConstraints =
-        {@UniqueConstraint(columnNames = {"fullName", "insuranceNumber"},
-                name = "UK_patient_fullName_insuranceNumber")})
+@Table(name = "patient")
 public class Patient extends AbstractEntity {
 
-    @Column(name = "fullName")
+    @Column(name = "full_name", unique = true)
     @NonNull
     private String fullName;
 
-    @Column(name = "insuranceNumber")
+    @Column(name = "diagnosis")
+    @NonNull
+    private String diagnosis;
+
+    @Column(name = "insurance_number", unique = true)
     private String insuranceNumber;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "patientStatus")
+    @Column(name = "patient_status")
     @NonNull
     private PatientStatus patientStatus;
-
-    public static String getOrderField() {
-        return "fullName";
-    }
 
 }

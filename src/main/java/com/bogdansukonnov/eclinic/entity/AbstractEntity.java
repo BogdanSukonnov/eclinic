@@ -14,49 +14,20 @@ import java.time.LocalDateTime;
 public abstract class AbstractEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "id")
     private Long id;
 
     @CreationTimestamp
-    @Column(name = "createdDateTime")
+    @Column(name = "created_datetime")
     private LocalDateTime createdDateTime;
 
     @UpdateTimestamp
-    @Column(name = "updatedDateTime")
+    @Column(name = "updated_datetime")
     private LocalDateTime updatedDateTime;
 
     @Version
     @Column(name = "version")
     private Integer version;
-
-    @Override
-    public int hashCode() {
-        if (getId() != null) {
-            return getId().hashCode();
-        }
-        return super.hashCode();
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        AbstractEntity other = (AbstractEntity) obj;
-        if (getId() == null || other.getId() == null) {
-            return false;
-        }
-        if (!getId().equals(other.getId())) {
-            return false;
-        }
-        return true;
-    }
 
 }

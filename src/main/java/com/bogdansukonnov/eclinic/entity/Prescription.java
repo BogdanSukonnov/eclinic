@@ -15,22 +15,22 @@ import javax.persistence.*;
 public class Prescription extends AbstractEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "patient_id", foreignKey = @ForeignKey(name = "FK_patient"))
+    @JoinColumn(name = "patient_id")
     @NonNull
     private Patient patient;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "doctor_id", foreignKey = @ForeignKey(name = "FK_doctor"))
+    @JoinColumn(name = "doctor_id")
     @NonNull
     private AppUser doctor;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "timePattern_id", foreignKey = @ForeignKey(name = "FK_timePattern"))
+    @JoinColumn(name = "time_pattern_id")
     @NonNull
     private TimePattern timePattern;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "treatment_id", foreignKey = @ForeignKey(name = "FK_treatment"))
+    @JoinColumn(name = "treatment_id")
     @NonNull
     private Treatment treatment;
 

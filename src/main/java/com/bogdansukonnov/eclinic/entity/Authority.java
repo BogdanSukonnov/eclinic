@@ -14,12 +14,11 @@ import javax.persistence.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "authority",
-        uniqueConstraints = {@UniqueConstraint(columnNames = {"name"}, name = "UK_authority_name")})
+@Table(name = "authority")
 public class Authority extends AbstractEntity {
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "name")
+    @Column(name = "name", unique = true)
     @NonNull
     private AuthorityType name;
 
