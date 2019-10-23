@@ -109,6 +109,44 @@
             <artifactId>spring-security-taglibs</artifactId>
             <version>${spring.version}</version>
         </dependency>
+        <dependency>
+
+        <!--     logging       -->
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>2.12.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-api</artifactId>
+            <version>2.12.1</version>
+        </dependency>
+
+        <!--    yaml logging configuration    -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.dataformat</groupId>
+            <artifactId>jackson-dataformat-yaml</artifactId>
+            <version>2.10.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.10.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.9</version>
+        </dependency>
+
     </dependencies>
 
     <packaging>war</packaging>
@@ -141,12 +179,13 @@
                     <url>jdbc:postgresql://localhost:5432/eclinic</url>
                     <user>postgres</user>
                     <password>PostgreSQL9)</password>
-                    <schemas>
-                        <schema>clinic</schema>
-                    </schemas>
                     <locations>
                         <location>filesystem:db/migration</location>
                     </locations>
+                    <schemas>
+                        <schema>public</schema> <!-- flyway_schema_history -->
+                        <schema>clinic</schema>
+                    </schemas>
                 </configuration>
             </plugin>
         </plugins>

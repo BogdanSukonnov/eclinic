@@ -25,7 +25,7 @@ public class PrescriptionDTO extends AbstractDTO {
 
     private Short duration;
 
-    private Float dosage;
+    private String dosage;
 
     private String dateTimeFormatted;
 

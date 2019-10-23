@@ -28,10 +28,17 @@ public class PrescriptionService {
     }
 
     @Transactional
-    public void addNew() {
-        Prescription prescription = new Prescription();
-        // ToDo: insurance, doctor
+    public void addNew(PrescriptionDTO prescriptionDTO) {
+        Prescription prescription = converter.toEntity(prescriptionDTO);
+        // ToDo: doctor
         prescriptionDAO.create(prescription);
+    }
+
+    @Transactional
+    public void update(PrescriptionDTO prescriptionDTO) {
+        Prescription prescription = converter.toEntity(prescriptionDTO);
+        // ToDo: doctor?
+        prescriptionDAO.update(prescription);
     }
 
     @Transactional(readOnly = true)

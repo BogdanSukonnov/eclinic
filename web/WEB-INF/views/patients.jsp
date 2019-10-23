@@ -18,31 +18,33 @@
                 <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
             </form>
             <form class="form-inline">
-                <button class="btn btn-outline-success" type="button"  data-toggle="modal" data-target="#exampleModalCenter">New patient</button>
+                <button class="btn btn-outline-success" type="button"  data-toggle="modal" data-target="#newPatientModal">New patient</button>
             </form>
         </nav>
         <table class="table">
             <tr>
                 <th scope="col">Name</th>
                 <th scope="col">Status</th>
+                <th scope="col">Diagnosis</th>
                 <th scope="col">Insurance</th>
             </tr>
-            <c:forEach var="patient" items="${patients}" >
+            <c:forEach var="prescription" items="${patients}" >
                 <tr>
-                    <td><a href="${pageContext.request.contextPath}/doctor/patient?id=${patient.id}">${patient.fullName}</a></td>
-                    <td>${patient.patientStatus}</td>
-                    <td>${patient.insuranceNumber}</td>
+                    <td><a href="${pageContext.request.contextPath}/doctor/patient?id=${prescription.id}">${prescription.fullName}</a></td>
+                    <td>${prescription.patientStatus}</td>
+                    <td>${prescription.diagnosis}</td>
+                    <td>${prescription.insuranceNumber}</td>
                 </tr>
             </c:forEach>
         </table>
 
         <!-- New Patient Modal -->
-        <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal fade" id="newPatientModal" tabindex="-1" role="dialog" aria-labelledby="newPatientModalTitle" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <form action="${pageContext.request.contextPath}/doctor/newPatient" method="post">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLongTitle">New patient</h5>
+                        <h5 class="modal-title" id="newPatientModalTitle">New patient</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -54,8 +56,13 @@
                         </div>
                         <div class="form-group">
                             <label for="newPatientInsurance">Insurance</label>
-                            <input type="text" class="form-control" id="newPatientInsurance" placeholder="Insurance" name="insurance">
+                            <input type="text" class="form-control" id="newPatientInsurance" placeholder="Insurance" name="insuranceNumber">
                         </div>
+                        <div class="form-group">
+                            <label for="newPatientDiagnosis">Diagnosis</label>
+                            <input type="text" class="form-control" id="newPatientDiagnosis" placeholder="Diagnosis" name="diagnosis">
+                        </div>
+                        <input type="hidden" name="patientStatus" value="PATIENT">
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

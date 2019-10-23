@@ -38,7 +38,13 @@ public class PrescriptionController {
     @GetMapping("prescription")
     public ModelAndView prescription(@RequestParam("id") Long id) {
         ModelAndView model = new ModelAndView("prescription");
-        model.addObject("prescription", prescriptionService.getOne(id));
+        PrescriptionDTO prescription = prescriptionService.getOne(id);
+        model.addObject("prescription", prescription);
+        model.addObject("patient_id", prescription.getPatient().getId());
+        model.addObject("patient_fullName", prescription.getPatient().getFullName());
+        model.addObject("allProcedures", treatmentService.getAll(TreatmentType.Procedure));
+        model.addObject("allMedicine", treatmentService.getAll(TreatmentType.Medicine));
+        model.addObject("allPatterns", timePatternService.getAll(SortBy.NAME));
         return model;
     }
 
@@ -46,6 +52,7 @@ public class PrescriptionController {
     public ModelAndView newPrescription(@RequestParam("patient_id") Long patient_id,
                                         @RequestParam("patient_fullName") String patient_fullName) {
         ModelAndView model = new ModelAndView("prescription");
+        model.addObject("prescription", null);
         model.addObject("patient_id", patient_id);
         model.addObject("patient_fullName", patient_fullName);
         model.addObject("allProcedures", treatmentService.getAll(TreatmentType.Procedure));
@@ -55,9 +62,16 @@ public class PrescriptionController {
     }
 
     @PostMapping("saveNewPrescription")
-    public String newPrescription(@RequestParam("pattern_id") Long pattern_id,
-                                  @RequestParam("patient_id") Long patient_id) {
+    public String newPrescription(PrescriptionDTO prescriptionDTO) {
+        prescriptionService.addNew(prescriptionDTO);
         String page = "redirect:/doctor/patients";
+        return page;
+    }
+
+    @PostMapping("updatePrescription")
+    public String updatePrescription(PrescriptionDTO prescriptionDTO) {
+        prescriptionService.update(prescriptionDTO);
+        String page = "redirect:/doctor/prescriptions";
         return page;
     }
 

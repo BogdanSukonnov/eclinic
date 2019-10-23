@@ -1,10 +1,9 @@
 CREATE SCHEMA IF NOT EXISTS clinic;
+SET SCHEMA 'clinic';
 
-CREATE SEQUENCE clinic.hibernate_sequence;
-
-CREATE TABLE clinic.app_user
+CREATE TABLE app_user
 (
-    id              BIGINT NOT NULL
+    id              BIGSERIAL NOT NULL
         CONSTRAINT app_user_pkey
             PRIMARY KEY,
     created_datetime TIMESTAMP,
@@ -19,9 +18,9 @@ CREATE TABLE clinic.app_user
             UNIQUE
 );
 
-CREATE TABLE clinic.authority
+CREATE TABLE authority
 (
-    id              BIGINT NOT NULL
+    id              BIGSERIAL NOT NULL
         CONSTRAINT authority_pkey
         PRIMARY KEY,
     created_datetime TIMESTAMP,
@@ -32,7 +31,7 @@ CREATE TABLE clinic.authority
         UNIQUE
 );
 
-CREATE TABLE clinic.app_user_authority
+CREATE TABLE app_user_authority
 (
     app_user_id      BIGINT NOT NULL
         CONSTRAINT user_authority_app_user_fkey
@@ -44,9 +43,9 @@ CREATE TABLE clinic.app_user_authority
         PRIMARY KEY (app_user_id, authority_id)
 );
 
-CREATE TABLE clinic.patient
+CREATE TABLE patient
 (
-    id              BIGINT NOT NULL
+    id              BIGSERIAL NOT NULL
         CONSTRAINT patient_pkey
         PRIMARY KEY,
     created_datetime TIMESTAMP,
@@ -62,9 +61,9 @@ CREATE TABLE clinic.patient
     patient_status   VARCHAR(255)
 );
 
-CREATE TABLE clinic.time_pattern
+CREATE TABLE time_pattern
 (
-    id              BIGINT NOT NULL
+    id              BIGSERIAL NOT NULL
         CONSTRAINT time_pattern_pkey
         PRIMARY KEY,
     created_datetime TIMESTAMP,
@@ -75,9 +74,9 @@ CREATE TABLE clinic.time_pattern
     name            VARCHAR(255)
 );
 
-CREATE TABLE clinic.time_pattern_item
+CREATE TABLE time_pattern_item
 (
-    id              BIGINT NOT NULL
+    id              BIGSERIAL NOT NULL
         CONSTRAINT time_pattern_item_pkey
         PRIMARY KEY,
     created_datetime TIMESTAMP,
@@ -90,9 +89,9 @@ CREATE TABLE clinic.time_pattern_item
         REFERENCES time_pattern
 );
 
-CREATE TABLE clinic.treatment
+CREATE TABLE treatment
 (
-    id              BIGINT NOT NULL
+    id              BIGSERIAL NOT NULL
         CONSTRAINT treatment_pkey
         PRIMARY KEY,
     created_datetime TIMESTAMP,
@@ -104,9 +103,9 @@ CREATE TABLE clinic.treatment
     type            VARCHAR(255)
 );
 
-CREATE TABLE clinic.prescription
+CREATE TABLE prescription
 (
-    id              BIGINT NOT NULL
+    id              BIGSERIAL NOT NULL
         CONSTRAINT prescription_pkey
         PRIMARY KEY,
     created_datetime TIMESTAMP,
@@ -128,9 +127,9 @@ CREATE TABLE clinic.prescription
         REFERENCES treatment
 );
 
-CREATE TABLE clinic.event
+CREATE TABLE event
 (
-    id              BIGINT NOT NULL
+    id              BIGSERIAL NOT NULL
         CONSTRAINT event_pkey
         PRIMARY KEY,
     created_datetime TIMESTAMP,

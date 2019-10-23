@@ -37,9 +37,8 @@ public class PatientController {
     }
 
     @PostMapping("newPatient")
-    public String newPatient(@RequestParam("fullName") String fullName,
-                           @RequestParam("insurance") String insurance) {
-        patientService.addNew(fullName, insurance);
+    public String newPatient(PatientDTO patientDTO) {
+        patientService.addNew(patientDTO);
         return "redirect:/doctor/patients";
     }
 

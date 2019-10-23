@@ -37,6 +37,16 @@ public class AppConfig implements WebMvcConfigurer {
 
     @Bean
     public ModelMapper modelMapper() {
+//        ModelMapper modelMapper = new ModelMapper();
+//
+//        PropertyMap<PatientDTO, Patient> patientMap = new PropertyMap <PatientDTO, Patient>() {
+//            protected void configure() {
+//                map().setPatientStatus(source.getPatientStatus());
+//            }
+//        };
+//
+//        modelMapper.addMappings(patientMap);
+
         return new ModelMapper();
     }
 

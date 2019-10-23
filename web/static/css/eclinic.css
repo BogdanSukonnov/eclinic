@@ -196,3 +196,7 @@ table a {
     grid-template-columns: 1fr 550px 1fr;
     grid-template-areas: "prescriptionLeft prescriptionForm prescriptionRight";
 }
+
+#newPrescriptionButtonForm {
+    padding: 16px;
+}

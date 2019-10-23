@@ -12,6 +12,8 @@ public class PatientDTO extends AbstractDTO {
 
     private String fullName;
 
+    private String diagnosis;
+
     private String insuranceNumber;
 
     private PatientStatus patientStatus;
