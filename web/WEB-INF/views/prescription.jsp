@@ -21,12 +21,14 @@
                   </c:if>
                   <c:if test="${not empty prescription}">
                     action="${pageContext.request.contextPath}/doctor/updatePrescription"
-                  </c:if>
-            >
+                  </c:if> >
+
+                <input type="hidden" name="id" value=${empty prescription ? null : prescription.id} >
+
                 <div class="form-group row">
                     <p class="col-sm-2">Patient:</p>
                     <h5 class="col-sm-10">${patient_fullName}</h5>
-                    <input type="hidden" name="patient_id" value=${patient_id} />
+                    <input type="hidden" name="patientId" value=${patient_id} />
                 </div>
 
                     <%--      treatment type      --%>
@@ -56,44 +58,22 @@
                     </div>
                 </div>
 
-                    <%--      procedure      --%>
-                <div class="form-group row" id="procedureGroup">
-                    <label for="procedure" class="col-sm-2 col-form-label">Procedure</label>
-                    <select name="procedure_id" class="custom-select col-sm-10" id="procedure">
-                        <option <c:if test="${empty prescription}">
-                                    selected
-                                </c:if>>
-                            Select the procedure
-                        </option>
-                        <c:forEach var="currProcedure" items="${allProcedures}">
-                            <option value=${currProcedure.id}
-                                            <c:if test="${prescription.treatmentId == currProcedure.id}">
-                                                selected
-                                            </c:if> >
-                                    ${currProcedure.name}
-                            </option>
-                        </c:forEach>
+                    <%--      treatment      --%>
+                <div class="form-group row" id="treatmentGroup">
+                    <label for="treatment" class="col-sm-2 col-form-label">Treatment</label>
+                    <select name="treatmentId" class="custom-select col-sm-10" id="treatment">
                     </select>
-                </div>
-
-                    <%--      medicine      --%>
-                <div class="form-group row"  id="medicineGroup">
-                    <label for="medicine" class="col-sm-2 col-form-label">Medicine</label>
-                    <select name="medicine_id" class="custom-select col-sm-10" id="medicine">
-                        <option <c:if test="${empty prescription}">
-                                    selected
-                                </c:if> >
-                            Select the medicine
-                        </option>
-                        <c:forEach var="currPattern" items="${allMedicine}">
-                            <option value=${currPattern.id}
-                                            <c:if test="${prescription.treatmentId == currPattern.id}">
-                                                selected
-                                            </c:if> >
-                                    ${currPattern.name}
-                            </option>
-                        </c:forEach>
-                    </select>
+                    <script>
+                        var treatmentId = ${empty prescription ? 0 : prescription.treatmentId};
+                        var allTreatments = {
+                            <c:forEach items="${allTreatments}" var="treatment">
+                                "${treatment.id}": {
+                                    name:"${treatment.name}",
+                                    treatmentType:"${treatment.type}",
+                                },
+                            </c:forEach>
+                        }
+                    </script>
                 </div>
 
                     <%--      dosage      --%>
@@ -106,12 +86,10 @@
                     <%--      pattern      --%>
                 <div class="form-group row">
                     <label for="pattern" class="col-sm-2 col-form-label">Pattern</label>
-                    <select name="pattern_id" class="custom-select col-sm-10" id="pattern">
-                        <option <c:if test="${empty prescription}">
-                                    selected
-                                </c:if> >
-                            Select the pattern
-                        </option>
+                    <select name="patternId" class="custom-select col-sm-10" id="pattern" >
+                        <c:if test="${empty prescription}">
+                            <option selected>Select time pattern</option>
+                        </c:if>
                         <c:forEach var="currPattern" items="${allPatterns}">
                             <option value=${currPattern.id}
                                         <c:if test="${prescription.patternId == currPattern.id}">

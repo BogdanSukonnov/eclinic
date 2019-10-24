@@ -1,13 +1,31 @@
 
-function treatmentType() {
+function getTreatmentType() {
     return document.querySelector('input[name="treatmentType"]:checked').value;
 }
 
 function onTreatmentTypeChange() {
-    const treatmentType_ = treatmentType();
-    document.querySelector("#procedureGroup").hidden = treatmentType_ !== 'Procedure';
-    document.querySelector("#medicineGroup").hidden = treatmentType_ !== 'Medicine';
-    document.querySelector("#dosageGroup").hidden = treatmentType_ !== 'Medicine';
+    const treatmentType = getTreatmentType();
+    const treatmentSelector = document.querySelector('#treatment');
+    //remove all treatment options
+    while (treatmentSelector.firstChild) {
+        treatmentSelector.removeChild(treatmentSelector.firstChild);
+    }
+    //add treatment options accordingly to treatmentType
+    for (const allTreatmentsKey in allTreatments) {
+        if (allTreatments.hasOwnProperty(allTreatmentsKey)) {
+            const currTreatment = allTreatments[allTreatmentsKey];
+            if (currTreatment.treatmentType !== treatmentType) {
+                continue
+            }
+            let option = document.createElement("option");
+            option.value = allTreatmentsKey;
+            option.textContent = currTreatment.name;
+            treatmentSelector.appendChild(option);
+        }
+    }
+    treatmentSelector.value = treatmentId;
+    //show dosage only for medicine
+    document.querySelector("#dosageGroup").hidden = treatmentType !== 'Medicine';
 }
 
 function eventListenersInit() {

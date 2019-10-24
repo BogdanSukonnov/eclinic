@@ -22,7 +22,7 @@ public class GlobalExceptionHandler {
     public String allErrors(Exception ex, Model model) {
         model.addAttribute("headerText", "Something went wrong");
         model.addAttribute("exceptionObj", ex);
-        log.debug(ExceptionUtils.getStackTrace(ex));
+        log.error(ExceptionUtils.getStackTrace(ex));
         return "errorPage";
     }
 

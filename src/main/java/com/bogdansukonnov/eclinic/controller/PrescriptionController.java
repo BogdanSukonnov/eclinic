@@ -2,11 +2,16 @@ package com.bogdansukonnov.eclinic.controller;
 
 import com.bogdansukonnov.eclinic.dao.SortBy;
 import com.bogdansukonnov.eclinic.dto.PrescriptionDTO;
+import com.bogdansukonnov.eclinic.entity.AppUser;
 import com.bogdansukonnov.eclinic.entity.TreatmentType;
+import com.bogdansukonnov.eclinic.security.UserPrincipal;
 import com.bogdansukonnov.eclinic.service.PrescriptionService;
+import com.bogdansukonnov.eclinic.service.SaveType;
 import com.bogdansukonnov.eclinic.service.TimePatternService;
 import com.bogdansukonnov.eclinic.service.TreatmentService;
 import lombok.AllArgsConstructor;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.security.Principal;
 import java.util.List;
 
 @Controller
@@ -42,8 +48,9 @@ public class PrescriptionController {
         model.addObject("prescription", prescription);
         model.addObject("patient_id", prescription.getPatient().getId());
         model.addObject("patient_fullName", prescription.getPatient().getFullName());
-        model.addObject("allProcedures", treatmentService.getAll(TreatmentType.Procedure));
-        model.addObject("allMedicine", treatmentService.getAll(TreatmentType.Medicine));
+        model.addObject("allTreatments", treatmentService.getAll(SortBy.NAME));
+//        model.addObject("allProcedures", treatmentService.getAll(TreatmentType.Procedure));
+//        model.addObject("allMedicine", treatmentService.getAll(TreatmentType.Medicine));
         model.addObject("allPatterns", timePatternService.getAll(SortBy.NAME));
         return model;
     }
@@ -55,22 +62,23 @@ public class PrescriptionController {
         model.addObject("prescription", null);
         model.addObject("patient_id", patient_id);
         model.addObject("patient_fullName", patient_fullName);
-        model.addObject("allProcedures", treatmentService.getAll(TreatmentType.Procedure));
-        model.addObject("allMedicine", treatmentService.getAll(TreatmentType.Medicine));
+        model.addObject("allTreatments", treatmentService.getAll(SortBy.NAME));
+//        model.addObject("allProcedures", treatmentService.getAll(TreatmentType.Procedure));
+//        model.addObject("allMedicine", treatmentService.getAll(TreatmentType.Medicine));
         model.addObject("allPatterns", timePatternService.getAll(SortBy.NAME));
         return model;
     }
 
     @PostMapping("saveNewPrescription")
     public String newPrescription(PrescriptionDTO prescriptionDTO) {
-        prescriptionService.addNew(prescriptionDTO);
+        prescriptionService.save(SaveType.CREATE, prescriptionDTO);
         String page = "redirect:/doctor/patients";
         return page;
     }
 
     @PostMapping("updatePrescription")
     public String updatePrescription(PrescriptionDTO prescriptionDTO) {
-        prescriptionService.update(prescriptionDTO);
+        prescriptionService.save(SaveType.UPDATE, prescriptionDTO);
         String page = "redirect:/doctor/prescriptions";
         return page;
     }

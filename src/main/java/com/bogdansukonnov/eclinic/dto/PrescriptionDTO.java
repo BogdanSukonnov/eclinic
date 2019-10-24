@@ -11,6 +11,8 @@ public class PrescriptionDTO extends AbstractDTO {
 
     private PatientDTO patient;
 
+    private Long patientId;
+
     private String doctorFullName;
 
     private String patternName;
