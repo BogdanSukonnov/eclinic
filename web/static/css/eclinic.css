@@ -35,7 +35,7 @@
             "nav content";
 }
 
-.login-main-wrapper {
+#login-main-wrapper {
     display: grid;
     height: 100vh;
     grid-template-columns: 1fr;
@@ -43,6 +43,10 @@
     grid-template-areas:
             "header"
             "content";
+}
+
+#login-main-wrapper #main-nav {
+    display: none;
 }
 
 /*END og GRID*/

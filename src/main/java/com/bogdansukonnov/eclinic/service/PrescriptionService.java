@@ -5,9 +5,7 @@ import com.bogdansukonnov.eclinic.dao.*;
 import com.bogdansukonnov.eclinic.dto.PrescriptionDTO;
 import com.bogdansukonnov.eclinic.entity.*;
 import com.bogdansukonnov.eclinic.security.UserGetter;
-import com.bogdansukonnov.eclinic.security.UserPrincipal;
 import lombok.AllArgsConstructor;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,6 +31,13 @@ public class PrescriptionService {
     @Transactional(readOnly = true)
     public List<PrescriptionDTO> getAll(SortBy sortBy) {
         return prescriptionDAO.getAll(sortBy).stream()
+                .map(prescription -> converter.toDTO(prescription))
+                .collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true)
+    public List<PrescriptionDTO> getAllByPatient(Long patientId) {
+        return prescriptionDAO.getAllByPatient(patientId).stream()
                 .map(prescription -> converter.toDTO(prescription))
                 .collect(Collectors.toList());
     }
