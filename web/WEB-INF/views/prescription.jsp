@@ -9,10 +9,7 @@
 
 <div>
     <div>
-        <h1><c:choose>
-            <c:when test="${empty prescription}">New</c:when>
-            <c:otherwise>Edit</c:otherwise>
-            </c:choose> prescription</h1>
+        <h1>${empty prescription ? "New" : "Edit"} prescription</h1>
         <div id="prescriptionWrapper">
             <div id="prescriptionLeft"></div>
             <form id="prescriptionForm" method="post"
@@ -35,25 +32,14 @@
                 <div class="form-group">
                     <div class="form-check form-check-inline">
                         <input class="form-check-input" type="radio" name="treatmentType" id="inlineRadio1"
-                               value="Procedure" <c:choose>
-                                                    <c:when test="${empty prescription}">
-                                                           checked
-                                                    </c:when>
-                                                    <c:when test="${prescription.treatmentType == 'Procedure'}">
-                                                           checked
-                                                    </c:when>
-                                                    </c:choose> >
+                               value="Procedure"
+                            ${empty prescription ? "checked" : prescription.treatmentType == "Procedure" ? "checked" : ""}>
                         <label class="form-check-label" for="inlineRadio1">Procedure</label>
                     </div>
                     <div class="form-check form-check-inline">
                         <input class="form-check-input" type="radio" name="treatmentType" id="inlineRadio2"
-                               value="Medicine" <c:choose>
-                                                <c:when test="${empty prescription}">
-                                                </c:when>
-                                                <c:when test="${prescription.treatmentType == 'Medicine'}">
-                                                       checked
-                                                </c:when>
-                                                </c:choose>>
+                               value="Medicine"
+                            ${empty prescription ? "" : prescription.treatmentType == "Medicine" ? "checked" : ""}>
                         <label class="form-check-label" for="inlineRadio2">Medicine</label>
                     </div>
                 </div>
@@ -61,11 +47,11 @@
                     <%--      treatment      --%>
                 <div class="form-group row" id="treatmentGroup">
                     <label for="treatment" class="col-sm-2 col-form-label">Treatment</label>
-                    <select name="treatmentId" class="custom-select col-sm-10" id="treatment">
-                    </select>
+                    <select name="treatmentId" class="custom-select col-sm-10" id="treatment"></select>
+                        <%--         inject objects to javascript           --%>
                     <script>
-                        var treatmentId = ${empty prescription ? 0 : prescription.treatmentId};
-                        var allTreatments = {
+                        let treatmentId = ${empty prescription ? 0 : prescription.treatmentId};
+                        let allTreatments = {
                             <c:forEach items="${allTreatments}" var="treatment">
                                 "${treatment.id}": {
                                     name:"${treatment.name}",
@@ -100,7 +86,6 @@
                         </c:forEach>
                     </select>
                 </div>
-
 
                     <%--      duration      --%>
                 <div class="form-group row">
