@@ -105,5 +105,8 @@
 
 <%--Common part start--%>
 </jsp:attribute>
+<jsp:attribute name="pageScripts">
+    <script src="${pageContext.request.contextPath}/static/script/prescription.js"></script>
+</jsp:attribute>
 </t:generic-page>
 <%--Common part end--%>

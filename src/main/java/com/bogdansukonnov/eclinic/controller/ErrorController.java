@@ -17,4 +17,12 @@ public class ErrorController {
         return "errorPage";
     }
 
+    @GetMapping("unhandled")
+    public String errorPage(Model model) {
+        model.addAttribute("isAccessDenied", false);
+        model.addAttribute("headerText", "Oops! Something went wrong.");
+        model.addAttribute("exceptionObj", "");
+        return "errorPage";
+    }
+
 }

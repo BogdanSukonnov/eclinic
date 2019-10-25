@@ -1,5 +1,5 @@
 /*Bootstrap CSS*/
-@import url(/static/css/bootstrap/bootstrap.min.css);
+@import url(/static/css/lib/bootstrap.min.css);
 
 :root {
     --nav-color: #222e3a;

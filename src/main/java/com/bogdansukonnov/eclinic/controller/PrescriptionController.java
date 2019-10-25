@@ -2,6 +2,7 @@ package com.bogdansukonnov.eclinic.controller;
 
 import com.bogdansukonnov.eclinic.dao.SortBy;
 import com.bogdansukonnov.eclinic.dto.PrescriptionDTO;
+import com.bogdansukonnov.eclinic.dto.PrescriptionsTableDTO;
 import com.bogdansukonnov.eclinic.service.PrescriptionService;
 import com.bogdansukonnov.eclinic.service.SaveType;
 import com.bogdansukonnov.eclinic.service.TimePatternService;
@@ -72,8 +73,9 @@ public class PrescriptionController {
 
     // REST controller
     @PostMapping("patientPrescriptions")
-    public @ResponseBody List<PrescriptionDTO> patientPrescriptions(@RequestParam("patientId") Long patientId) {
-        return prescriptionService.getAllByPatient(patientId);
+    @ResponseBody
+    public PrescriptionsTableDTO patientPrescriptions(@RequestParam("patient_id") Long patientId) {
+        return prescriptionService.getTableByPatient(patientId);
     }
 
 }

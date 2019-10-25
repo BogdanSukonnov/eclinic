@@ -11,34 +11,69 @@
     <div>
         <h1>Patient - ${patient.fullName}</h1>
 
-            <div class="prop-list">
-                <div class="prop-row">
-                    <div class="field-label">Full name:</div>
-                    <div class="field">${patient.fullName}</div>
-                </div>
-                <div class="prop-row">
-                    <div class="field-label">Insurance:</div>
-                    <div class="field">${patient.insuranceNumber}</div>
-                </div>
-                <div class="prop-row">
-                    <div class="field-label">Diagnosis:</div>
-                    <div class="field">${patient.diagnosis}</div>
-                </div>
-                <div class="prop-row">
-                    <div class="field-label">Status:</div>
-                    <div class="field">${patient.patientStatus}</div>
-                 </div>
+        <div class="prop-list">
+            <div class="prop-row">
+                <div class="field-label">Full name:</div>
+                <div class="field">${patient.fullName}</div>
             </div>
+            <div class="prop-row">
+                <div class="field-label">Insurance:</div>
+                <div class="field">${patient.insuranceNumber}</div>
+            </div>
+            <div class="prop-row">
+                <div class="field-label">Diagnosis:</div>
+                <div class="field">${patient.diagnosis}</div>
+            </div>
+            <div class="prop-row">
+                <div class="field-label">Status:</div>
+                <div class="field">${patient.patientStatus}</div>
+             </div>
+        </div>
 
-            <form id="newPrescriptionButtonForm" action="${pageContext.request.contextPath}/doctor/newPrescription" method="post">
-                <input type="hidden" name='patient_id' value="${patient.id}" />
-                <input type="hidden" name='patient_fullName' value="${patient.fullName}" />
-                <button type="submit" class="btn btn-light">New perscription</button>
-            </form>
+        <form id="newPrescriptionButtonForm" action="${pageContext.request.contextPath}/doctor/newPrescription" method="post">
+            <input type="hidden" name='patient_id' id="patient_id" value="${patient.id}" />
+            <input type="hidden" name='patient_fullName' value="${patient.fullName}" />
+            <button type="submit" class="btn btn-light">New prescription</button>
+        </form>
+
+        <div>
+            <table id="patientPrescriptionsTable" class="display" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Type</th>
+                        <th>Treatment</th>
+                        <th>Dosage</th>
+                        <th>Pattern</th>
+                        <th>Days</th>
+                        <th>Doctor</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th>Date</th>
+                        <th>Type</th>
+                        <th>Treatment</th>
+                        <th>Dosage</th>
+                        <th>Pattern</th>
+                        <th>Days</th>
+                        <th>Doctor</th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+
     </div>
 </div>
 
 <%--Common part start--%>
+</jsp:attribute>
+<jsp:attribute name="pageScripts">
+    <script src="${pageContext.request.contextPath}/static/script/lib/datatables.min.js"></script>
+    <script src="${pageContext.request.contextPath}/static/script/patient.js"></script>
+</jsp:attribute>
+<jsp:attribute name="pageStyles">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/lib/datatables.min.css">
 </jsp:attribute>
 </t:generic-page>
 <%--Common part end--%>

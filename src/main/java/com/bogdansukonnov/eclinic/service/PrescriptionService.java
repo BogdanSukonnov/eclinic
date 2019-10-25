@@ -3,6 +3,7 @@ package com.bogdansukonnov.eclinic.service;
 import com.bogdansukonnov.eclinic.converter.PrescriptionConverter;
 import com.bogdansukonnov.eclinic.dao.*;
 import com.bogdansukonnov.eclinic.dto.PrescriptionDTO;
+import com.bogdansukonnov.eclinic.dto.PrescriptionsTableDTO;
 import com.bogdansukonnov.eclinic.entity.*;
 import com.bogdansukonnov.eclinic.security.UserGetter;
 import lombok.AllArgsConstructor;
@@ -36,18 +37,26 @@ public class PrescriptionService {
     }
 
     @Transactional(readOnly = true)
-    public List<PrescriptionDTO> getAllByPatient(Long patientId) {
-        return prescriptionDAO.getAllByPatient(patientId).stream()
+    public PrescriptionsTableDTO getTableByPatient(Long patientId) {
+
+        List<Prescription> allByPatient = prescriptionDAO.getAllByPatient(patientId);
+
+        List<PrescriptionDTO> list = allByPatient.stream()
                 .map(prescription -> converter.toDTO(prescription))
                 .collect(Collectors.toList());
+
+        PrescriptionsTableDTO tableDTO = new PrescriptionsTableDTO();
+        tableDTO.setData(list);
+
+        return tableDTO;
     }
 
     @Transactional
     public void save(SaveType saveType, PrescriptionDTO prescriptionDTO) {
 
-        Treatment treatment = treatmentDAO.findOne(prescriptionDTO.getTreatmentId());
-        TimePattern timePattern = timePatternDAO.findOne(prescriptionDTO.getPatternId());
-        Patient patient = patientDAO.findOne(prescriptionDTO.getPatientId());
+        Treatment treatment = treatmentDAO.findOne(prescriptionDTO.getTreatment().getId());
+        TimePattern timePattern = timePatternDAO.findOne(prescriptionDTO.getTimePattern().getId());
+        Patient patient = patientDAO.findOne(prescriptionDTO.getPatient().getId());
 
         Prescription prescription;
         if (saveType == SaveType.CREATE) {
