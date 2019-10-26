@@ -12,7 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserService {
 
     private UserDAO userDAO;
-
     private PasswordEncoder encoder;
 
     @Transactional

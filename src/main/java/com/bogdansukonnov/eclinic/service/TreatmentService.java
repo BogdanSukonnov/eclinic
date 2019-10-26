@@ -18,7 +18,6 @@ import java.util.stream.Collectors;
 public class TreatmentService {
 
     private TreatmentDAO treatmentDAO;
-
     private ModelMapper modelMapper;
 
     @Transactional(readOnly = true)

@@ -19,15 +19,10 @@ import java.util.stream.Collectors;
 public class PrescriptionService {
 
     private PrescriptionDAO prescriptionDAO;
-
     private PrescriptionConverter converter;
-
     private TreatmentDAO treatmentDAO;
-
     private TimePatternDAO timePatternDAO;
-
     private PatientDAO patientDAO;
-
     private UserGetter userGetter;
 
     @Transactional(readOnly = true)

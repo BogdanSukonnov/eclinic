@@ -17,7 +17,6 @@ import java.util.stream.Collectors;
 public class TimePatternService {
 
     private TimePatternDAO timePatternDAO;
-
     private ModelMapper modelMapper;
 
     @Transactional(readOnly = true)

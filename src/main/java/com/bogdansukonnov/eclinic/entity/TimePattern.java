@@ -27,7 +27,10 @@ public class TimePattern extends AbstractEntity {
     @Column(name = "is_week_cycle")
     private Boolean isWeekCycle;
 
-    @OneToMany(targetEntity = TimePatternItem.class, mappedBy = "timePattern", cascade = CascadeType.ALL)
+    @OneToMany(targetEntity = TimePatternItem.class
+            , mappedBy = "timePattern"
+            , cascade = CascadeType.ALL)
+    @OrderBy("dayOfCycle, time")
     private List<TimePatternItem> items;
 
 }
