@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @AllArgsConstructor
@@ -74,8 +75,10 @@ public class PrescriptionController {
     // REST controller
     @PostMapping("patientPrescriptions")
     @ResponseBody
-    public PrescriptionsTableDTO patientPrescriptions(@RequestParam("patient_id") Long patientId) {
-        return prescriptionService.getTableByPatient(patientId);
+    public PrescriptionsTableDTO patientPrescriptions(
+            @RequestParam("patient_id") Long patientId,
+            @RequestParam Map<String, String> data) {
+        return prescriptionService.getTableByPatient(patientId, data);
     }
 
 }

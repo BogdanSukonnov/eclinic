@@ -49,17 +49,6 @@
                         <th>Doctor</th>
                     </tr>
                 </thead>
-                <tfoot>
-                    <tr>
-                        <th>Date</th>
-                        <th>Type</th>
-                        <th>Treatment</th>
-                        <th>Dosage</th>
-                        <th>Pattern</th>
-                        <th>Days</th>
-                        <th>Doctor</th>
-                    </tr>
-                </tfoot>
             </table>
         </div>
 

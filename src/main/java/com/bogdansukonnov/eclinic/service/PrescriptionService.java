@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -34,21 +35,6 @@ public class PrescriptionService {
         return prescriptionDAO.getAll(sortBy).stream()
                 .map(prescription -> converter.toDTO(prescription))
                 .collect(Collectors.toList());
-    }
-
-    @Transactional(readOnly = true)
-    public PrescriptionsTableDTO getTableByPatient(Long patientId) {
-
-        List<Prescription> allByPatient = prescriptionDAO.getAllByPatient(patientId);
-
-        List<PrescriptionDTO> list = allByPatient.stream()
-                .map(prescription -> converter.toDTO(prescription))
-                .collect(Collectors.toList());
-
-        PrescriptionsTableDTO tableDTO = new PrescriptionsTableDTO();
-        tableDTO.setData(list);
-
-        return tableDTO;
     }
 
     @Transactional
@@ -88,6 +74,26 @@ public class PrescriptionService {
     public PrescriptionDTO getOne(Long id) {
         Prescription prescription = prescriptionDAO.findOne(id);
         return converter.toDTO(prescription);
+    }
+
+    @Transactional(readOnly = true)
+    public PrescriptionsTableDTO getTableByPatient(Long patientId, Map<String, String> data) {
+
+        List<Prescription> allByPatient = prescriptionDAO.getAllByPatient(patientId);
+
+        List<PrescriptionDTO> list = allByPatient.stream()
+                .map(prescription -> converter.toDTO(prescription))
+                .collect(Collectors.toList());
+
+        PrescriptionsTableDTO tableDTO = PrescriptionsTableDTO.builder()
+                .data(list)
+                .draw(Integer.parseInt(data.get("draw")))
+                .recordsFiltered(list.size())
+                .recordsTotal(list.size())
+                .build();
+        tableDTO.setData(list);
+
+        return tableDTO;
     }
 
 }
