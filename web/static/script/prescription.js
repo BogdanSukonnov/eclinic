@@ -1,9 +1,12 @@
 
 let treatmentSelect = $('#treatment');
+let patternSelect = $('#pattern');
 
 $(document).ready(function() {
+    dosageVisibility();
     treatmentSelectInit();
     $('input[name="treatmentType"]').click(function() {onTreatmentTypeChange()});
+    patternSelectInit();
 });
 
 function treatmentSelectInit() {
@@ -23,54 +26,40 @@ function treatmentSelectInit() {
         });
 }
 
+function dosageVisibility() {
+    if (treatmentType() === 'Medicine') {
+        $("#dosageGroup").show();
+    }
+    else {
+        $("#dosageGroup").hide();
+    }
+}
+
 function onTreatmentTypeChange() {
+    if (treatmentType() !== 'Medicine') {
+        $("#dosage").val('');
+    }
+    dosageVisibility();
     treatmentSelect.empty();
-    // treatmentSelect.append('<option selected>Select ' + treatmentType().toLowerCase() + '</option>');
+    treatmentSelect.append('<option selected>Seleect ' + treatmentType().toLowerCase() + '</option>');
 }
 
 function treatmentType() {
     return $('input[name="treatmentType"]:checked').val();
 }
 
-//
-// function getTreatmentType() {
-//     return document.querySelector('input[name="treatmentType"]:checked').value;
-// }
-//
-// function onTreatmentTypeChange() {
-//     const treatmentType = getTreatmentType();
-//     const treatmentSelector = document.querySelector('#treatment');
-//     //remove all treatment options
-//     while (treatmentSelector.firstChild) {
-//         treatmentSelector.removeChild(treatmentSelector.firstChild);
-//     }
-//     //add treatment options accordingly to treatmentType
-//     for (const allTreatmentsKey in allTreatments) {
-//         if (allTreatments.hasOwnProperty(allTreatmentsKey)) {
-//             const currTreatment = allTreatments[allTreatmentsKey];
-//             if (currTreatment.treatmentType !== treatmentType) {
-//                 continue
-//             }
-//             let option = document.createElement("option");
-//             option.value = allTreatmentsKey;
-//             option.textContent = currTreatment.name;
-//             treatmentSelector.appendChild(option);
-//         }
-//     }
-//     treatmentSelector.value = treatmentId;
-//     //show dosage only for medicine
-//     document.querySelector("#dosageGroup").hidden = treatmentType !== 'Medicine';
-// }
-//
-// function eventListenersInit() {
-//     let els = document.querySelectorAll('input[name="treatmentType"]');
-//     els.forEach(function(elem) {elem.addEventListener("click", onTreatmentTypeChange)});
-// }
-//
-// function onStart() {
-//     eventListenersInit();
-//     onTreatmentTypeChange();
-// }
-//
-// onStart();
-//
+function patternSelectInit() {
+    patternSelect
+        .select2({
+            ajax: {
+                url: '/doctor/time-pattern-selector-data',
+                type: 'POST',
+                dataType: 'json',
+                data: function (params) {
+                    return {
+                        search: params.term
+                    };
+                }
+            }
+        });
+}

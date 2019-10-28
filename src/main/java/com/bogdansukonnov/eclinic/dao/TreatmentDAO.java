@@ -15,15 +15,15 @@ public class TreatmentDAO extends AbstractDAO<Treatment> {
     }
 
     public List<Treatment> getAll(TreatmentType treatmentType, String search) {
-        boolean hasSearchString = search != null && !search.isEmpty();
+        boolean needSearch = search != null && !search.isEmpty();
         String queryStr = "from Treatment t where t.type=:treatmentType";
-        if (hasSearchString) {
+        if (needSearch) {
             queryStr += " and lower(t.name) like lower(:search)";
         }
         queryStr += "  order by " + getOrderField();
         Query query = getCurrentSession().createQuery(queryStr);
         query.setParameter("treatmentType", treatmentType);
-        if (hasSearchString) {
+        if (needSearch) {
             query.setParameter("search", "%" + search + "%");
         }
         return query.list();

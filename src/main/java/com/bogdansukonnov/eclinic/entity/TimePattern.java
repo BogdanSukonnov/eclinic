@@ -1,5 +1,6 @@
 package com.bogdansukonnov.eclinic.entity;
 
+import com.bogdansukonnov.eclinic.dto.SelectorData;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -13,7 +14,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @Table(name = "time_pattern")
-public class TimePattern extends AbstractEntity {
+public class TimePattern extends AbstractEntity implements SelectorData {
 
     @Column(name = "name")
     @NonNull
@@ -33,4 +34,8 @@ public class TimePattern extends AbstractEntity {
     @OrderBy("dayOfCycle, time")
     private List<TimePatternItem> items;
 
+    @Override
+    public String getSelectorText() {
+        return name;
+    }
 }
