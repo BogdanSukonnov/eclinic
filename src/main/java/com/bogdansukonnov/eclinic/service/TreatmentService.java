@@ -1,7 +1,10 @@
 package com.bogdansukonnov.eclinic.service;
 
+import com.bogdansukonnov.eclinic.converter.SelectorDataConverter;
 import com.bogdansukonnov.eclinic.dao.SortBy;
 import com.bogdansukonnov.eclinic.dao.TreatmentDAO;
+import com.bogdansukonnov.eclinic.dto.SelectorData;
+import com.bogdansukonnov.eclinic.dto.SelectorDataDTO;
 import com.bogdansukonnov.eclinic.dto.TreatmentDTO;
 import com.bogdansukonnov.eclinic.entity.Treatment;
 import com.bogdansukonnov.eclinic.entity.TreatmentType;
@@ -19,17 +22,11 @@ public class TreatmentService {
 
     private TreatmentDAO treatmentDAO;
     private ModelMapper modelMapper;
+    private SelectorDataConverter selectorDataConverter;
 
     @Transactional(readOnly = true)
     public List<TreatmentDTO> getAll(SortBy sortBy) {
         return treatmentDAO.getAll(sortBy).stream()
-                .map(treatment -> modelMapper.map(treatment, TreatmentDTO.class))
-                .collect(Collectors.toList());
-    }
-
-    @Transactional(readOnly = true)
-    public List<TreatmentDTO> getAll(TreatmentType treatmentType) {
-        return treatmentDAO.getAll(treatmentType).stream()
                 .map(treatment -> modelMapper.map(treatment, TreatmentDTO.class))
                 .collect(Collectors.toList());
     }
@@ -46,4 +43,11 @@ public class TreatmentService {
         return modelMapper.map(treatment, TreatmentDTO.class);
     }
 
+    @Transactional(readOnly = true)
+    public SelectorDataDTO getAll(String type, String search) {
+        TreatmentType treatmentType = TreatmentType.valueOf(type);
+        return selectorDataConverter.toDTO(treatmentDAO.getAll(treatmentType, search).stream()
+                .map(t -> (SelectorData) t)
+                .collect(Collectors.toList()));
+    }
 }

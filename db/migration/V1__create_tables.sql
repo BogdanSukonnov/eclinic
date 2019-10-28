@@ -112,6 +112,7 @@ CREATE TABLE prescription
     updated_datetime TIMESTAMP,
     version         INTEGER,
     dosage          VARCHAR(255),
+    prescription_status VARCHAR(255),
     duration        SMALLINT,
     doctor_id       BIGINT
         CONSTRAINT prescription_doctor_fkey

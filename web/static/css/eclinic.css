@@ -214,3 +214,13 @@ table a {
 #newPrescriptionButtonForm {
     padding: 16px;
 }
+
+.select2-selection--single {
+    border: 1px solid #ced4da !important;
+    height: calc(1.5em + .75rem + 2px) !important;
+}
+
+.select2-selection__rendered {
+    height: 100% !important;
+    padding: .375rem .75rem !important;
+}

@@ -32,6 +32,7 @@ public class EventDAO extends AbstractDAO<Event> {
         return query.uniqueResultOptional();
     }
 
+
     @Override
     protected String getOrderField() {
         return "dateTime";

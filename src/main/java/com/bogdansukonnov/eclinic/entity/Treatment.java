@@ -1,5 +1,6 @@
 package com.bogdansukonnov.eclinic.entity;
 
+import com.bogdansukonnov.eclinic.dto.SelectorData;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -12,7 +13,7 @@ import javax.persistence.*;
 @Setter
 @NoArgsConstructor
 @Table(name = "treatment")
-public class Treatment extends AbstractEntity {
+public class Treatment extends AbstractEntity implements SelectorData {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "type")
@@ -23,4 +24,8 @@ public class Treatment extends AbstractEntity {
     @NonNull
     private String name;
 
+    @Override
+    public String getSelectorText() {
+        return name;
+    }
 }

@@ -22,11 +22,11 @@ VALUES (7, 'two days a week: Tu Th', true, 1),
 
 
 INSERT INTO time_pattern_item (day_of_cycle, time, time_pattern_id, version)
-VALUES (2, '10:00', 1, 1),
-       (4, '10:00', 1, 1),
-       (1, '09:00', 2, 1),
-       (1, '18:00', 2, 1),
-       (1, '14:00', 3, 1);
+VALUES (1, '10:00', 1, 1),
+       (3, '10:00', 1, 1),
+       (0, '09:00', 2, 1),
+       (0, '18:00', 2, 1),
+       (0, '14:00', 3, 1);
 
 
 INSERT INTO treatment (name, type, version)
@@ -62,8 +62,8 @@ VALUES (1, 2),
        (7, 3);
 
 
-INSERT INTO prescription (created_datetime, dosage, duration, doctor_id, patient_id, time_pattern_id, treatment_id, version)
-VALUES ('2019-10-11 11:30:45', '1.3 g', 14, 1, 2, 2, 4, 1),
-       ('2019-10-13 12:07:28', null, 7, 2, 4, 3, 6, 1),
-       ('2019-10-15 13:43:19', '200 ml', 7, 4, 6, 1, 1, 1);
+INSERT INTO prescription (created_datetime, dosage, duration, doctor_id, patient_id, time_pattern_id, treatment_id, version, prescription_status)
+VALUES ('2019-10-11 11:30:45', '1.3 g', 14, 1, 2, 2, 4, 1, 'ACTIVE'),
+       ('2019-10-13 12:07:28', null, 7, 2, 4, 3, 6, 1, 'ACTIVE'),
+       ('2019-10-15 13:43:19', '200 ml', 7, 4, 6, 1, 1, 1, 'ACTIVE');
 

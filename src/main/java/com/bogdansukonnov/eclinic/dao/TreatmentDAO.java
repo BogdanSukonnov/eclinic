@@ -14,10 +14,18 @@ public class TreatmentDAO extends AbstractDAO<Treatment> {
         setClazz(Treatment.class);
     }
 
-    public List<Treatment> getAll(TreatmentType treatmentType) {
-        String queryStr = "from Treatment t where t.type=:treatmentType order by " + getOrderField();
+    public List<Treatment> getAll(TreatmentType treatmentType, String search) {
+        boolean hasSearchString = search != null && !search.isEmpty();
+        String queryStr = "from Treatment t where t.type=:treatmentType";
+        if (hasSearchString) {
+            queryStr += " and lower(t.name) like lower(:search)";
+        }
+        queryStr += "  order by " + getOrderField();
         Query query = getCurrentSession().createQuery(queryStr);
         query.setParameter("treatmentType", treatmentType);
+        if (hasSearchString) {
+            query.setParameter("search", "%" + search + "%");
+        }
         return query.list();
     }
 

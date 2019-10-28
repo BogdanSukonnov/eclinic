@@ -3,35 +3,55 @@ package com.bogdansukonnov.eclinic.service;
 import com.bogdansukonnov.eclinic.dao.EventDAO;
 import com.bogdansukonnov.eclinic.entity.TimePatternItem;
 import lombok.AllArgsConstructor;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.modelmapper.ModelMapper;
 
-import java.time.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 class EventServiceTest {
 
     @Test
-    void patternDates() {
+    void twiceADay() {
 
         EventService service = new EventService(new EventDAO(), new ModelMapper());
 
         List<ItemData> dataList = new ArrayList<>();
-        dataList.add(new ItemData(1, 9, 0));
-        dataList.add(new ItemData(1, 17, 0));
+        dataList.add(new ItemData(0, 9, 0));
+        dataList.add(new ItemData(0, 18, 0));
         List<TimePatternItem> items = items(dataList);
 
-        LocalDate periodStart = LocalDate.of(2019, 10, 26);
-        LocalDateTime endDate = LocalDateTime.of(2019, 10, 30, 0, 0);
-        LocalDateTime now = LocalDateTime.of(2019, 10, 26, 10, 0);
+        LocalDate periodStart = LocalDate.of(2019, 10, 1);
+        LocalDateTime endDate = LocalDateTime.of(2019, 10, 4, 0, 0);
+        LocalDateTime notSooner = LocalDateTime.of(2019, 10, 2, 10, 0);
 
-        List<LocalDateTime> dates = service.patternDates(items, periodStart, endDate, (short) 1, false, now);
+        List<LocalDateTime> dates = service.patternDates(items, periodStart, endDate, (short) 1, false, notSooner);
 
-        System.out.println(dates);
+        assert dates.toString().equals("[2019-10-02T18:00, 2019-10-03T09:00, 2019-10-03T18:00]");
+
+    }
+
+    @Test
+    void twiceAWeek() {
+
+        EventService service = new EventService(new EventDAO(), new ModelMapper());
+
+        List<ItemData> dataList = new ArrayList<>();
+        dataList.add(new ItemData(1, 15, 0)); // tuesday
+        dataList.add(new ItemData(3, 15, 0)); // thursday
+        List<TimePatternItem> items = items(dataList);
+
+        LocalDate periodStart = LocalDate.of(2019, 10, 4);
+        LocalDateTime endDate = LocalDateTime.of(2019, 10, 18, 0, 0);
+        LocalDateTime notSooner = LocalDateTime.of(2019, 10, 4, 0, 0);
+
+        List<LocalDateTime> dates = service.patternDates(items, periodStart, endDate, (short) 7, true, notSooner);
+
+        assert dates.toString().equals("[2019-10-08T15:00, 2019-10-10T15:00, 2019-10-15T15:00, 2019-10-17T15:00]");
+
     }
 
     private List<TimePatternItem> items(List<ItemData> dataList) {
@@ -46,7 +66,7 @@ class EventServiceTest {
     }
 
     @AllArgsConstructor
-    private  class ItemData {
+    private static class ItemData {
         int dayOfCycle;
         int hour;
         int minute;

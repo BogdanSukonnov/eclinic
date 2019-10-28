@@ -3,12 +3,12 @@ package com.bogdansukonnov.eclinic.controller;
 import com.bogdansukonnov.eclinic.dao.SortBy;
 import com.bogdansukonnov.eclinic.dto.PrescriptionDTO;
 import com.bogdansukonnov.eclinic.dto.PrescriptionsTableDTO;
+import com.bogdansukonnov.eclinic.dto.Update;
 import com.bogdansukonnov.eclinic.service.PrescriptionService;
 import com.bogdansukonnov.eclinic.service.SaveType;
-import com.bogdansukonnov.eclinic.service.TimePatternService;
-import com.bogdansukonnov.eclinic.service.TreatmentService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -22,10 +22,6 @@ public class PrescriptionController {
 
     private PrescriptionService prescriptionService;
 
-    private TimePatternService timePatternService;
-
-    private TreatmentService treatmentService;
-
     @GetMapping("prescriptions")
     public ModelAndView prescriptions() {
         List<PrescriptionDTO> prescriptions = prescriptionService.getAll(SortBy.CREATION);
@@ -38,11 +34,10 @@ public class PrescriptionController {
     public ModelAndView prescription(@RequestParam("id") Long id) {
         ModelAndView model = new ModelAndView("prescription");
         PrescriptionDTO prescription = prescriptionService.getOne(id);
+        model.addObject("isNew", false);
         model.addObject("prescription", prescription);
-        model.addObject("patient_id", prescription.getPatient().getId());
-        model.addObject("patient_fullName", prescription.getPatient().getFullName());
-        model.addObject("allTreatments", treatmentService.getAll(SortBy.NAME));
-        model.addObject("allPatterns", timePatternService.getAll(SortBy.NAME));
+        model.addObject("patientId", prescription.getPatient().getId());
+        model.addObject("patientFullName", prescription.getPatient().getFullName());
         return model;
     }
 
@@ -50,23 +45,21 @@ public class PrescriptionController {
     public ModelAndView newPrescription(@RequestParam("patient_id") Long patient_id,
                                         @RequestParam("patient_fullName") String patient_fullName) {
         ModelAndView model = new ModelAndView("prescription");
-        model.addObject("prescription", null);
-        model.addObject("patient_id", patient_id);
-        model.addObject("patient_fullName", patient_fullName);
-        model.addObject("allTreatments", treatmentService.getAll(SortBy.NAME));
-        model.addObject("allPatterns", timePatternService.getAll(SortBy.NAME));
+        model.addObject("isNew", true);
+        model.addObject("patientId", patient_id);
+        model.addObject("patientFullName", patient_fullName);
         return model;
     }
 
     @PostMapping("saveNewPrescription")
-    public String newPrescription(PrescriptionDTO prescriptionDTO) {
+    public String newPrescription(@Validated PrescriptionDTO prescriptionDTO) {
         prescriptionService.save(SaveType.CREATE, prescriptionDTO);
         String page = "redirect:/doctor/patients";
         return page;
     }
 
     @PostMapping("updatePrescription")
-    public String updatePrescription(PrescriptionDTO prescriptionDTO) {
+    public String updatePrescription(@Validated(Update.class) PrescriptionDTO prescriptionDTO) {
         prescriptionService.save(SaveType.UPDATE, prescriptionDTO);
         String page = "redirect:/doctor/prescriptions";
         return page;
@@ -79,6 +72,14 @@ public class PrescriptionController {
             @RequestParam("patient_id") Long patientId,
             @RequestParam Map<String, String> data) {
         return prescriptionService.getTableByPatient(patientId, data);
+    }
+
+    // REST controller
+    @PostMapping("prescriptionsTable")
+    @ResponseBody
+    public PrescriptionsTableDTO prescriptionsTable(
+            @RequestParam Map<String, String> data) {
+        return prescriptionService.getTable(data);
     }
 
 }

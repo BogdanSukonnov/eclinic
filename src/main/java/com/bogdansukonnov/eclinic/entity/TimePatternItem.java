@@ -19,6 +19,7 @@ public class TimePatternItem extends AbstractEntity implements Comparable<TimePa
     @NonNull
     private LocalTime time;
 
+    //starts from 0
     @Column(name = "day_of_cycle")
     @NonNull
     private Short dayOfCycle;

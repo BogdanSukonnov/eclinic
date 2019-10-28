@@ -1,5 +1,9 @@
 
 $(document).ready(function() {
+    tableInit();
+} );
+
+function tableInit() {
     $('#patientPrescriptionsTable').DataTable( {
         processing: true,
         serverSide: true,
@@ -17,5 +21,4 @@ $(document).ready(function() {
             { data: 'doctorFullName' }
         ]
     } );
-} );
-
+}

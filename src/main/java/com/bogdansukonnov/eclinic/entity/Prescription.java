@@ -44,4 +44,8 @@ public class Prescription extends AbstractEntity {
     @NonNull
     String dosage;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "prescription_status")
+    @NonNull
+    private PrescriptionStatus status;
 }

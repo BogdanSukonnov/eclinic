@@ -10,38 +10,36 @@
 <div>
     <div>
         <h1>Prescriptions</h1>
-        <nav class="navbar navbar-light bg-light">
-        </nav>
+        <p></p>
     </div>
     <div class="container-fluid">
-        <table class="table">
-            <tr>
-                <th scope="col">Date</th>
-                <th scope="col">Patient</th>
-                <th scope="col">Type</th>
-                <th scope="col">Treatment</th>
-                <th scope="col">Dosage</th>
-                <th scope="col">Pattern</th>
-                <th scope="col">Days</th>
-                <th scope="col">Doctor</th>
-            </tr>
-            <c:forEach items="${prescriptions}" var="prescription">
+        <div>
+            <table id="prescriptionsTable" class="table table-hover" style="width:100%">
+                <thead>
                 <tr>
-                    <td><a href="${pageContext.request.contextPath}/doctor/prescription?id=${prescription.id}">${prescription.dateTimeFormatted}</a></td>
-                    <td>${prescription.patient.fullName}</td>
-                    <td>${prescription.treatmentType}</td>
-                    <td>${prescription.treatmentName}</td>
-                    <td>${prescription.dosage}</td>
-                    <td>${prescription.patternName}</td>
-                    <td>${prescription.duration}</td>
-                    <td>${prescription.doctorFullName}</td>
+                    <th>Date</th>
+                    <th>Patient</th>
+                    <th>Type</th>
+                    <th>Treatment</th>
+                    <th>Dosage</th>
+                    <th>Pattern</th>
+                    <th>Days</th>
+                    <th>Doctor</th>
                 </tr>
-            </c:forEach>
-        </table>
+                </thead>
+            </table>
+        </div>
     </div>
 </div>
 
 <%--Common part start--%>
+</jsp:attribute>
+<jsp:attribute name="pageScripts">
+    <script src="${pageContext.request.contextPath}/static/script/lib/datatables.min.js"></script>
+    <script src="${pageContext.request.contextPath}/static/script/prescriptions.js"></script>
+</jsp:attribute>
+    <jsp:attribute name="pageStyles">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/lib/datatables.min.css">
 </jsp:attribute>
 </t:generic-page>
 <%--Common part end--%>
