@@ -7,6 +7,7 @@ $(document).ready(function() {
     treatmentSelectInit();
     $('input[name="treatmentType"]').click(function() {onTreatmentTypeChange()});
     patternSelectInit();
+    eventsTableInit();
 });
 
 function treatmentSelectInit() {
@@ -62,4 +63,26 @@ function patternSelectInit() {
                 }
             }
         });
+}
+
+function eventsTableInit() {
+    $('#prescriptionEventsTable').DataTable( {
+        processing: true,
+        serverSide: true,
+        lengthChange: false,
+        paging: false,
+        ajax: {
+            url: '/doctor/prescription-events-table?prescription-id=' + $('#prescriptionId').val(),
+            type: 'POST'
+        },
+        rowId: 'id',
+        columns: [
+            { data: 'dateFormatted' },
+            { data: 'timeFormatted' },
+            { data: 'patientFullName' },
+            { data: 'treatmentType' },
+            { data: 'treatmentName' },
+            { data: 'dosage' }
+        ]
+    } );
 }

@@ -12,6 +12,7 @@ $(document).ready(function() {
         },
         rowId: 'id',
         columns: [
+            { data: 'eventStatus' },
             { data: 'dateFormatted' },
             { data: 'timeFormatted' },
             { data: 'patientFullName' },

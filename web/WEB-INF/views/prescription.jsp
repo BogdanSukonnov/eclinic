@@ -20,7 +20,7 @@
                     action="${pageContext.request.contextPath}/doctor/updatePrescription"
                   </c:if> >
 
-                <input type="hidden" name="id" value=${isNew ? null : prescription.id} >
+                <input id="prescriptionId" type="hidden" name="id" value=${isNew ? null : prescription.id} >
 
                 <div class="form-group row">
                     <p class="col-sm-2">Patient:</p>
@@ -89,6 +89,20 @@
                 <button type="button" class="btn btn-secondary" onclick="window.history.back();">Cancel</button>
             </form>
             <div id="prescriptionRight"></div>
+        </div>
+        <div>
+            <table id="prescriptionEventsTable" class="table table-hover" style="width:100%">
+                <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Patient</th>
+                    <th>Type</th>
+                    <th>Treatment</th>
+                    <th>Dosage</th>
+                </tr>
+                </thead>
+            </table>
         </div>
     </div>
 </div>

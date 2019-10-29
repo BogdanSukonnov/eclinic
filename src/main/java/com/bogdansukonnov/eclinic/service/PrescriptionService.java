@@ -120,12 +120,12 @@ public class PrescriptionService {
     public void delete(Long id) {
         Prescription prescription = prescriptionDAO.findOne(id);
         eventService.deleteAllPlanned(prescription);
-        if (eventService.getAll(prescription).isEmpty()) {
-            prescriptionDAO.delete(prescription);
-        }
-        else {
+        if (eventService.hasEvents(prescription)) {
             prescription.setStatus(PrescriptionStatus.DELETED);
             prescriptionDAO.update(prescription);
+        }
+        else {
+            prescriptionDAO.delete(prescription);
         }
     }
 

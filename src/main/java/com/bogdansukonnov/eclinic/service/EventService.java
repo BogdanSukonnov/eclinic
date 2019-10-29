@@ -31,15 +31,24 @@ public class EventService {
     private EventConverter converter;
 
     /**
-     * gets all events for given prescription
+     * <p>inter service communication
+     * checks if prescription has events</p>
      * @param prescription prescription of events
-     * @return list of EventDTO
+     * @return boolean
      */
-    @Transactional
-    public List<EventDTO> getAll(Prescription prescription) {
-        return eventDAO.getAll(prescription).stream()
-                .map(event -> modelMapper.map(event, EventDTO.class))
-                .collect(Collectors.toList());
+    @Transactional(readOnly = true)
+    public boolean hasEvents(Prescription prescription) {
+        return !eventDAO.getAll(prescription).isEmpty();
+    }
+
+    /**
+     * <p>finds event by it's id</p>
+     * @param id event id
+     * @return EventDTO
+     */
+    @Transactional(readOnly = true)
+    public EventDTO getOne(Long id) {
+        return converter.toDTO(eventDAO.findOne(id));
     }
 
     /**
@@ -159,6 +168,12 @@ public class EventService {
         return dates;
     }
 
+    /**
+     * <p>REST service. Generates data for the table of
+     * all events with given filters</p>
+     * @param data request parameter
+     * @return TableDataDTO
+     */
     @Transactional(readOnly = true)
     public TableDataDTO getTable(Map<String, String> data) {
 
@@ -172,6 +187,12 @@ public class EventService {
                 , Integer.parseInt(data.get("draw")), list.size(), list.size());
     }
 
+    /**
+     * <p>REST service. Generates data for the table of given
+     * prescription's events.</p>
+     * @param data request parameter
+     * @return TableDataDTO
+     */
     @Transactional(readOnly = true)
     public TableDataDTO getTable(Long prescriptionId, Map<String, String> data) {
 

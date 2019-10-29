@@ -17,6 +17,7 @@
             <table id="eventsTable" class="table table-hover" style="width:100%">
                 <thead>
                 <tr>
+                    <th>Status</th>
                     <th>Date</th>
                     <th>Time</th>
                     <th>Patient</th>

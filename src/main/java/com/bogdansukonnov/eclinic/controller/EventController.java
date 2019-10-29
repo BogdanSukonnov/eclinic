@@ -5,6 +5,7 @@ import com.bogdansukonnov.eclinic.service.EventService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Map;
 
@@ -19,6 +20,13 @@ public class EventController {
         return "events";
     }
 
+    @GetMapping("/nurse/event")
+    public ModelAndView event(@RequestParam("id") Long id) {
+        ModelAndView mv = new ModelAndView("event");
+        mv.addObject("event", eventService.getOne(id));
+        return mv;
+    }
+
     // REST controller
     @PostMapping("/nurse/events-table")
     @ResponseBody
@@ -30,7 +38,7 @@ public class EventController {
     // REST controller
     @PostMapping("/doctor/prescription-events-table")
     @ResponseBody
-    public TableDataDTO eventsTable(@RequestParam("id") Long prescriptionId,
+    public TableDataDTO eventsTable(@RequestParam("prescription-id") Long prescriptionId,
             @RequestParam Map<String, String> data) {
         return eventService.getTable(prescriptionId, data);
     }
