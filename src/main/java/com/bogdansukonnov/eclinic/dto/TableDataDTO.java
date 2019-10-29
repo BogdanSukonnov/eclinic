@@ -8,10 +8,9 @@ import java.util.List;
 
 @Getter
 @Setter
-@Builder
-public class PrescriptionsTableDTO {
+public class TableDataDTO<T> {
 
-    private List<PrescriptionDTO> data;
+    private List<T> data;
 
     private Integer draw;
 

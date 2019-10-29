@@ -3,7 +3,7 @@ package com.bogdansukonnov.eclinic.service;
 import com.bogdansukonnov.eclinic.converter.PrescriptionConverter;
 import com.bogdansukonnov.eclinic.dao.*;
 import com.bogdansukonnov.eclinic.dto.PrescriptionDTO;
-import com.bogdansukonnov.eclinic.dto.PrescriptionsTableDTO;
+import com.bogdansukonnov.eclinic.dto.TableDataDTO;
 import com.bogdansukonnov.eclinic.entity.*;
 import com.bogdansukonnov.eclinic.security.UserGetter;
 import lombok.AllArgsConstructor;
@@ -85,7 +85,7 @@ public class PrescriptionService {
     }
 
     @Transactional(readOnly = true)
-    public PrescriptionsTableDTO getTableByPatient(Long patientId, Map<String, String> data) {
+    public TableDataDTO getTableByPatient(Long patientId, Map<String, String> data) {
 
         List<Prescription> allByPatient = prescriptionDAO.getAllByPatient(patientId);
 
@@ -93,19 +93,17 @@ public class PrescriptionService {
                 .map(prescription -> converter.toDTO(prescription))
                 .collect(Collectors.toList());
 
-        PrescriptionsTableDTO tableDTO = PrescriptionsTableDTO.builder()
-                .data(list)
-                .draw(Integer.parseInt(data.get("draw")))
-                .recordsFiltered(list.size())
-                .recordsTotal(list.size())
-                .build();
+        TableDataDTO<PrescriptionDTO> tableDTO = new TableDataDTO<>();
         tableDTO.setData(list);
+        tableDTO.setDraw(Integer.parseInt(data.get("draw")));
+        tableDTO.setRecordsFiltered(list.size());
+        tableDTO.setRecordsTotal(list.size());
 
         return tableDTO;
     }
 
     @Transactional(readOnly = true)
-    public PrescriptionsTableDTO getTable(Map<String, String> data) {
+    public TableDataDTO getTable(Map<String, String> data) {
 
         List<Prescription> prescriptions = prescriptionDAO.getAll(SortBy.CREATION);
 
@@ -113,13 +111,11 @@ public class PrescriptionService {
                 .map(prescription -> converter.toDTO(prescription))
                 .collect(Collectors.toList());
 
-        PrescriptionsTableDTO tableDTO = PrescriptionsTableDTO.builder()
-                .data(list)
-                .draw(Integer.parseInt(data.get("draw")))
-                .recordsFiltered(list.size())
-                .recordsTotal(list.size())
-                .build();
+        TableDataDTO<PrescriptionDTO> tableDTO = new TableDataDTO<>();
         tableDTO.setData(list);
+        tableDTO.setDraw(Integer.parseInt(data.get("draw")));
+        tableDTO.setRecordsFiltered(list.size());
+        tableDTO.setRecordsTotal(list.size());
 
         return tableDTO;
     }

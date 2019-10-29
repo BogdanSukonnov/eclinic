@@ -3,7 +3,7 @@ package com.bogdansukonnov.eclinic.service;
 import com.bogdansukonnov.eclinic.converter.SelectorDataConverter;
 import com.bogdansukonnov.eclinic.dao.SortBy;
 import com.bogdansukonnov.eclinic.dao.TimePatternDAO;
-import com.bogdansukonnov.eclinic.dto.SelectorData;
+import com.bogdansukonnov.eclinic.entity.SelectorData;
 import com.bogdansukonnov.eclinic.dto.SelectorDataDTO;
 import com.bogdansukonnov.eclinic.dto.TimePatternDTO;
 import com.bogdansukonnov.eclinic.entity.TimePattern;

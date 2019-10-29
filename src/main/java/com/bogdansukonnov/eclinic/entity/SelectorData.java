@@ -1,4 +1,4 @@
-package com.bogdansukonnov.eclinic.dto;
+package com.bogdansukonnov.eclinic.entity;
 
 public interface SelectorData {
 

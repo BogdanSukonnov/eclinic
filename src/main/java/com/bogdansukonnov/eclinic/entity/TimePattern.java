@@ -1,6 +1,5 @@
 package com.bogdansukonnov.eclinic.entity;
 
-import com.bogdansukonnov.eclinic.dto.SelectorData;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
