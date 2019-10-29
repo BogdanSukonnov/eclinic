@@ -143,7 +143,17 @@ CREATE TABLE event
         REFERENCES patient,
     prescription_id BIGINT
         CONSTRAINT event_prescription_fkey
-        REFERENCES prescription
+        REFERENCES prescription,
+    dosage          VARCHAR(255),
+    doctor_id       BIGINT
+        CONSTRAINT prescription_doctor_fkey
+            REFERENCES app_user,
+    time_pattern_id  BIGINT
+        CONSTRAINT prescription_time_pattern_fkey
+            REFERENCES time_pattern,
+    treatment_id    BIGINT
+        CONSTRAINT prescription_treatment_fkey
+            REFERENCES treatment
 );
 
 

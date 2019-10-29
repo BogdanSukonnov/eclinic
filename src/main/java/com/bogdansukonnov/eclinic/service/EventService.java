@@ -1,10 +1,16 @@
 package com.bogdansukonnov.eclinic.service;
 
+import com.bogdansukonnov.eclinic.converter.EventConverter;
 import com.bogdansukonnov.eclinic.dao.EventDAO;
+import com.bogdansukonnov.eclinic.dao.SortBy;
 import com.bogdansukonnov.eclinic.dto.EventDTO;
+import com.bogdansukonnov.eclinic.dto.TableDataDTO;
 import com.bogdansukonnov.eclinic.entity.*;
 import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -12,18 +18,17 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
-@AllArgsConstructor
+@AllArgsConstructor(onConstructor = @__(@Autowired))
+@NoArgsConstructor
 public class EventService {
 
     private EventDAO eventDAO;
     private ModelMapper modelMapper;
+    private EventConverter converter;
 
     /**
      * gets all events for given prescription
@@ -104,6 +109,9 @@ public class EventService {
             event.setEventStatus(EventStatus.PLANNED);
             event.setPatient(prescription.getPatient());
             event.setPrescription(prescription);
+            event.setDosage(prescription.getDosage());
+            event.setTimePattern(prescription.getTimePattern());
+            event.setTreatment(prescription.getTreatment());
             eventDAO.create(event);
         }
     }
@@ -149,6 +157,32 @@ public class EventService {
             cycleStart = cycleStart.plusDays(cycleLength);
         }
         return dates;
+    }
+
+    @Transactional(readOnly = true)
+    public TableDataDTO getTable(Map<String, String> data) {
+
+        List<Event> events = eventDAO.getAll();
+
+        List<EventDTO> list = events.stream()
+                .map(event -> converter.toDTO(event))
+                .collect(Collectors.toList());
+
+        return new TableDataDTO<>(list
+                , Integer.parseInt(data.get("draw")), list.size(), list.size());
+    }
+
+    @Transactional(readOnly = true)
+    public TableDataDTO getTable(Long prescriptionId, Map<String, String> data) {
+
+        List<Event> events = eventDAO.getAll(prescriptionId);
+
+        List<EventDTO> list = events.stream()
+                .map(event -> converter.toDTO(event))
+                .collect(Collectors.toList());
+
+        return new TableDataDTO<>(list
+                , Integer.parseInt(data.get("draw")), list.size(), list.size());
     }
 
 }

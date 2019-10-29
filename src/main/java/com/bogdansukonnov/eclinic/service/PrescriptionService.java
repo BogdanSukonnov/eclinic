@@ -93,13 +93,8 @@ public class PrescriptionService {
                 .map(prescription -> converter.toDTO(prescription))
                 .collect(Collectors.toList());
 
-        TableDataDTO<PrescriptionDTO> tableDTO = new TableDataDTO<>();
-        tableDTO.setData(list);
-        tableDTO.setDraw(Integer.parseInt(data.get("draw")));
-        tableDTO.setRecordsFiltered(list.size());
-        tableDTO.setRecordsTotal(list.size());
-
-        return tableDTO;
+        return new TableDataDTO<>(list
+                , Integer.parseInt(data.get("draw")), list.size(), list.size());
     }
 
     @Transactional(readOnly = true)
@@ -111,13 +106,8 @@ public class PrescriptionService {
                 .map(prescription -> converter.toDTO(prescription))
                 .collect(Collectors.toList());
 
-        TableDataDTO<PrescriptionDTO> tableDTO = new TableDataDTO<>();
-        tableDTO.setData(list);
-        tableDTO.setDraw(Integer.parseInt(data.get("draw")));
-        tableDTO.setRecordsFiltered(list.size());
-        tableDTO.setRecordsTotal(list.size());
-
-        return tableDTO;
+        return new TableDataDTO<>(list
+                , Integer.parseInt(data.get("draw")), list.size(), list.size());
     }
 
     /**

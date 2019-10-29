@@ -32,6 +32,19 @@ public class EventDAO extends AbstractDAO<Event> {
         return query.uniqueResultOptional();
     }
 
+    public List<Event> getAll() {
+        String queryStr = "from Event e order by " + getOrderField();
+        Query query = getCurrentSession().createQuery(queryStr);
+//        query.setParameter("prescription", prescription);
+        return query.list();
+    }
+
+    public List<Event> getAll(Long prescriptionId) {
+        String queryStr = "from Event e where e.prescription.id=:prescriptionId order by " + getOrderField();
+        Query query = getCurrentSession().createQuery(queryStr);
+        query.setParameter("prescriptionId", prescriptionId);
+        return query.list();
+    }
 
     @Override
     protected String getOrderField() {

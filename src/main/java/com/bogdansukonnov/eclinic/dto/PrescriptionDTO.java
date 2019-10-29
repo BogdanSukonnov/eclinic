@@ -18,7 +18,7 @@ public class PrescriptionDTO extends AbstractDTO {
     private TimePatternDTO timePattern;
     private TreatmentDTO treatment;
 
-    //both ways
+    // both ways
     @NotNull
     private Short duration;
     @NotNull

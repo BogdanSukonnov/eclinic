@@ -34,4 +34,18 @@ public class Event extends AbstractEntity {
     @NonNull
     EventStatus eventStatus;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "time_pattern_id")
+    @NonNull
+    private TimePattern timePattern;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "treatment_id")
+    @NonNull
+    private Treatment treatment;
+
+    @Column(name = "dosage")
+    @NonNull
+    String dosage;
+
 }

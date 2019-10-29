@@ -17,7 +17,7 @@ class EventServiceTest {
     @Test
     void twiceADay() {
 
-        EventService service = new EventService(new EventDAO(), new ModelMapper());
+        EventService service = new EventService();
 
         List<ItemData> dataList = new ArrayList<>();
         dataList.add(new ItemData(0, 9, 0));
@@ -37,7 +37,7 @@ class EventServiceTest {
     @Test
     void twiceAWeek() {
 
-        EventService service = new EventService(new EventDAO(), new ModelMapper());
+        EventService service = new EventService();
 
         List<ItemData> dataList = new ArrayList<>();
         dataList.add(new ItemData(1, 15, 0)); // tuesday

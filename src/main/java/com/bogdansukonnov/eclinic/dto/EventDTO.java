@@ -12,12 +12,16 @@ import java.time.LocalDateTime;
 @Setter
 public class EventDTO extends AbstractDTO {
 
+    // only to frontend
     private LocalDateTime dateTime;
-
+    private String dateFormatted;
+    private String timeFormatted;
     private String patientFullName;
+    private String treatmentType;
+    private String treatmentName;
+    private String dosage;
 
-    private PrescriptionDTO prescription;
-
+    // both ways
     private EventStatus eventStatus;
 
 }

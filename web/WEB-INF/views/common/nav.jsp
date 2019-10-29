@@ -13,6 +13,7 @@
         <div class="navbar-nav">
             <button class="nav-item nav-link" onclick="window.location.href = '/doctor/patients';">Patients</button>
             <button class="nav-item nav-link" onclick="window.location.href = '/doctor/prescriptions';">Prescriptions</button>
+            <button class="nav-item nav-link" onclick="window.location.href = '/nurse/events';">Events</button>
         </div>
     </sec:authorize>
 
