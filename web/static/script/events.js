@@ -1,35 +1,43 @@
 let table;
-var showCompleted = false;
+let showCompleted = false;
 const tableElement = $('#eventsTable');
+const eventsDatesInput = $('#eventsDates');
+const showCompletedCheckbox = $('#showCompleted');
+let startDate = moment().subtract(3, 'days').startOf('day');
+let endDate = moment().add(1, 'day').startOf('day');
 
 $(document).ready(function() {
     eventsTableInit();
+    showCompletedCheckboxInit();
+    eventDatesInit();
 } );
 
 function eventsTableInit() {
     table = tableElement.DataTable({
-        dom: "<'tableHeaderRow'<'#eventsTableHeader'><'#showCompletedContainer'>l>" +
+        dom: "<'tableHeaderRow'fl>" +
             "<'row'<'col-sm-12'tr>>" +
             "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
         processing: true,
         serverSide: true,
-        searching: false,
+        searching: true,
         ordering: false,
         // scrollY: '300px',
         lengthChange: true,
-        pageLength: 9,
-        lengthMenu: [9, 25, 50, 100],
+        pageLength: 8,
+        lengthMenu: [8, 25, 50, 100],
         paging: true,
         ajax: {
             url: '/nurse/events-table',
             type: 'POST',
             data: {
-                "showCompleted": showCompleted
+                "showCompleted": showCompleted,
+                "startDate": startDate.format('DD-MM-YY HH:mm'),
+                "endDate": endDate.format('DD-MM-YY HH:mm')
             }
         },
         rowId: 'id',
         columns: [
-            {data: 'eventStatus'},
+            {data: 'eventStatus', visible: showCompleted},
             {data: 'dateFormatted'},
             {data: 'timeFormatted'},
             {data: 'patientFullName'},
@@ -43,26 +51,37 @@ function eventsTableInit() {
         const data = table.row(this).data();
         openEvent(data.id);
     });
+}
 
-    table.on( 'draw', function () {
-        const headerDiv = $('#eventsTableHeader');
-        const showCompletedContainer = $('#showCompletedContainer');
-        headerDiv.empty();
-        headerDiv.append('<h1>Events</h1>');
-        showCompletedContainer.empty();
-        showCompletedContainer.append('' +
-            '<div class="form-group"><input id="showCompleted" type="checkbox" class="form-check-input">' +
-            '<label for="showCompleted" class="form-check-label" >' +
-            'Show completed' +
-            '</label></div>');
-        const showCompletedCheckbox = $('#showCompleted');
-        showCompletedCheckbox.prop('checked', showCompleted);
-        showCompletedCheckbox.change(function () {
-            showCompleted = showCompletedCheckbox.is(':checked');
-            table.destroy();
-            eventsTableInit();
-        });
-    } );
+function showCompletedCheckboxInit() {
+    showCompletedCheckbox.prop('checked', showCompleted);
+    showCompletedCheckbox.change(function () {
+        showCompleted = showCompletedCheckbox.is(':checked');
+        table.destroy();
+        eventsTableInit();
+    });
+}
+
+function eventDatesInit() {
+    eventsDatesInput.daterangepicker({
+        "showDropdowns": true,
+        "timePicker": true,
+        "timePicker24Hour": true,
+        "timePickerIncrement": 10,
+        ranges: {
+            'Today': [moment(), moment()]
+        },
+        "linkedCalendars": false,
+        "opens": "left",
+        "startDate": startDate.startOf('hour'),
+        "endDate": endDate.startOf('hour'),
+        locale: {
+            format: 'DD\.MM HH:mm'
+        }
+    }, function(start, end, label) {
+        startDate = start;
+        endDate = end;
+    });
 }
 
 function openEvent(id) {

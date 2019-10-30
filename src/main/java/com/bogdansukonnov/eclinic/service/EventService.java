@@ -19,6 +19,7 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -183,8 +184,12 @@ public class EventService {
         Integer length = Integer.parseInt(data.get("length"));
         boolean showCompleted = Boolean.parseBoolean(data.get("showCompleted"));
         String search = data.get("search");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yy HH:mm");
+        LocalDateTime startDate = LocalDateTime.parse(data.get("startDate"), formatter);
+        LocalDateTime endDate = LocalDateTime.parse(data.get("endDate"), formatter);
 
-        TableData<Event> tableData = eventDAO.getTableData(SortBy.NAME, start, length, showCompleted);
+        TableData<Event> tableData = eventDAO.getTableData(SortBy.NAME, start, length, showCompleted
+                , search, startDate, endDate);
 
         List<EventDTO> eventDTOS = tableData.getData().stream()
                 .map(event -> converter.toDTO(event))

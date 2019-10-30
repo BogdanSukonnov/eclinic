@@ -7,6 +7,7 @@ import com.bogdansukonnov.eclinic.entity.TableData;
 import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -52,7 +53,8 @@ public class EventDAO extends AbstractDAO<Event> {
         return "dateTime";
     }
 
-    public TableData<Event> getTableData(SortBy sortBy, Integer start, Integer length, boolean showCompleted) {
+    public TableData<Event> getTableData(SortBy sortBy, Integer start, Integer length, boolean showCompleted
+            , String search, LocalDateTime startDate, LocalDateTime endDate) {
         // count rows
         String countQueryStr = "Select count (t.id) from Event t";
         if (!showCompleted) {
