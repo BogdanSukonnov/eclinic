@@ -231,3 +231,10 @@ table a {
 .table thead th {
     border-bottom-width: 1px !important;
 }
+
+.tableHeaderRow {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: baseline;
+}

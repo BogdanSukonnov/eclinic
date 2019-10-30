@@ -94,7 +94,7 @@ public class PrescriptionService {
                 .collect(Collectors.toList());
 
         return new TableDataDTO<>(list
-                , Integer.parseInt(data.get("draw")), list.size(), list.size());
+                , Integer.parseInt(data.get("draw")), (long) list.size(), (long) list.size());
     }
 
     @Transactional(readOnly = true)
@@ -107,7 +107,7 @@ public class PrescriptionService {
                 .collect(Collectors.toList());
 
         return new TableDataDTO<>(list
-                , Integer.parseInt(data.get("draw")), list.size(), list.size());
+                , Integer.parseInt(data.get("draw")), (long) list.size(), (long) list.size());
     }
 
     /**

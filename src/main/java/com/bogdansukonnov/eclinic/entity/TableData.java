@@ -1,4 +1,4 @@
-package com.bogdansukonnov.eclinic.dto;
+package com.bogdansukonnov.eclinic.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,7 +9,7 @@ import java.util.List;
 @Getter
 @Setter
 @AllArgsConstructor
-public class TableDataDTO<T> {
+public class TableData<T> {
 
     private List<T> data;
     private Integer draw;

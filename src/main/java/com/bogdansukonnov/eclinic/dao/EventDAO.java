@@ -3,6 +3,7 @@ package com.bogdansukonnov.eclinic.dao;
 import com.bogdansukonnov.eclinic.entity.Event;
 import com.bogdansukonnov.eclinic.entity.EventStatus;
 import com.bogdansukonnov.eclinic.entity.Prescription;
+import com.bogdansukonnov.eclinic.entity.TableData;
 import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 
@@ -49,5 +50,46 @@ public class EventDAO extends AbstractDAO<Event> {
     @Override
     protected String getOrderField() {
         return "dateTime";
+    }
+
+    public TableData<Event> getTableData(SortBy sortBy, Integer start, Integer length, boolean showCompleted) {
+        // count rows
+        String countQueryStr = "Select count (t.id) from Event t";
+        if (!showCompleted) {
+            countQueryStr += " where t.eventStatus=:status";
+        }
+        Query countQuery = getCurrentSession().createQuery(countQueryStr);
+        if (!showCompleted) {
+            countQuery.setParameter("status", EventStatus.SCHEDULED);
+        }
+        Long countResults = (Long) countQuery.uniqueResult();
+
+        // get sort column
+        String orderField;
+        if (sortBy == SortBy.NAME) {
+            orderField = getOrderField();
+        }
+        else {
+            orderField = "createdDateTime desc";
+        }
+
+        // do query
+        String queryStr = "from Event t";
+        if (!showCompleted) {
+            queryStr += " where t.eventStatus=:status";
+        }
+        queryStr += " order by " + orderField;
+        Query query = getCurrentSession().createQuery(queryStr)
+                .setFirstResult(start)
+                .setMaxResults(length);
+        if (!showCompleted) {
+            query.setParameter("status", EventStatus.SCHEDULED);
+        }
+        List<Event> data = query.list();
+
+        // to table data
+        TableData<Event> tableData = new TableData<>(data, 0, countResults, countResults);
+
+        return tableData;
     }
 }

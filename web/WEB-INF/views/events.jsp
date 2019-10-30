@@ -8,10 +8,6 @@
 <%--Common part end--%>
 
 <div>
-    <div>
-        <h1>Events</h1>
-        <p></p>
-    </div>
     <div class="container-fluid">
         <div>
             <table id="eventsTable" class="table table-hover" style="width:100%">

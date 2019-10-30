@@ -2,6 +2,7 @@ package com.bogdansukonnov.eclinic.service;
 
 import com.bogdansukonnov.eclinic.converter.EventConverter;
 import com.bogdansukonnov.eclinic.dao.EventDAO;
+import com.bogdansukonnov.eclinic.dao.SortBy;
 import com.bogdansukonnov.eclinic.dto.EventDTO;
 import com.bogdansukonnov.eclinic.dto.TableDataDTO;
 import com.bogdansukonnov.eclinic.entity.*;
@@ -177,14 +178,20 @@ public class EventService {
     @Transactional(readOnly = true)
     public TableDataDTO getTable(Map<String, String> data) {
 
-        List<Event> events = eventDAO.getAll();
+        Integer draw = Integer.parseInt(data.get("draw"));
+        Integer start = Integer.parseInt(data.get("start"));
+        Integer length = Integer.parseInt(data.get("length"));
+        boolean showCompleted = Boolean.parseBoolean(data.get("showCompleted"));
+        String search = data.get("search");
 
-        List<EventDTO> list = events.stream()
+        TableData<Event> tableData = eventDAO.getTableData(SortBy.NAME, start, length, showCompleted);
+
+        List<EventDTO> eventDTOS = tableData.getData().stream()
                 .map(event -> converter.toDTO(event))
                 .collect(Collectors.toList());
 
-        return new TableDataDTO<>(list
-                , Integer.parseInt(data.get("draw")), list.size(), list.size());
+        return new TableDataDTO<>(eventDTOS, draw
+                , tableData.getRecordsTotal(), tableData.getRecordsFiltered());
     }
 
     /**
@@ -196,14 +203,18 @@ public class EventService {
     @Transactional(readOnly = true)
     public TableDataDTO getTable(Long prescriptionId, Map<String, String> data) {
 
+        Integer draw = Integer.parseInt(data.get("draw"));
+        Integer start = Integer.parseInt(data.get("start"));
+        Integer length = Integer.parseInt(data.get("length"));
+        String search = data.get("search");
+
         List<Event> events = eventDAO.getAll(prescriptionId);
 
         List<EventDTO> list = events.stream()
                 .map(event -> converter.toDTO(event))
                 .collect(Collectors.toList());
 
-        return new TableDataDTO<>(list
-                , Integer.parseInt(data.get("draw")), list.size(), list.size());
+        return new TableDataDTO<>(list , draw, (long) list.size(), (long) list.size());
     }
 
     /**

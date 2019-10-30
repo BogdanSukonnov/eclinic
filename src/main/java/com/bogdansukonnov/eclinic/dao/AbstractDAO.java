@@ -1,7 +1,9 @@
 package com.bogdansukonnov.eclinic.dao;
 
+import com.bogdansukonnov.eclinic.entity.TableData;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
@@ -29,8 +31,36 @@ public class AbstractDAO<T>  {
         else {
             orderField = "createdDateTime desc";
         }
-        String query = "from " + clazz.getName() + " order by " + orderField;
-        return getCurrentSession().createQuery(query).list();
+        String queryStr = "from " + clazz.getName() + " order by " + orderField;
+        return getCurrentSession().createQuery(queryStr).list();
+    }
+
+    public TableData<T> getTableData(SortBy sortBy, Integer start, Integer length) {
+        // count rows
+        String countQueryStr = "Select count (t.id) from " + clazz.getName() + " t";
+        Query countQuery = getCurrentSession().createQuery(countQueryStr);
+        Long countResults = (Long) countQuery.uniqueResult();
+
+        // get sort column
+        String orderField;
+        if (sortBy == SortBy.NAME) {
+            orderField = getOrderField();
+        }
+        else {
+            orderField = "createdDateTime desc";
+        }
+
+        // do query
+        String queryStr = "from " + clazz.getName() + " order by " + orderField;
+        Query query = getCurrentSession().createQuery(queryStr)
+                .setFirstResult(start)
+                .setMaxResults(length);
+        List<T> data = query.list();
+
+        // to table data
+        TableData<T> tableData = new TableData<>(data, 0, countResults, countResults);
+
+        return tableData;
     }
 
     public T create(T entity) {

@@ -7,7 +7,6 @@
 <jsp:attribute name="content">
 <%--Common part end--%>
 
-<div>
     <div>
         <h1>Event</h1>
         <input type="hidden" id="eventId" value="${event.id}">

@@ -35,8 +35,7 @@ public class EventController {
     // REST controller
     @PostMapping("/nurse/events-table")
     @ResponseBody
-    public TableDataDTO eventsTable(
-            @RequestParam Map<String, String> data) {
+    public TableDataDTO eventsTable(@RequestParam Map<String, String> data) {
         return eventService.getTable(data);
     }
 
