@@ -1,10 +1,15 @@
 package com.bogdansukonnov.eclinic.controller;
 
 import com.bogdansukonnov.eclinic.dto.TableDataDTO;
+import com.bogdansukonnov.eclinic.entity.EventStatus;
+import com.bogdansukonnov.eclinic.exceptions.EventStatusUpdateException;
 import com.bogdansukonnov.eclinic.service.EventService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Map;
@@ -41,6 +46,19 @@ public class EventController {
     public TableDataDTO eventsTable(@RequestParam("prescription-id") Long prescriptionId,
             @RequestParam Map<String, String> data) {
         return eventService.getTable(prescriptionId, data);
+    }
+
+    @PostMapping("/nurse/complete-event")
+    public void completeEvent(@RequestParam("id") Long eventId)
+            throws EventStatusUpdateException {
+        eventService.updateStatus(eventId, EventStatus.COMPLETED, "");
+    }
+
+    @PostMapping("/nurse/cancel-event")
+    public void completeEvent(@RequestParam("id") Long eventId
+        , @RequestParam("cancel-reason") String cancelReason)
+            throws EventStatusUpdateException {
+        eventService.updateStatus(eventId, EventStatus.CANCELED, cancelReason);
     }
 
 }

@@ -1,9 +1,8 @@
-
 $(document).ready(function() {
-    tableInit();
+    prescriptionsTableInit();
 } );
 
-function tableInit() {
+function prescriptionsTableInit() {
     $('#patientPrescriptionsTable').DataTable( {
         processing: true,
         serverSide: true,

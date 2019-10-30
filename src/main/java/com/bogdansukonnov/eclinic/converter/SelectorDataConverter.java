@@ -1,8 +1,8 @@
 package com.bogdansukonnov.eclinic.converter;
 
-import com.bogdansukonnov.eclinic.entity.SelectorData;
 import com.bogdansukonnov.eclinic.dto.SelectorDataDTO;
 import com.bogdansukonnov.eclinic.dto.SelectorDataElementDTO;
+import com.bogdansukonnov.eclinic.entity.SelectorData;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

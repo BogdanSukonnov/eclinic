@@ -48,4 +48,16 @@ public class Event extends AbstractEntity {
     @NonNull
     String dosage;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "nurse_id")
+    private AppUser nurse;
+
+    @Column(name = "cancel_reason")
+    String cancelReason;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "doctor_id")
+    @NonNull
+    private AppUser doctor;
+
 }

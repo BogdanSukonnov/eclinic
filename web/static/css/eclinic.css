@@ -169,14 +169,17 @@ table a {
 }
 
 .prop-list {
-    padding-left: 20px;
-    padding-top: 8px;
+    padding: 8px 20px;
 }
 
 .prop-row {
     display: flex;
     flex-direction: row;
     padding-top: 8px;
+}
+
+.prop-row * {
+    margin-right: 8px;
 }
 
 .field-label {
@@ -223,4 +226,8 @@ table a {
 .select2-selection__rendered {
     height: 100% !important;
     padding: .375rem .75rem !important;
+}
+
+.table thead th {
+    border-bottom-width: 1px !important;
 }

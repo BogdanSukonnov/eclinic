@@ -1,4 +1,3 @@
-
 let treatmentSelect = $('#treatment');
 let patternSelect = $('#pattern');
 

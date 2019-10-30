@@ -1,7 +1,9 @@
-
 $(document).ready(function() {
+    eventsTableInit();
+} );
 
-    var table = $('#eventsTable').DataTable( {
+function eventsTableInit() {
+    var table = $('#eventsTable').DataTable({
         processing: true,
         serverSide: true,
         lengthChange: false,
@@ -12,22 +14,21 @@ $(document).ready(function() {
         },
         rowId: 'id',
         columns: [
-            { data: 'eventStatus' },
-            { data: 'dateFormatted' },
-            { data: 'timeFormatted' },
-            { data: 'patientFullName' },
-            { data: 'treatmentType' },
-            { data: 'treatmentName' },
-            { data: 'dosage' }
+            {data: 'eventStatus'},
+            {data: 'dateFormatted'},
+            {data: 'timeFormatted'},
+            {data: 'patientFullName'},
+            {data: 'treatmentType'},
+            {data: 'treatmentName'},
+            {data: 'dosage'}
         ]
-    } );
+    });
 
     $('#eventsTable tbody').on('click', 'tr', function () {
-        var data = table.row( this ).data();
+        var data = table.row(this).data();
         openEvent(data.id);
-    } );
-
-} );
+    });
+}
 
 function openEvent(id) {
     window.location.assign('/nurse/event?id=' + id);

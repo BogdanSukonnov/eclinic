@@ -2,15 +2,15 @@ package com.bogdansukonnov.eclinic.service;
 
 import com.bogdansukonnov.eclinic.converter.EventConverter;
 import com.bogdansukonnov.eclinic.dao.EventDAO;
-import com.bogdansukonnov.eclinic.dao.SortBy;
 import com.bogdansukonnov.eclinic.dto.EventDTO;
 import com.bogdansukonnov.eclinic.dto.TableDataDTO;
 import com.bogdansukonnov.eclinic.entity.*;
+import com.bogdansukonnov.eclinic.exceptions.EventStatusUpdateException;
+import com.bogdansukonnov.eclinic.security.UserGetter;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
-import org.modelmapper.ModelMapper;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,12 +27,11 @@ import java.util.stream.Collectors;
 public class EventService {
 
     private EventDAO eventDAO;
-    private ModelMapper modelMapper;
     private EventConverter converter;
+    private UserGetter userGetter;
 
     /**
-     * <p>inter service communication
-     * checks if prescription has events</p>
+     * <p>Cross-service communication.Checks if prescription has events</p>
      * @param prescription prescription of events
      * @return boolean
      */
@@ -52,18 +51,18 @@ public class EventService {
     }
 
     /**
-     * <p>Deletes app planned event for prescription</p>
+     * <p>Deletes all scheduled event for prescription</p>
      * @param prescription the prescription of deleted events
      */
     @Transactional
-    public void deleteAllPlanned(Prescription prescription) {
+    public void deleteAllScheduled(Prescription prescription) {
         eventDAO.getAll(prescription).stream()
-                .filter(event -> event.getEventStatus().equals(EventStatus.PLANNED))
+                .filter(event -> event.getEventStatus().equals(EventStatus.SCHEDULED))
                 .forEach(event -> eventDAO.delete(event));
     }
 
     /**
-     * <p>Creates all planned events for prescription from max(now, last completed event)
+     * <p>Creates all scheduled events for prescription from max(now, last completed event)
      * to the end of prescription period, which starts from min(now, first completed event)
      * and continues for prescription.duration days
      * </p>
@@ -80,7 +79,7 @@ public class EventService {
         List<Event> events = eventDAO.getAll(prescription);
 
         Optional<Event> firstCompleted = events.stream()
-                .filter(event -> event.getEventStatus().equals(EventStatus.DONE))
+                .filter(event -> event.getEventStatus().equals(EventStatus.COMPLETED))
                 .findAny();
 
         LocalDate periodStart = firstCompleted.isPresent()
@@ -94,7 +93,7 @@ public class EventService {
         Collections.copy(events, reversedEvents);
         Collections.reverse(reversedEvents);
         Optional<Event> lastCompleted = reversedEvents.stream()
-                .filter(event -> event.getEventStatus().equals(EventStatus.DONE))
+                .filter(event -> event.getEventStatus().equals(EventStatus.COMPLETED))
                 .findAny();
 
         LocalDateTime notSooner = lastCompleted.isPresent()
@@ -115,25 +114,26 @@ public class EventService {
         for (LocalDateTime date : dates) {
             Event event = new Event();
             event.setDateTime(date);
-            event.setEventStatus(EventStatus.PLANNED);
+            event.setEventStatus(EventStatus.SCHEDULED);
             event.setPatient(prescription.getPatient());
             event.setPrescription(prescription);
             event.setDosage(prescription.getDosage());
             event.setTimePattern(prescription.getTimePattern());
             event.setTreatment(prescription.getTreatment());
+            event.setDoctor(userGetter.getCurrentUser());
             eventDAO.create(event);
         }
     }
 
     /**
-     * <p>Calculates all planned event dates for prescription</p>
+     * <p>Calculates all scheduled event dates for prescription</p>
      * @param items pattern items, holds dayOfCycle and time
      * @param periodStart start day of prescription
      * @param endDate end date of prescription (exclusive)
      * @param cycleLength length of pattern in days
      * @param isWeekCycle if true, cycle is 7 days long and starts at the beginning of the week
      * @param notSooner do not plan event before this moment
-     * @return list of all planned event dates
+     * @return list of all scheduled event dates
      */
     public List<LocalDateTime> patternDates(List<TimePatternItem> items, LocalDate periodStart
             , LocalDateTime endDate, Short cycleLength, Boolean isWeekCycle, LocalDateTime notSooner) {
@@ -204,6 +204,32 @@ public class EventService {
 
         return new TableDataDTO<>(list
                 , Integer.parseInt(data.get("draw")), list.size(), list.size());
+    }
+
+    /**
+     * <p>updates event status</p>
+     * @param id event id
+     * @param status new event status
+     * @param cancelReason mandatory reason for cancel status
+     */
+    @Transactional
+    public void updateStatus(Long id, EventStatus status, String cancelReason) throws EventStatusUpdateException {
+        // check reason for cancel
+        if (status.equals(EventStatus.CANCELED) && StringUtils.isBlank(cancelReason)) {
+            throw new EventStatusUpdateException("Can't cancel event without reason.");
+        }
+        // check current status
+        Event event = eventDAO.findOne(id);
+        if (!event.getEventStatus().equals(EventStatus.SCHEDULED)) {
+            throw new EventStatusUpdateException("Can't change event status. It's allready "
+                    + event.getEventStatus());
+        }
+        // we're good to go
+        event.setEventStatus(status);
+        event.setCancelReason(status.equals(EventStatus.CANCELED) ? cancelReason : "");
+        // save current user
+        event.setNurse(userGetter.getCurrentUser());
+        eventDAO.update(event);
     }
 
 }

@@ -28,7 +28,7 @@ public class EventDAO extends AbstractDAO<Event> {
                 " and e.eventStatus=:eventStatus order by " + getOrderField();
         Query query = getCurrentSession().createQuery(queryStr);
         query.setParameter("prescription", prescription);
-        query.setParameter("eventStatus", EventStatus.DONE);
+        query.setParameter("eventStatus", EventStatus.COMPLETED);
         return query.uniqueResultOptional();
     }
 

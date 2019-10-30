@@ -11,11 +11,11 @@ CREATE TABLE app_user
     version         INTEGER,
     full_name        VARCHAR(255)
         CONSTRAINT app_user_full_name_key
-            UNIQUE,
+            UNIQUE NOT NULL,
     password        VARCHAR(255),
     username        VARCHAR(255)
         CONSTRAINT app_user_username_key
-            UNIQUE
+            UNIQUE NOT NULL
 );
 
 CREATE TABLE authority
@@ -28,7 +28,7 @@ CREATE TABLE authority
     version         INTEGER,
     name            VARCHAR(255)
         CONSTRAINT authority_name_key
-        UNIQUE
+        UNIQUE NOT NULL
 );
 
 CREATE TABLE app_user_authority
@@ -53,12 +53,12 @@ CREATE TABLE patient
     version         INTEGER,
     full_name        VARCHAR(255)
         CONSTRAINT patient_full_name_key
-        UNIQUE,
-    diagnosis        VARCHAR(255),
+        UNIQUE NOT NULL,
+    diagnosis        VARCHAR(255) NOT NULL,
     insurance_number VARCHAR(255)
         CONSTRAINT patient_insurance_number_key
-            UNIQUE,
-    patient_status   VARCHAR(255)
+            UNIQUE NOT NULL,
+    patient_status   VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE time_pattern
@@ -69,9 +69,9 @@ CREATE TABLE time_pattern
     created_datetime TIMESTAMP,
     updated_datetime TIMESTAMP,
     version         INTEGER,
-    cycle_length     SMALLINT,
-    is_week_cycle     boolean,
-    name            VARCHAR(255)
+    cycle_length     SMALLINT NOT NULL,
+    is_week_cycle     boolean NOT NULL,
+    name            VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE time_pattern_item
@@ -82,9 +82,9 @@ CREATE TABLE time_pattern_item
     created_datetime TIMESTAMP,
     updated_datetime TIMESTAMP,
     version         INTEGER,
-    day_of_cycle      SMALLINT,
-    time            TIME,
-    time_pattern_id  BIGINT
+    day_of_cycle      SMALLINT NOT NULL,
+    time            TIME NOT NULL,
+    time_pattern_id  BIGINT NOT NULL
         CONSTRAINT time_pattern_item_time_pattern_fkey
         REFERENCES time_pattern
 );
@@ -99,8 +99,8 @@ CREATE TABLE treatment
     version         INTEGER,
     name            VARCHAR(255)
         CONSTRAINT treatment_name_key
-        UNIQUE,
-    type            VARCHAR(255)
+        UNIQUE NOT NULL,
+    type            VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE prescription
@@ -112,18 +112,18 @@ CREATE TABLE prescription
     updated_datetime TIMESTAMP,
     version         INTEGER,
     dosage          VARCHAR(255),
-    prescription_status VARCHAR(255),
-    duration        SMALLINT,
-    doctor_id       BIGINT
+    prescription_status VARCHAR(255) NOT NULL,
+    duration        SMALLINT NOT NULL,
+    doctor_id       BIGINT NOT NULL
         CONSTRAINT prescription_doctor_fkey
         REFERENCES app_user,
-    patient_id      BIGINT
+    patient_id      BIGINT NOT NULL
         CONSTRAINT prescription_patient_fkey
         REFERENCES patient,
-    time_pattern_id  BIGINT
+    time_pattern_id  BIGINT NOT NULL
         CONSTRAINT prescription_time_pattern_fkey
         REFERENCES time_pattern,
-    treatment_id    BIGINT
+    treatment_id    BIGINT NOT NULL
         CONSTRAINT prescription_treatment_fkey
         REFERENCES treatment
 );
@@ -137,22 +137,26 @@ CREATE TABLE event
     updated_datetime TIMESTAMP,
     version         INTEGER,
     datetime        TIMESTAMP,
-    event_status     VARCHAR(255),
-    patient_id      BIGINT
+    event_status     VARCHAR(255) NOT NULL,
+    cancel_reason     VARCHAR(255),
+    nurse_id      BIGINT
+        CONSTRAINT event_app_user_fkey
+            REFERENCES app_user,
+    patient_id      BIGINT NOT NULL
         CONSTRAINT event_patient_fkey
         REFERENCES patient,
-    prescription_id BIGINT
+    prescription_id BIGINT NOT NULL
         CONSTRAINT event_prescription_fkey
         REFERENCES prescription,
-    dosage          VARCHAR(255),
-    doctor_id       BIGINT
-        CONSTRAINT prescription_doctor_fkey
+    dosage          VARCHAR(255) NOT NULL,
+    doctor_id       BIGINT NOT NULL
+        CONSTRAINT event_doctor_fkey
             REFERENCES app_user,
-    time_pattern_id  BIGINT
-        CONSTRAINT prescription_time_pattern_fkey
+    time_pattern_id  BIGINT NOT NULL
+        CONSTRAINT event_time_pattern_fkey
             REFERENCES time_pattern,
-    treatment_id    BIGINT
-        CONSTRAINT prescription_treatment_fkey
+    treatment_id    BIGINT NOT NULL
+        CONSTRAINT event_treatment_fkey
             REFERENCES treatment
 );
 

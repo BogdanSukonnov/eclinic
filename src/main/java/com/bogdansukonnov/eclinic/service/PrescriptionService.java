@@ -73,7 +73,7 @@ public class PrescriptionService {
 
         // update events
         if (isEventsAffected) {
-            eventService.deleteAllPlanned(prescription);
+            eventService.deleteAllScheduled(prescription);
             eventService.createEvents(prescription);
         }
     }
@@ -113,13 +113,13 @@ public class PrescriptionService {
     /**
      * <p>Deletes prescription without completed or canceled events.
      * Set DELETED status to prescription with completed or canceled events.
-     * Deletes app planned events.</p>
+     * Deletes app scheduled events.</p>
      * @param id prescription id
      */
     @Transactional
     public void delete(Long id) {
         Prescription prescription = prescriptionDAO.findOne(id);
-        eventService.deleteAllPlanned(prescription);
+        eventService.deleteAllScheduled(prescription);
         if (eventService.hasEvents(prescription)) {
             prescription.setStatus(PrescriptionStatus.DELETED);
             prescriptionDAO.update(prescription);
