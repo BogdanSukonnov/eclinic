@@ -1,5 +1,6 @@
 package com.bogdansukonnov.eclinic.controller;
 
+import com.bogdansukonnov.eclinic.security.UserPrincipal;
 import com.bogdansukonnov.eclinic.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.Authentication;
@@ -21,7 +22,7 @@ public class UserController {
             redirect = "login";
         }
         else {
-            redirect = userService.defaultPage();
+            redirect = userService.defaultPage((UserPrincipal) auth.getPrincipal());
         }
         return redirect;
     }

@@ -48,8 +48,9 @@ public class LoginController {
     @PostMapping("postLogin")
     public String postLogin(Model model, HttpSession session) {
         UsernamePasswordAuthenticationToken authentication = (UsernamePasswordAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
-        validatePrinciple(authentication.getPrincipal());
-        return userService.defaultPage();
+        UserPrincipal principal = (UserPrincipal) authentication.getPrincipal();
+        validatePrinciple(principal);
+        return userService.defaultPage(principal);
     }
 
     private void validatePrinciple(Object principal) {

@@ -183,7 +183,7 @@ public class EventService {
         Integer start = Integer.parseInt(data.get("start"));
         Integer length = Integer.parseInt(data.get("length"));
         boolean showCompleted = Boolean.parseBoolean(data.get("showCompleted"));
-        String search = data.get("search");
+        String search = data.get("search[value]");
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yy HH:mm");
         LocalDateTime startDate = LocalDateTime.parse(data.get("startDate"), formatter);
         LocalDateTime endDate = LocalDateTime.parse(data.get("endDate"), formatter);

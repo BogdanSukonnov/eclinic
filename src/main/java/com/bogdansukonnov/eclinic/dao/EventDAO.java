@@ -4,6 +4,7 @@ import com.bogdansukonnov.eclinic.entity.Event;
 import com.bogdansukonnov.eclinic.entity.EventStatus;
 import com.bogdansukonnov.eclinic.entity.Prescription;
 import com.bogdansukonnov.eclinic.entity.TableData;
+import org.apache.commons.lang3.StringUtils;
 import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 
@@ -56,13 +57,22 @@ public class EventDAO extends AbstractDAO<Event> {
     public TableData<Event> getTableData(SortBy sortBy, Integer start, Integer length, boolean showCompleted
             , String search, LocalDateTime startDate, LocalDateTime endDate) {
         // count rows
-        String countQueryStr = "Select count (t.id) from Event t";
+        String countQueryStr = "Select count (t.id) from Event t" +
+                " where t.dateTime >= :startDate and t.dateTime <= :endDate";
         if (!showCompleted) {
-            countQueryStr += " where t.eventStatus=:status";
+            countQueryStr += " and t.eventStatus=:status";
+        }
+        if (!StringUtils.isBlank(search)) {
+            countQueryStr += " and lower(t.patient.fullName) like lower(:search)";
         }
         Query countQuery = getCurrentSession().createQuery(countQueryStr);
+        countQuery.setParameter("startDate", startDate);
+        countQuery.setParameter("endDate", endDate);
         if (!showCompleted) {
             countQuery.setParameter("status", EventStatus.SCHEDULED);
+        }
+        if (!StringUtils.isBlank(search)) {
+            countQuery.setParameter("search", "%" + search + "%");
         }
         Long countResults = (Long) countQuery.uniqueResult();
 
@@ -76,16 +86,24 @@ public class EventDAO extends AbstractDAO<Event> {
         }
 
         // do query
-        String queryStr = "from Event t";
+        String queryStr = "from Event t where t.dateTime >= :startDate and t.dateTime <= :endDate";
         if (!showCompleted) {
-            queryStr += " where t.eventStatus=:status";
+            queryStr += " and t.eventStatus=:status";
+        }
+        if (!StringUtils.isBlank(search)) {
+            queryStr += " and lower(t.patient.fullName) like lower(:search)";
         }
         queryStr += " order by " + orderField;
         Query query = getCurrentSession().createQuery(queryStr)
                 .setFirstResult(start)
                 .setMaxResults(length);
+        query.setParameter("startDate", startDate);
+        query.setParameter("endDate", endDate);
         if (!showCompleted) {
             query.setParameter("status", EventStatus.SCHEDULED);
+        }
+        if (!StringUtils.isBlank(search)) {
+            query.setParameter("search", "%" + search + "%");
         }
         List<Event> data = query.list();
 
