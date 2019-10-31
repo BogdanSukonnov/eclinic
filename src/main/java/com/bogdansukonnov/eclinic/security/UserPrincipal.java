@@ -20,6 +20,11 @@ public class UserPrincipal implements UserDetails {
         return appUser.getFullName();
     }
 
+    public boolean hasRole(AuthorityType role) {
+        return appUser.getAuthorities().stream()
+                .anyMatch(a -> a.getName().equals(role));
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return appUser.getAuthorities().stream()

@@ -5,6 +5,7 @@ import com.bogdansukonnov.eclinic.entity.AppUser;
 import com.bogdansukonnov.eclinic.security.AuthorityType;
 import com.bogdansukonnov.eclinic.security.UserPrincipal;
 import lombok.AllArgsConstructor;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,8 +28,9 @@ public class UserService {
     }
 
     public String defaultPage(UserPrincipal principal) {
-        if (principal.getAuthorities().contains(AuthorityType.ROLE_DOCTOR)
-            || principal.getAuthorities().contains(AuthorityType.ROLE_ADMIN)) {
+
+        if (principal.hasRole(AuthorityType.ROLE_DOCTOR)
+            || principal.hasRole(AuthorityType.ROLE_ADMIN)) {
             return "redirect:/doctor/patients";
         }
         else return "redirect:/nurse/events";
