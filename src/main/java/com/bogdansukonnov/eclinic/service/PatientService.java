@@ -13,6 +13,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -47,16 +48,20 @@ public class PatientService {
     @Transactional(readOnly = true)
     public TableDataDTO getTable(Map<String, String> data) {
 
-        String orderField = "createdDateTime";
-        String search = data.get("search");
-        int offset = Integer.parseInt(data.get("offset"));
-        int limit = Integer.parseInt(data.get("limit"));
+        String orderField = data.get("orderColumn") + " " + data.get("orderDirection");
+        String search = data.get("search[value]");
+        int offset = Integer.parseInt(data.get("start"));
+        int limit = Integer.parseInt(data.get("length"));
         List<Patient> patients = patientDAO.getAll(orderField, search, offset, limit);
 
         Long count = patientDAO.getCount(search);
 
         List<PatientDTO> list = patients.stream()
-                .map(patient -> modelMapper.map(patient, PatientDTO.class))
+                .map(patient -> {
+                    PatientDTO dto = modelMapper.map(patient, PatientDTO.class);
+                    dto.setFormattedDate(patient.getCreatedDateTime().format(DateTimeFormatter.ofPattern("dd.MM.yy")));
+                    return dto;
+                })
                 .collect(Collectors.toList());
 
         return new TableDataDTO<>(list, Integer.parseInt(data.get("draw")), count, count);

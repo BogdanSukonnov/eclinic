@@ -16,9 +16,9 @@ public class PatientDAO extends AbstractDAO<Patient> {
     }
 
     public List<Patient> getAll(String orderField, String search, int offset, int limit) {
-        String queryStr = "from Patient t ";;
+        String queryStr = "from Patient t";;
         if (!StringUtils.isBlank(search)) {
-            queryStr += "where lower(t.fullName) like lower(:search)";
+            queryStr += " where lower(t.fullName) like lower(:search) or t.insuranceNumber like :search";
         }
         queryStr += " order by " + orderField;
 

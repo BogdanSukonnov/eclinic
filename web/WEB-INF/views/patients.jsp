@@ -8,12 +8,12 @@
 <%--Common part end--%>
 
     <div>
-        <div>
+        <div class="container-fluid">
             <h1>Patients</h1>
             <p></p>
-            <form class="form-inline">
-                <button class="btn btn-outline-success" type="button"  data-toggle="modal" data-target="#newPatientModal">New patient</button>
-            </form>
+<%--            <form class="form-inline">--%>
+<%--                <button class="btn btn-outline-success" type="button"  data-toggle="modal" data-target="#newPatientModal">New patient</button>--%>
+<%--            </form>--%>
         </div>
         <div class="container-fluid">
             <div>
@@ -24,6 +24,7 @@
                             <th>Status</th>
                             <th>Diagnosis</th>
                             <th>Insurance</th>
+                            <th>Date</th>
                         </tr>
                     </thead>
                 </table>

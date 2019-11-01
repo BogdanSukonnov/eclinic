@@ -5,6 +5,8 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+
 @EqualsAndHashCode(callSuper = true)
 @Getter
 @Setter
@@ -17,5 +19,7 @@ public class PatientDTO extends AbstractDTO {
     private String insuranceNumber;
 
     private PatientStatus patientStatus;
+
+    private String formattedDate;
 
 }
