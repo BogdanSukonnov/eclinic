@@ -9,7 +9,7 @@
 
 <div>
     <div>
-        <h1>${isNew ? "New" : "Edit"} prescription</h1>
+        <h1>${isNew ? "New" : prescription.status == "ACTIVE" ? "Edit": prescription.status} prescription</h1>
         <div id="prescriptionWrapper">
             <div id="prescriptionLeft"></div>
             <form id="prescriptionForm" method="post"
@@ -21,6 +21,7 @@
                   </c:if> >
 
                 <input id="prescriptionId" type="hidden" name="id" value=${isNew ? null : prescription.id} >
+                <input id="status" type="hidden" name="status" value=${isNew ? null : prescription.status} >
 
                 <div class="form-group row">
                     <p class="col-sm-2">Patient:</p>
@@ -85,8 +86,14 @@
                             value="${prescription.duration}">
                 </div>
 
-                <button type="submit" class="btn btn-primary">Save</button>
-                <button type="button" class="btn btn-secondary" onclick="window.history.back();">Cancel</button>
+                <button type="button" class="btn btn-outline-secondary" onclick="window.history.back();">Back</button>
+                <c:if test="${isNew || prescription.status == 'ACTIVE'}">
+                    <button type="submit" class="btn btn-outline-primary">Save</button>
+                </c:if>
+                <c:if test="${!isNew && prescription.status == 'ACTIVE'}">
+                    <button id="cancelButton" type="button" class="btn btn-outline-danger"
+                            data-toggle="modal" data-target="#cancelModal">Cancel prescription</button>
+                </c:if>
             </form>
             <div id="prescriptionRight"></div>
         </div>
@@ -103,6 +110,27 @@
                 </tr>
                 </thead>
             </table>
+        </div>
+    </div>
+</div>
+
+    <!-- Modal -->
+<div class="modal fade" id="cancelModal" tabindex="-1" role="dialog" aria-labelledby="cancelModalTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="cancelModalTitle">Cancel prescription</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
+                <button id="cancelPrescriptionBtn" type="button" class="btn btn-outline-danger">Cancel prescription</button>
+            </div>
         </div>
     </div>
 </div>

@@ -1,22 +1,36 @@
 const reasonInput = $('#cancellingReason');
 const submitReasonBtn = $('#submitReasonBtn');
 const submitReasonPopoverSpan = $('#submitReasonPopoverSpan');
+const statusIsScheduled = $('#status').val() === 'SCHEDULED';
 
 $(document).ready(function() {
-    $('#completeEventBtn').click(function() {completeEvent()});
-    submitReasonBtn.click(function() {cancelEvent()});
-    reasonInput.on('input',function () {onReasonChange()});
-    // init popover
-    submitReasonPopoverSpan.popover();
+    if (statusIsScheduled) {
+        $('#completeEventBtn').click(function () {
+            completeEvent()
+        });
+        submitReasonBtn.click(function () {
+            cancelEvent()
+        });
+        reasonInput.on('input', function () {
+            onReasonChange()
+        });
+        // init popover
+        submitReasonPopoverSpan.popover();
+    }
 });
 
 function completeEvent() {
     $.ajax({
         type: "POST",
         url: '/nurse/complete-event',
-        data: { id: $('#eventId').val() }
-    });
-    window.history.back();
+        data: {id: $('#eventId').val()}
+    })
+        .done(function () {
+            window.history.back();
+        })
+        .fail(function ( jqXHR, textStatus, errorThrown) {
+            console.log(console.log(jqXHR.responseText));
+        });
 }
 
 function cancelEvent() {

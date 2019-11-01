@@ -1,13 +1,28 @@
 let treatmentSelect = $('#treatment');
 let patternSelect = $('#pattern');
+const statusIsActive = $('#status').val() === 'ACTIVE';
 
 $(document).ready(function() {
     dosageVisibility();
-    treatmentSelectInit();
-    $('input[name="treatmentType"]').click(function() {onTreatmentTypeChange()});
-    patternSelectInit();
     eventsTableInit();
+    if (statusIsActive) {
+        treatmentSelectInit();
+        $('input[name="treatmentType"]').click(function () {
+            onTreatmentTypeChange()
+        });
+        patternSelectInit();
+        $('#cancelPrescriptionBtn').click(function () {
+            cancelPrescription()
+        });
+    }
+    else {
+        disableInputs();
+    }
 });
+
+function disableInputs() {
+    $('#prescriptionForm input,select').prop('disabled', true);
+}
 
 function treatmentSelectInit() {
     treatmentSelect
@@ -71,8 +86,9 @@ function eventsTableInit() {
         lengthChange: false,
         paging: false,
         ajax: {
-            url: '/doctor/prescription-events-table?prescription-id=' + $('#prescriptionId').val(),
-            type: 'POST'
+            url: '/doctor/prescription-events-table',
+            type: 'POST',
+            data: {'prescription-id': prescriptionId()}
         },
         rowId: 'id',
         columns: [
@@ -84,4 +100,19 @@ function eventsTableInit() {
             { data: 'dosage' }
         ]
     } );
+}
+
+function prescriptionId() {
+    return $('#prescriptionId').val();
+}
+
+function cancelPrescription() {
+    $.ajax({
+        url: '/doctor/cancel-prescription',
+        type: 'POST',
+        data: {'id': prescriptionId()}
+    })
+        .done(function () {
+            window.history.back();
+        });
 }

@@ -5,7 +5,6 @@ import com.bogdansukonnov.eclinic.entity.AppUser;
 import com.bogdansukonnov.eclinic.security.AuthorityType;
 import com.bogdansukonnov.eclinic.security.UserPrincipal;
 import lombok.AllArgsConstructor;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

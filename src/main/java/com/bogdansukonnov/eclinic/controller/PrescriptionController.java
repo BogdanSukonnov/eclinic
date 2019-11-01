@@ -4,6 +4,7 @@ import com.bogdansukonnov.eclinic.dao.SortBy;
 import com.bogdansukonnov.eclinic.dto.PrescriptionDTO;
 import com.bogdansukonnov.eclinic.dto.TableDataDTO;
 import com.bogdansukonnov.eclinic.dto.Update;
+import com.bogdansukonnov.eclinic.exceptions.PrescriptionUpdateException;
 import com.bogdansukonnov.eclinic.service.PrescriptionService;
 import com.bogdansukonnov.eclinic.service.SaveType;
 import lombok.AllArgsConstructor;
@@ -12,6 +13,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Map;
 
@@ -80,6 +82,12 @@ public class PrescriptionController {
     public TableDataDTO prescriptionsTable(
             @RequestParam Map<String, String> data) {
         return prescriptionService.getTable(data);
+    }
+
+    @PostMapping("cancel-prescription")
+    public void cancelPrescription(@RequestParam("id") Long id, HttpServletResponse response)
+            throws PrescriptionUpdateException {
+        prescriptionService.cancelPrescription(id);
     }
 
 }

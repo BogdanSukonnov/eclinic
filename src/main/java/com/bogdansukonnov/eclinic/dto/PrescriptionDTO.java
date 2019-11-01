@@ -1,5 +1,6 @@
 package com.bogdansukonnov.eclinic.dto;
 
+import com.bogdansukonnov.eclinic.entity.PrescriptionStatus;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -17,6 +18,7 @@ public class PrescriptionDTO extends AbstractDTO {
     private PatientDTO patient;
     private TimePatternDTO timePattern;
     private TreatmentDTO treatment;
+    private PrescriptionStatus status;
 
     // both ways
     @NotNull

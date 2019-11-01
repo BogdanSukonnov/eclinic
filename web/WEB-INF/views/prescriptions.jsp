@@ -18,6 +18,7 @@
                 <thead>
                 <tr>
                     <th>Date</th>
+                    <th>Status</th>
                     <th>Patient</th>
                     <th>Type</th>
                     <th>Treatment</th>

@@ -5,6 +5,7 @@ import com.bogdansukonnov.eclinic.dao.*;
 import com.bogdansukonnov.eclinic.dto.PrescriptionDTO;
 import com.bogdansukonnov.eclinic.dto.TableDataDTO;
 import com.bogdansukonnov.eclinic.entity.*;
+import com.bogdansukonnov.eclinic.exceptions.PrescriptionUpdateException;
 import com.bogdansukonnov.eclinic.security.UserGetter;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -45,6 +46,7 @@ public class PrescriptionService {
         Prescription prescription;
         if (saveType == SaveType.CREATE) {
             prescription = new Prescription();
+            prescription.setStatus(PrescriptionStatus.ACTIVE);
             isEventsAffected = true;
         }
         else {
@@ -73,7 +75,7 @@ public class PrescriptionService {
 
         // update events
         if (isEventsAffected) {
-            eventService.deleteAllScheduled(prescription);
+            eventService.cancelAllScheduled(prescription);
             eventService.createEvents(prescription);
         }
     }
@@ -111,22 +113,20 @@ public class PrescriptionService {
     }
 
     /**
-     * <p>Deletes prescription without completed or canceled events.
-     * Set DELETED status to prescription with completed or canceled events.
-     * Deletes app scheduled events.</p>
+     * <p>Cancels prescription.
+     * Set CANCELED status to prescription.
+     * Set CANCELED status to all scheduled prescription's events.</p>
      * @param id prescription id
      */
     @Transactional
-    public void delete(Long id) {
+    public void cancelPrescription(Long id) throws PrescriptionUpdateException {
         Prescription prescription = prescriptionDAO.findOne(id);
-        eventService.deleteAllScheduled(prescription);
-        if (eventService.hasEvents(prescription)) {
-            prescription.setStatus(PrescriptionStatus.DELETED);
-            prescriptionDAO.update(prescription);
+        if (!prescription.getStatus().equals(PrescriptionStatus.ACTIVE)) {
+            throw new PrescriptionUpdateException("Only active prescriptions can be canceled.");
         }
-        else {
-            prescriptionDAO.delete(prescription);
-        }
+        eventService.cancelAllScheduled(prescription);
+        prescription.setStatus(PrescriptionStatus.CANCELED);
+        prescriptionDAO.update(prescription);
     }
 
 }

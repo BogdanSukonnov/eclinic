@@ -53,14 +53,18 @@ public class EventService {
     }
 
     /**
-     * <p>Deletes all scheduled event for prescription</p>
-     * @param prescription the prescription of deleted events
+     * <p>Cancels all scheduled event for given prescription</p>
+     * @param prescription the prescription
      */
     @Transactional
-    public void deleteAllScheduled(Prescription prescription) {
+    public void cancelAllScheduled(Prescription prescription) {
         eventDAO.getAll(prescription).stream()
                 .filter(event -> event.getEventStatus().equals(EventStatus.SCHEDULED))
-                .forEach(event -> eventDAO.delete(event));
+                .forEach(event -> {
+                    event.setEventStatus(EventStatus.CANCELED);
+                    event.setCancelReason("Prescription canceled");
+                    eventDAO.update(event);
+                });
     }
 
     /**
