@@ -20,4 +20,6 @@ public class PrescriptionDAO extends AbstractDAO<Prescription> {
         return query.list();
     }
 
+
+
 }

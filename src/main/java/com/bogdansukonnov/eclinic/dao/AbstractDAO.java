@@ -35,34 +35,6 @@ public class AbstractDAO<T>  {
         return getCurrentSession().createQuery(queryStr).list();
     }
 
-    public TableData<T> getTableData(SortBy sortBy, Integer start, Integer length) {
-        // count rows
-        String countQueryStr = "Select count (t.id) from " + clazz.getName() + " t";
-        Query countQuery = getCurrentSession().createQuery(countQueryStr);
-        Long countResults = (Long) countQuery.uniqueResult();
-
-        // get sort column
-        String orderField;
-        if (sortBy == SortBy.NAME) {
-            orderField = getOrderField();
-        }
-        else {
-            orderField = "createdDateTime desc";
-        }
-
-        // do query
-        String queryStr = "from " + clazz.getName() + " order by " + orderField;
-        Query query = getCurrentSession().createQuery(queryStr)
-                .setFirstResult(start)
-                .setMaxResults(length);
-        List<T> data = query.list();
-
-        // to table data
-        TableData<T> tableData = new TableData<>(data, 0, countResults, countResults);
-
-        return tableData;
-    }
-
     public T create(T entity) {
         getCurrentSession().saveOrUpdate(entity);
         return entity;

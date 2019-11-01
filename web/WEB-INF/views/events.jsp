@@ -24,7 +24,7 @@
             </div>
         </div>
         <div>
-            <table id="eventsTable" class="table table-hover" style="width:100%">
+            <table id="eventsTable" class="table table-hover">
                 <thead>
                 <tr>
                     <th>Status</th>

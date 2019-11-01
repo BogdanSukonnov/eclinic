@@ -2,17 +2,16 @@ package com.bogdansukonnov.eclinic.controller;
 
 import com.bogdansukonnov.eclinic.dao.SortBy;
 import com.bogdansukonnov.eclinic.dto.PatientDTO;
+import com.bogdansukonnov.eclinic.dto.TableDataDTO;
 import com.bogdansukonnov.eclinic.service.PatientService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @AllArgsConstructor
@@ -41,5 +40,13 @@ public class PatientController {
         patientService.addNew(patientDTO);
         return "redirect:/doctor/patients";
     }
+
+    // REST controller
+    @PostMapping("/patients-table")
+    @ResponseBody
+    public TableDataDTO patientsTable(@RequestParam Map<String, String> data) {
+        return patientService.getTable(data);
+    }
+
 
 }
