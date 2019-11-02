@@ -5,7 +5,7 @@ const statusIsActive = $('#status').val() === 'ACTIVE';
 $(document).ready(function() {
     dosageVisibility();
     eventsTableInit();
-    if (statusIsActive) {
+    if (isNew() || statusIsActive) {
         treatmentSelectInit();
         $('input[name="treatmentType"]').click(function () {
             onTreatmentTypeChange()
@@ -92,12 +92,21 @@ function buildAjaxObject(data) {
     }
 }
 
+function isNew() {
+    return !$('#prescriptionId').val();
+}
+
 function eventsTableInit() {
-    $('#prescriptionEventsTable').DataTable( {
+    if (isNew()) {
+        return;
+    }
+    table = $('#prescriptionEventsTable').DataTable( {
         processing: true,
         serverSide: true,
         lengthChange: false,
         paging: false,
+        searching: false,
+        ordering: false,
         ajax: {
             url: '/doctor/prescription-events-table',
             type: 'POST',
@@ -105,6 +114,7 @@ function eventsTableInit() {
         },
         rowId: 'id',
         columns: [
+            { data: 'eventStatus' },
             { data: 'dateFormatted' },
             { data: 'timeFormatted' },
             { data: 'patientFullName' },
@@ -113,6 +123,10 @@ function eventsTableInit() {
             { data: 'dosage' }
         ]
     } );
+    $('#prescriptionEventsTable tbody').on('click', 'tr', function () {
+        const data = table.row(this).data();
+        openEvent(data.id);
+    });
 }
 
 function prescriptionId() {
@@ -128,4 +142,8 @@ function cancelPrescription() {
         .done(function () {
             window.history.back();
         });
+}
+
+function openEvent(id) {
+    window.location.assign('/nurse/event?id=' + id);
 }

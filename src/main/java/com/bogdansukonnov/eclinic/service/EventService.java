@@ -182,7 +182,7 @@ public class EventService {
     @Transactional(readOnly = true)
     public TableDataDTO getTable(RequestEventTableDTO data, LocalDateTime startDate, LocalDateTime endDate) {
 
-        String orderField = "createdDateTime desc";
+        String orderField = "dateTime";
 
         List<Event> events = eventDAO.getAll(data.getSearch(), orderField, data.getOffset(), data.getLimit()
                 , data.getShowCompleted(), startDate, endDate, data.getParentId());

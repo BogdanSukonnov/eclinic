@@ -3,7 +3,7 @@ let prescriptionsTableId = '#patientPrescriptionsTable';
 
 $(document).ready(function() {
     prescriptionsTableInit();
-} );
+});
 
 function buildAjaxObject(data) {
     return {
@@ -18,7 +18,7 @@ function buildAjaxObject(data) {
 }
 
 function prescriptionsTableInit() {
-    const table = $(prescriptionsTableId).DataTable({
+        const table = $(prescriptionsTableId).DataTable({
         dom: "<'row'<'col-sm-12'tr>>",
         processing: true,
         serverSide: true,

@@ -7,48 +7,46 @@
 <jsp:attribute name="content">
 <%--Common part end--%>
 
-<div>
-    <div>
-        <h1>${isNew ? "New" : prescription.status == "ACTIVE" ? "Edit": prescription.status} prescription</h1>
-        <div id="prescriptionWrapper">
-            <div id="prescriptionLeft"></div>
-            <form id="prescriptionForm" method="post"
-                  <c:if test="${isNew}">
-                    action="${pageContext.request.contextPath}/doctor/saveNewPrescription"
-                  </c:if>
-                  <c:if test="${!isNew}">
-                    action="${pageContext.request.contextPath}/doctor/updatePrescription"
-                  </c:if> >
+<div class="container-fluid">
 
-                <input id="prescriptionId" type="hidden" name="id" value=${isNew ? null : prescription.id} >
-                <input id="status" type="hidden" name="status" value=${isNew ? null : prescription.status} >
+    <form id="prescriptionForm" method="post"
+            <c:if test="${isNew}">
+            action="${pageContext.request.contextPath}/doctor/saveNewPrescription"
+          </c:if>
+            <c:if test="${!isNew}">
+            action="${pageContext.request.contextPath}/doctor/updatePrescription"
+          </c:if> >
 
-                <div class="form-group row">
-                    <p class="col-sm-2">Patient:</p>
-                    <h5 class="col-sm-10">${patientFullName}</h5>
-                    <input type="hidden" name="patientId" value=${patientId} />
+        <div class="form-group">
+            <h1>${isNew ? "New" : prescription.status == "ACTIVE" ? "Edit": prescription.status} prescription</h1>
+        </div>
+
+        <div class="form-group row">
+            <p class="col-sm-2 col-form-label">Patient:</p>
+            <h5 class="col-sm-10">${patientFullName}</h5>
+        </div>
+
+                <%--      treatment type      --%>
+            <div class="form-group">
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="treatmentType" id="inlineRadio1"
+                           value="Procedure"
+                        ${isNew ? "checked" : prescription.treatment.type == "Procedure" ? "checked" : ""}>
+                    <label class="form-check-label" for="inlineRadio1">Procedure</label>
                 </div>
-
-                    <%--      treatment type      --%>
-                <div class="form-group">
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="treatmentType" id="inlineRadio1"
-                               value="Procedure"
-                            ${isNew ? "checked" : prescription.treatment.type == "Procedure" ? "checked" : ""}>
-                        <label class="form-check-label" for="inlineRadio1">Procedure</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="treatmentType" id="inlineRadio2"
-                               value="Medicine"
-                            ${isNew ? "" : prescription.treatment.type == "Medicine" ? "checked" : ""}>
-                        <label class="form-check-label" for="inlineRadio2">Medicine</label>
-                    </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="treatmentType" id="inlineRadio2"
+                           value="Medicine"
+                        ${isNew ? "" : prescription.treatment.type == "Medicine" ? "checked" : ""}>
+                    <label class="form-check-label" for="inlineRadio2">Medicine</label>
                 </div>
+            </div>
 
-                    <%--      treatment      --%>
-                <div class="form-group row" id="treatmentGroup">
-                    <label for="treatment" class="col-sm-2 col-form-label">Treatment</label>
-                    <select name="treatmentId" class="custom-select col-sm-10" id="treatment">
+                <%--      treatment      --%>
+            <div class="form-group row justify-content-start" id="treatmentGroup">
+                <label for="treatment" class="col-2 col-form-label">Treatment</label>
+                <div class="col-5">
+                    <select name="treatmentId" id="treatment">
                         <c:if test="${isNew}">
                             <option selected>Select procedure</option>
                         </c:if>
@@ -57,50 +55,72 @@
                         </c:if>
                     </select>
                 </div>
+            </div>
 
-                    <%--      dosage      --%>
-                <div id="dosageGroup" class="form-group row">
-                    <label for="dosage" class="col-sm-2 col-form-label">Dosage</label>
-                    <input type="text" class="form-control col-sm-10" id="dosage"
-                           placeholder="Dosage" name="dosage" value="${prescription.dosage}">
+                <%--      dosage      --%>
+            <div id="dosageGroup" class="form-group row">
+                <label for="dosage" class="col-sm-2 col-form-label">Dosage</label>
+                <div class="col-sm-3">
+                    <input type="text" id="dosage" class="form-control"
+                       placeholder="Dosage" name="dosage" value="${prescription.dosage}">
                 </div>
+            </div>
 
-                    <%--      pattern      --%>
-                <div class="form-group row">
-                    <label for="pattern" class="col-sm-2 col-form-label">Pattern</label>
-                    <select name="timePatternId" class="custom-select col-sm-10" id="pattern" >
-                        <c:if test="${isNew}">
-                            <option selected>Select time pattern</option>
-                        </c:if>
-                        <c:if test="${!isNew}">
-                            <option selected value="${prescription.timePattern.id}">${prescription.timePattern.name}</option>
-                        </c:if>
-                    </select>
+                <%--      pattern      --%>
+            <div id="dosageGroup" class="form-group row">
+                <label for="pattern" class="col-sm-2 col-form-label">Pattern</label>
+                <div class="col-sm-7">
+                <select name="timePatternId" id="pattern" >
+                    <c:if test="${isNew}">
+                        <option selected>Select time pattern</option>
+                    </c:if>
+                    <c:if test="${!isNew}">
+                        <option selected value="${prescription.timePattern.id}">${prescription.timePattern.name}</option>
+                    </c:if>
+                </select>
                 </div>
+            </div>
 
-                    <%--      duration      --%>
-                <div class="form-group row">
-                    <label for="duration" class="col-sm-2 col-form-label">Duration</label>
-                    <input type="number" class="form-control col-sm-10" id="duration"
-                           placeholder="Duration (days)" name="duration"
-                            value="${prescription.duration}">
+
+                <%--      duration      --%>
+            <div class="form-group row">
+                <label for="duration" class="col-sm-2 col-form-label">Duration</label>
+                <div class="col-sm-2">
+                <input type="number" id="duration" class="form-control"
+                       placeholder="Duration (days)" name="duration"
+                       value="${prescription.duration}">
                 </div>
+            </div>
 
+
+            <%--    buttons    --%>
+        <div class="form-group row">
+            <div class="col-auto my-1">
                 <button type="button" class="btn btn-outline-secondary" onclick="window.history.back();">Back</button>
-                <c:if test="${isNew || prescription.status == 'ACTIVE'}">
+            </div>
+            <c:if test="${isNew || prescription.status == 'ACTIVE'}">
+                <div class="col-auto my-1">
                     <button type="submit" class="btn btn-outline-primary">Save</button>
-                </c:if>
-                <c:if test="${!isNew && prescription.status == 'ACTIVE'}">
+                </div>
+            </c:if>
+            <c:if test="${!isNew && prescription.status == 'ACTIVE'}">
+                <div class="col-auto my-1">
                     <button id="cancelButton" type="button" class="btn btn-outline-danger"
                             data-toggle="modal" data-target="#cancelModal">Cancel prescription</button>
-                </c:if>
-            </form>
-            <div id="prescriptionRight"></div>
+                </div>
+            </c:if>
         </div>
-        <div>
+        <input id="prescriptionId" type="hidden" name="id" value=${isNew ? null : prescription.id} >
+        <input id="status" type="hidden" name="status" value=${isNew ? null : prescription.status} >
+        <input type="hidden" name="patientId" value=${patientId} />
+    </form>
+
+    <form>
+        <div class="form-group">
             <table id="prescriptionEventsTable" class="table table-hover" style="width:100%">
                 <thead>
                 <tr>
+                    <th>Status</th>
                     <th>Date</th>
                     <th>Time</th>
                     <th>Patient</th>
@@ -111,7 +131,8 @@
                 </thead>
             </table>
         </div>
-    </div>
+    </form>
+
 </div>
 
     <!-- Modal -->

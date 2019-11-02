@@ -196,23 +196,23 @@ table a {
 
 /*Prescription Grid*/
 
-#prescriptionLeft {
-    grid-area: prescriptionLeft;
-}
-#prescriptionForm {
-    grid-area: prescriptionForm;
-}
-#prescriptionRight {
-    grid-area: prescriptionRight;
-}
+/*#prescriptionLeft {*/
+/*    grid-area: prescriptionLeft;*/
+/*}*/
+/*#prescriptionForm {*/
+/*    grid-area: prescriptionForm;*/
+/*}*/
+/*#prescriptionRight {*/
+/*    grid-area: prescriptionRight;*/
+/*}*/
 
-/*Grid wrapper*/
+/*!*Grid wrapper*!*/
 
-#prescriptionWrapper {
-    display: grid;
-    grid-template-columns: 1fr 550px 1fr;
-    grid-template-areas: "prescriptionLeft prescriptionForm prescriptionRight";
-}
+/*#prescriptionWrapper {*/
+/*    display: grid;*/
+/*    grid-template-columns: 1fr 550px 1fr;*/
+/*    grid-template-areas: "prescriptionLeft prescriptionForm prescriptionRight";*/
+/*}*/
 
 #newPrescriptionButtonForm {
     padding: 16px;
