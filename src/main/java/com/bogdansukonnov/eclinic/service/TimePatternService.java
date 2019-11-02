@@ -2,7 +2,7 @@ package com.bogdansukonnov.eclinic.service;
 
 import com.bogdansukonnov.eclinic.converter.SelectorDataConverter;
 import com.bogdansukonnov.eclinic.dao.SortBy;
-import com.bogdansukonnov.eclinic.dao.TimePatternDAOOld;
+import com.bogdansukonnov.eclinic.dao.TimePatternDAO;
 import com.bogdansukonnov.eclinic.dto.SelectorDataDTO;
 import com.bogdansukonnov.eclinic.dto.TimePatternDTO;
 import com.bogdansukonnov.eclinic.entity.SelectorData;
@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class TimePatternService {
 
-    private TimePatternDAOOld timePatternDAO;
+    private TimePatternDAO timePatternDAO;
     private ModelMapper modelMapper;
     private SelectorDataConverter selectorDataConverter;
 

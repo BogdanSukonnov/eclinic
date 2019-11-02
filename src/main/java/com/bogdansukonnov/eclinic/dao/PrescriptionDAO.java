@@ -30,8 +30,4 @@ public class PrescriptionDAO extends AbstractTableDAO<Prescription> implements I
         return conditionsStr;
     }
 
-    @Override
-    public String getParentField() {
-        return "patient";
-    }
 }

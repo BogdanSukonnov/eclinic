@@ -7,9 +7,9 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public class TimePatternDAOOld extends OldAbstractDAO<TimePattern> {
+public class TimePatternDAO extends AbstractDAO<TimePattern> implements IDAO<TimePattern> {
 
-    public TimePatternDAOOld() {
+    public TimePatternDAO() {
         setClazz(TimePattern.class);
     }
 

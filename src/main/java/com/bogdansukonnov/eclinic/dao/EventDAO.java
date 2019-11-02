@@ -25,11 +25,6 @@ public class EventDAO extends AbstractTableDAO<Event> implements ITableDAO<Event
     }
 
     @Override
-    public String getParentField() {
-        return "prescription";
-    }
-
-    @Override
     protected String getOrderField() {
         return "dateTime";
     }
@@ -50,12 +45,6 @@ public class EventDAO extends AbstractTableDAO<Event> implements ITableDAO<Event
         return query.uniqueResultOptional();
     }
 
-    public List<Event> getAll() {
-        String queryStr = "from Event e order by " + getOrderField();
-        Query query = getCurrentSession().createQuery(queryStr);
-        return query.list();
-    }
-
     public Long getTotalFiltered(String search, boolean showCompleted, LocalDateTime startDate, LocalDateTime endDate
         , Long prescriptionId) {
         String queryStr = "Select count(t.id) from " + getClazz().getName() + " t";
@@ -70,9 +59,12 @@ public class EventDAO extends AbstractTableDAO<Event> implements ITableDAO<Event
             Long prescriptionId) {
         String queryStr = "from Event t";
         queryStr += getQueryConditions(search, showCompleted, prescriptionId, startDate, endDate);
-        Query query = getCurrentSession().createQuery(queryStr)
-                .setFirstResult(offset)
-                .setMaxResults(limit);
+        queryStr += " order by " + orderField;
+        Query query = getCurrentSession().createQuery(queryStr);
+        if (limit > 0) {
+            query.setFirstResult(offset);
+            query.setMaxResults(limit);
+        }
         setParameters(query, search, showCompleted, startDate, endDate, prescriptionId);
         return query.list();
     }

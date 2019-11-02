@@ -185,7 +185,7 @@ public class EventService {
         String orderField = "createdDateTime desc";
 
         List<Event> events = eventDAO.getAll(data.getSearch(), orderField, data.getOffset(), data.getLimit()
-                , data.getShowCompleted(), startDate, endDate, null);
+                , data.getShowCompleted(), startDate, endDate, data.getParentId());
 
         List<EventDTO> eventDTOS = events.stream()
                 .map(event -> converter.toDTO(event))

@@ -79,6 +79,19 @@ function patternSelectInit() {
         });
 }
 
+function buildAjaxObject(data) {
+    return {
+        search: data.search.value,
+        draw: data.draw,
+        offset: data.start,
+        limit: data.length,
+        orderField: '',
+        orderDirection: '',
+        showCompleted: true,
+        parentId: prescriptionId()
+    }
+}
+
 function eventsTableInit() {
     $('#prescriptionEventsTable').DataTable( {
         processing: true,
@@ -88,7 +101,7 @@ function eventsTableInit() {
         ajax: {
             url: '/doctor/prescription-events-table',
             type: 'POST',
-            data: {'prescription-id': prescriptionId()}
+            data: function(data) {return buildAjaxObject(data)}
         },
         rowId: 'id',
         columns: [

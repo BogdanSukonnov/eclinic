@@ -12,8 +12,7 @@ function buildAjaxObject(data) {
         offset: data.start,
         limit: data.length,
         orderField: '',
-        orderDirection: '',
-        parentId: ''
+        orderDirection: ''
     }
 }
 

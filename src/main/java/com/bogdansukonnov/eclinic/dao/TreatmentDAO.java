@@ -8,9 +8,9 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public class TreatmentDAOOld extends OldAbstractDAO<Treatment> {
+public class TreatmentDAO extends AbstractDAO<Treatment> implements IDAO<Treatment> {
 
-    public TreatmentDAOOld() {
+    public TreatmentDAO() {
         setClazz(Treatment.class);
     }
 

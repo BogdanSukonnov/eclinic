@@ -7,12 +7,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 
 @Repository
-public class UserDAOOld extends OldAbstractDAO<AppUser> {
+public class UserDAO extends AbstractDAO<AppUser> implements IUserDAO {
 
-    public UserDAOOld() {
+    public UserDAO() {
         setClazz(AppUser.class);
     }
 
+    @Override
     @Transactional(readOnly = true)
     public AppUser findByUsername(String username) {
 

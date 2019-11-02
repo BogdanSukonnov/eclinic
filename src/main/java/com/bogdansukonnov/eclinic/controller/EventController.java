@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.time.LocalDateTime;
-import java.util.Map;
 
 @Controller
 @AllArgsConstructor
@@ -36,7 +35,6 @@ public class EventController {
         return mv;
     }
 
-    // REST controller
     @PostMapping("/nurse/events-table")
     @ResponseBody
     public TableDataDTO eventsTable(@Validated RequestEventTableDTO data,
@@ -47,12 +45,10 @@ public class EventController {
         return eventService.getTable(data, startDate, endDate);
     }
 
-    // REST controller
     @PostMapping("/doctor/prescription-events-table")
     @ResponseBody
-    public TableDataDTO eventsTable(@RequestParam("prescription-id") Long prescriptionId,
-            @RequestParam Map<String, String> data) {
-        return eventService.getTable(prescriptionId, data);
+    public TableDataDTO eventsTable(@Validated RequestEventTableDTO data) {
+        return eventService.getTable(data, null, null);
     }
 
     @PostMapping("/nurse/complete-event")

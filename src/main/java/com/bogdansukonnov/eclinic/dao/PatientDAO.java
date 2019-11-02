@@ -20,9 +20,4 @@ public class PatientDAO extends AbstractTableDAO<Patient> implements ITableDAO<P
         return conditions;
     }
 
-    @Override
-    public String getParentField() {
-        return null;
-    }
-
 }

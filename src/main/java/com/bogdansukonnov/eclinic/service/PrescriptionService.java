@@ -21,8 +21,8 @@ public class PrescriptionService {
 
     private PrescriptionDAO prescriptionDAO;
     private PrescriptionConverter converter;
-    private TreatmentDAOOld treatmentDAO;
-    private TimePatternDAOOld timePatternDAO;
+    private TreatmentDAO treatmentDAO;
+    private TimePatternDAO timePatternDAO;
     private PatientDAO patientDAO;
     private UserGetter userGetter;
     private EventService eventService;
