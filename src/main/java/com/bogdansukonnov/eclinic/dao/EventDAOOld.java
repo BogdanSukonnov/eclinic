@@ -13,10 +13,18 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public class EventDAO extends AbstractDAO<Event> {
+public class EventDAOOld extends AbstractTableDAO<Event> implements ITableDAO<Event> {
 
-    public EventDAO() {
+    public EventDAOOld() {
         setClazz(Event.class);
+    }
+
+    @Override
+    public String getQueryConditions(String queryStr, String search) {
+        if (!StringUtils.isBlank(search)) {
+            queryStr += " where lower(t.patient.fullName) like lower(:search)";
+        }
+        return queryStr;
     }
 
     public List<Event> getAll(Prescription prescription) {
@@ -52,6 +60,14 @@ public class EventDAO extends AbstractDAO<Event> {
     @Override
     protected String getOrderField() {
         return "dateTime";
+    }
+
+    public Long getCount(String search, boolean showCompleted, LocalDateTime startDate, LocalDateTime endDate) {
+        String queryStr = "Select count (t.id) from " + getClazz().getName() + " t";
+        queryStr += getQueryConditions(search, showCompleted);
+        Query query = getCurrentSession().createQuery(queryStr);
+        setParameters(query, search, showCompleted, startDate, endDate);
+        return (Long) query.uniqueResult();
     }
 
     public TableData<Event> getTableData(SortBy sortBy, Integer start, Integer length, boolean showCompleted
@@ -112,4 +128,28 @@ public class EventDAO extends AbstractDAO<Event> {
 
         return tableData;
     }
+
+    private String getQueryConditions(String search, boolean showCompleted) {
+        String conditions = " where (t.dateTime >= :startDate and t.dateTime <= :endDate)";
+        if (!StringUtils.isBlank(search)) {
+            conditions += " and (lower(t.patient.fullName) like lower(:search))";
+        }
+        if (!showCompleted) {
+            conditions += " and (t.eventStatus=:status)";
+        }
+        return conditions;
+    }
+
+    private void setParameters(Query query, String search, boolean showCompleted,
+                               LocalDateTime startDate, LocalDateTime endDate) {
+        if (!StringUtils.isBlank(search)) {
+            query.setParameter("search", "%" + search + "%");
+        }
+        query.setParameter("startDate", startDate);
+        query.setParameter("endDate", endDate);
+        if (!showCompleted) {
+            query.setParameter("status", EventStatus.SCHEDULED);
+        }
+    }
+
 }

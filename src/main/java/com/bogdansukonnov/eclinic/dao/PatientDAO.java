@@ -1,7 +1,6 @@
 package com.bogdansukonnov.eclinic.dao;
 
 import com.bogdansukonnov.eclinic.entity.Patient;
-import com.bogdansukonnov.eclinic.entity.Prescription;
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
@@ -9,40 +8,19 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public class PatientDAO extends AbstractDAO<Patient> {
+public class PatientDAO extends AbstractTableDAO<Patient> implements ITableDAO<Patient> {
 
     public PatientDAO() {
         setClazz(Patient.class);
     }
 
-    public List<Patient> getAll(String orderField, String search, int offset, int limit) {
-        String queryStr = "from Patient t";;
+    @Override
+    public String getQueryConditions(String search) {
+        String conditions = "";
         if (!StringUtils.isBlank(search)) {
-            queryStr += " where lower(t.fullName) like lower(:search) or t.insuranceNumber like :search";
+            conditions = " where (lower(t.fullName) like lower(:search)) or (t.insuranceNumber like :search)";
         }
-        queryStr += " order by " + orderField;
-
-        Query query = getCurrentSession().createQuery(queryStr)
-                .setFirstResult(offset)
-                .setMaxResults(limit);
-
-        if (!StringUtils.isBlank(search)) {
-            query.setParameter("search", "%" + search + "%");
-        }
-
-        return query.list();
-    }
-
-    public Long getCount(String search) {
-        String queryStr = "Select count (t.id) from Patient t";;
-        if (!StringUtils.isBlank(search)) {
-            queryStr += " where lower(t.fullName) like lower(:search)";
-        }
-        Query query = getCurrentSession().createQuery(queryStr);
-        if (!StringUtils.isBlank(search)) {
-            query.setParameter("search", "%" + search + "%");
-        }
-        return (Long) query.uniqueResult();
+        return conditions;
     }
 
 }

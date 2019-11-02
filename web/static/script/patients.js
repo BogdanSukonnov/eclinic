@@ -48,7 +48,7 @@ function patientsTableInit() {
         newPatientBtnInit();
     } );
 
-    $(patientsTableId + 'tbody').on('click', 'tr', function () {
+    $(patientsTableId + ' tbody').on('click', 'tr', function () {
         const data = table.row(this).data();
         openPatient(data.id);
     });

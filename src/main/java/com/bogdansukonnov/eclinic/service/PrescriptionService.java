@@ -19,10 +19,10 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class PrescriptionService {
 
-    private PrescriptionDAO prescriptionDAO;
+    private PrescriptionDAOOld prescriptionDAO;
     private PrescriptionConverter converter;
-    private TreatmentDAO treatmentDAO;
-    private TimePatternDAO timePatternDAO;
+    private TreatmentDAOOld treatmentDAO;
+    private TimePatternDAOOld timePatternDAO;
     private PatientDAO patientDAO;
     private UserGetter userGetter;
     private EventService eventService;
@@ -102,6 +102,9 @@ public class PrescriptionService {
     @Transactional(readOnly = true)
     public TableDataDTO getTable(Map<String, String> data) {
 
+        String search = data.get("search[value]");
+        int offset = Integer.parseInt(data.get("start"));
+        int limit = Integer.parseInt(data.get("length"));
         List<Prescription> prescriptions = prescriptionDAO.getAll(SortBy.CREATION);
 
         List<PrescriptionDTO> list = prescriptions.stream()

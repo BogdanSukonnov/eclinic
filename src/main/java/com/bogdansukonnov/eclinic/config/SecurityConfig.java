@@ -1,6 +1,6 @@
 package com.bogdansukonnov.eclinic.config;
 
-import com.bogdansukonnov.eclinic.dao.UserDAO;
+import com.bogdansukonnov.eclinic.dao.UserDAOOld;
 import com.bogdansukonnov.eclinic.service.AppUserDetailsService;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -20,7 +20,7 @@ import static com.bogdansukonnov.eclinic.security.AuthorityType.*;
 @AllArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private UserDAO userDAO;
+    private UserDAOOld userDAO;
 
     @Bean
     public UserDetailsService userDetailsService() {

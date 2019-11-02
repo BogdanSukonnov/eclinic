@@ -1,7 +1,7 @@
 package com.bogdansukonnov.eclinic.service;
 
 import com.bogdansukonnov.eclinic.converter.EventConverter;
-import com.bogdansukonnov.eclinic.dao.EventDAO;
+import com.bogdansukonnov.eclinic.dao.EventDAOOld;
 import com.bogdansukonnov.eclinic.dao.SortBy;
 import com.bogdansukonnov.eclinic.dto.EventDTO;
 import com.bogdansukonnov.eclinic.dto.TableDataDTO;
@@ -28,7 +28,7 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 public class EventService {
 
-    private EventDAO eventDAO;
+    private EventDAOOld eventDAO;
     private EventConverter converter;
     private UserGetter userGetter;
 

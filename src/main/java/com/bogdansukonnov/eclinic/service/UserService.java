@@ -1,6 +1,6 @@
 package com.bogdansukonnov.eclinic.service;
 
-import com.bogdansukonnov.eclinic.dao.UserDAO;
+import com.bogdansukonnov.eclinic.dao.UserDAOOld;
 import com.bogdansukonnov.eclinic.entity.AppUser;
 import com.bogdansukonnov.eclinic.security.AuthorityType;
 import com.bogdansukonnov.eclinic.security.UserPrincipal;
@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 @AllArgsConstructor
 public class UserService {
 
-    private UserDAO userDAO;
+    private UserDAOOld userDAO;
     private PasswordEncoder encoder;
 
     @Transactional

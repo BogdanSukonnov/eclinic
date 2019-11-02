@@ -1,6 +1,6 @@
 package com.bogdansukonnov.eclinic.service;
 
-import com.bogdansukonnov.eclinic.dao.UserDAO;
+import com.bogdansukonnov.eclinic.dao.UserDAOOld;
 import com.bogdansukonnov.eclinic.entity.AppUser;
 import com.bogdansukonnov.eclinic.security.UserPrincipal;
 import lombok.AllArgsConstructor;
@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor
 public class AppUserDetailsService implements UserDetailsService {
 
-    private UserDAO userDAO;
+    private UserDAOOld userDAO;
 
     @Override
     public UserDetails loadUserByUsername(String username) {

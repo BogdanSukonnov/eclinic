@@ -1,13 +1,20 @@
+let length = 8;
+let prescriptionsTableId = '#prescriptionsTable';
+
 $(document).ready(function() {
     prescriptionsTableInit();
 } );
 
 function prescriptionsTableInit() {
-    const table = $('#prescriptionsTable').DataTable({
+    const table = $(prescriptionsTableId).DataTable({
+        dom: "<'tableHeaderRow'fl>" +
+            "<'row'<'col-sm-12'tr>>" +
+            "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
         processing: true,
         serverSide: true,
-        lengthChange: false,
-        paging: false,
+        lengthChange: true,
+        paging: true,
+        ordering: false,
         ajax: {
             url: '/doctor/prescriptionsTable',
             type: 'POST'
@@ -26,7 +33,7 @@ function prescriptionsTableInit() {
         ]
     });
 
-    $('#prescriptionsTable tbody').on('click', 'tr', function () {
+    $(prescriptionsTableId + ' tbody').on('click', 'tr', function () {
         const data = table.row(this).data();
         openPrescription(data.id);
     });

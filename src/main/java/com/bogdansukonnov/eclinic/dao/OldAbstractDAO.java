@@ -1,31 +1,28 @@
 package com.bogdansukonnov.eclinic.dao;
 
+import com.bogdansukonnov.eclinic.entity.TableData;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
-public abstract class AbstractDAO<T> {
+public class OldAbstractDAO<T>  {
 
     private Class<T> clazz;
 
     @Autowired
     SessionFactory sessionFactory;
 
-    public void setClazz(Class<T> clazzToSet){
+    public void setClazz(Class< T > clazzToSet){
         this.clazz = clazzToSet;
-    }
-
-    public Class<T> getClazz() {
-        return clazz;
     }
 
     public T findOne(long id){
         return (T) getCurrentSession().get(clazz, id);
     }
 
-    @SuppressWarnings("unchecked")
     public List<T> getAll(SortBy sortBy) {
         String orderField;
         if (sortBy == SortBy.NAME) {
@@ -43,7 +40,6 @@ public abstract class AbstractDAO<T> {
         return entity;
     }
 
-    @SuppressWarnings("unchecked")
     public T update(T entity) {
         return (T) getCurrentSession().merge(entity);
     }
