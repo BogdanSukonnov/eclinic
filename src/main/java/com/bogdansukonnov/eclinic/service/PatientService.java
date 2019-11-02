@@ -1,7 +1,6 @@
 package com.bogdansukonnov.eclinic.service;
 
 import com.bogdansukonnov.eclinic.dao.PatientDAO;
-import com.bogdansukonnov.eclinic.dao.SortBy;
 import com.bogdansukonnov.eclinic.dto.PatientDTO;
 import com.bogdansukonnov.eclinic.dto.RequestTableDTO;
 import com.bogdansukonnov.eclinic.dto.TableDataDTO;
@@ -24,8 +23,8 @@ public class PatientService {
     private ModelMapper modelMapper;
 
     @Transactional(readOnly = true)
-    public List<PatientDTO> getAll(SortBy sortBy) {
-        return patientDAO.getAll(sortBy).stream()
+    public List<PatientDTO> getAll(PrescriptionService.OrderType orderType) {
+        return patientDAO.getAll(orderType).stream()
                 .map(patient -> modelMapper.map(patient, PatientDTO.class))
                 .collect(Collectors.toList());
     }

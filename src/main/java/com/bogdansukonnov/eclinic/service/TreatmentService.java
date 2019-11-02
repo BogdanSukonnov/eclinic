@@ -1,7 +1,6 @@
 package com.bogdansukonnov.eclinic.service;
 
 import com.bogdansukonnov.eclinic.converter.SelectorDataConverter;
-import com.bogdansukonnov.eclinic.dao.SortBy;
 import com.bogdansukonnov.eclinic.dao.TreatmentDAO;
 import com.bogdansukonnov.eclinic.dto.SelectorDataDTO;
 import com.bogdansukonnov.eclinic.dto.TreatmentDTO;
@@ -25,8 +24,8 @@ public class TreatmentService {
     private SelectorDataConverter selectorDataConverter;
 
     @Transactional(readOnly = true)
-    public List<TreatmentDTO> getAll(SortBy sortBy) {
-        return treatmentDAO.getAll(sortBy).stream()
+    public List<TreatmentDTO> getAll(PrescriptionService.OrderType orderType) {
+        return treatmentDAO.getAll(orderType).stream()
                 .map(treatment -> modelMapper.map(treatment, TreatmentDTO.class))
                 .collect(Collectors.toList());
     }

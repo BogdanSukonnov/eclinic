@@ -1,7 +1,6 @@
 package com.bogdansukonnov.eclinic.service;
 
 import com.bogdansukonnov.eclinic.converter.SelectorDataConverter;
-import com.bogdansukonnov.eclinic.dao.SortBy;
 import com.bogdansukonnov.eclinic.dao.TimePatternDAO;
 import com.bogdansukonnov.eclinic.dto.SelectorDataDTO;
 import com.bogdansukonnov.eclinic.dto.TimePatternDTO;
@@ -24,8 +23,8 @@ public class TimePatternService {
     private SelectorDataConverter selectorDataConverter;
 
     @Transactional(readOnly = true)
-    public List<TimePatternDTO> getAll(SortBy sortBy) {
-        return timePatternDAO.getAll(sortBy).stream()
+    public List<TimePatternDTO> getAll(PrescriptionService.OrderType orderType) {
+        return timePatternDAO.getAll(orderType).stream()
                 .map(timePattern -> modelMapper.map(timePattern, TimePatternDTO.class))
                 .collect(Collectors.toList());
     }

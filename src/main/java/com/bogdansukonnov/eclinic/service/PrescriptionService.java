@@ -1,7 +1,10 @@
 package com.bogdansukonnov.eclinic.service;
 
 import com.bogdansukonnov.eclinic.converter.PrescriptionConverter;
-import com.bogdansukonnov.eclinic.dao.*;
+import com.bogdansukonnov.eclinic.dao.PatientDAO;
+import com.bogdansukonnov.eclinic.dao.PrescriptionDAO;
+import com.bogdansukonnov.eclinic.dao.TimePatternDAO;
+import com.bogdansukonnov.eclinic.dao.TreatmentDAO;
 import com.bogdansukonnov.eclinic.dto.PrescriptionDTO;
 import com.bogdansukonnov.eclinic.dto.RequestTableDTO;
 import com.bogdansukonnov.eclinic.dto.TableDataDTO;
@@ -28,8 +31,8 @@ public class PrescriptionService {
     private EventService eventService;
 
     @Transactional(readOnly = true)
-    public List<PrescriptionDTO> getAll(SortBy sortBy) {
-        return prescriptionDAO.getAll(sortBy).stream()
+    public List<PrescriptionDTO> getAll(OrderType orderType) {
+        return prescriptionDAO.getAll(orderType).stream()
                 .map(prescription -> converter.toDTO(prescription))
                 .collect(Collectors.toList());
     }
@@ -119,4 +122,7 @@ public class PrescriptionService {
         prescriptionDAO.update(prescription);
     }
 
+    public enum OrderType {
+        CREATION, NAME
+    }
 }
