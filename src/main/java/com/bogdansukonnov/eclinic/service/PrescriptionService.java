@@ -3,6 +3,7 @@ package com.bogdansukonnov.eclinic.service;
 import com.bogdansukonnov.eclinic.converter.PrescriptionConverter;
 import com.bogdansukonnov.eclinic.dao.*;
 import com.bogdansukonnov.eclinic.dto.PrescriptionDTO;
+import com.bogdansukonnov.eclinic.dto.RequestTableDTO;
 import com.bogdansukonnov.eclinic.dto.TableDataDTO;
 import com.bogdansukonnov.eclinic.entity.*;
 import com.bogdansukonnov.eclinic.exceptions.PrescriptionUpdateException;
@@ -100,19 +101,19 @@ public class PrescriptionService {
     }
 
     @Transactional(readOnly = true)
-    public TableDataDTO getTable(Map<String, String> data) {
+    public TableDataDTO getTable(RequestTableDTO data) {
 
-        String search = data.get("search[value]");
-        int offset = Integer.parseInt(data.get("start"));
-        int limit = Integer.parseInt(data.get("length"));
-        List<Prescription> prescriptions = prescriptionDAO.getAll(SortBy.CREATION);
+        List<Prescription> prescriptions = prescriptionDAO.getAll("createdDateTime desc", data.getSearch(),
+                data.getOffset(), data.getLimit());
+
+        Long totalFiltered = prescriptionDAO.getTotalFiltered(data.getSearch());
 
         List<PrescriptionDTO> list = prescriptions.stream()
                 .map(prescription -> converter.toDTO(prescription))
                 .collect(Collectors.toList());
 
-        return new TableDataDTO<>(list
-                , Integer.parseInt(data.get("draw")), (long) list.size(), (long) list.size());
+        return new TableDataDTO<>(list, data.getDraw(), totalFiltered, totalFiltered);
+
     }
 
     /**

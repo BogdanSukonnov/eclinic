@@ -5,6 +5,17 @@ $(document).ready(function() {
     prescriptionsTableInit();
 } );
 
+function buildAjaxObject(data) {
+    return {
+        search: data.search.value,
+        draw: data.draw,
+        offset: data.start,
+        limit: data.length,
+        orderField: '',
+        orderDirection: ''
+    }
+}
+
 function prescriptionsTableInit() {
     const table = $(prescriptionsTableId).DataTable({
         dom: "<'tableHeaderRow'fl>" +
@@ -16,8 +27,9 @@ function prescriptionsTableInit() {
         paging: true,
         ordering: false,
         ajax: {
-            url: '/doctor/prescriptionsTable',
-            type: 'POST'
+            url: '/doctor/prescriptions-table',
+            type: 'POST',
+            data: function(data) {return buildAjaxObject(data)}
         },
         rowId: 'id',
         columns: [

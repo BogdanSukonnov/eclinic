@@ -43,5 +43,4 @@ public class PatientController {
         return patientService.getTable(data);
     }
 
-
 }

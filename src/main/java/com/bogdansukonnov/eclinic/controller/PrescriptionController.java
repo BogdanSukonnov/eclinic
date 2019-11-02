@@ -2,6 +2,7 @@ package com.bogdansukonnov.eclinic.controller;
 
 import com.bogdansukonnov.eclinic.dao.SortBy;
 import com.bogdansukonnov.eclinic.dto.PrescriptionDTO;
+import com.bogdansukonnov.eclinic.dto.RequestTableDTO;
 import com.bogdansukonnov.eclinic.dto.TableDataDTO;
 import com.bogdansukonnov.eclinic.dto.Update;
 import com.bogdansukonnov.eclinic.exceptions.PrescriptionUpdateException;
@@ -67,8 +68,7 @@ public class PrescriptionController {
         return page;
     }
 
-    // REST controller
-    @PostMapping("patientPrescriptions")
+    @PostMapping("patient-prescriptions-table")
     @ResponseBody
     public TableDataDTO patientPrescriptions(
             @RequestParam("patient_id") Long patientId,
@@ -76,11 +76,9 @@ public class PrescriptionController {
         return prescriptionService.getTableByPatient(patientId, data);
     }
 
-    // REST controller
-    @PostMapping("prescriptionsTable")
+    @PostMapping("prescriptions-table")
     @ResponseBody
-    public TableDataDTO prescriptionsTable(
-            @RequestParam Map<String, String> data) {
+    public TableDataDTO prescriptionsTable(@Validated RequestTableDTO data) {
         return prescriptionService.getTable(data);
     }
 
