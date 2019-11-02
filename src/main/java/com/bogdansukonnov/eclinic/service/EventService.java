@@ -1,8 +1,7 @@
 package com.bogdansukonnov.eclinic.service;
 
 import com.bogdansukonnov.eclinic.converter.EventConverter;
-import com.bogdansukonnov.eclinic.dao.EventDAOOld;
-import com.bogdansukonnov.eclinic.dao.SortBy;
+import com.bogdansukonnov.eclinic.dao.EventDAO;
 import com.bogdansukonnov.eclinic.dto.EventDTO;
 import com.bogdansukonnov.eclinic.dto.TableDataDTO;
 import com.bogdansukonnov.eclinic.entity.*;
@@ -28,7 +27,7 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 public class EventService {
 
-    private EventDAOOld eventDAO;
+    private EventDAO eventDAO;
     private EventConverter converter;
     private UserGetter userGetter;
 
@@ -184,23 +183,26 @@ public class EventService {
     public TableDataDTO getTable(Map<String, String> data) {
 
         Integer draw = Integer.parseInt(data.get("draw"));
-        Integer start = Integer.parseInt(data.get("start"));
-        Integer length = Integer.parseInt(data.get("length"));
+        Integer offset = Integer.parseInt(data.get("start"));
+        Integer limit = Integer.parseInt(data.get("length"));
         boolean showCompleted = Boolean.parseBoolean(data.get("showCompleted"));
         String search = data.get("search[value]");
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yy HH:mm");
         LocalDateTime startDate = LocalDateTime.parse(data.get("startDate"), formatter);
         LocalDateTime endDate = LocalDateTime.parse(data.get("endDate"), formatter);
 
-        TableData<Event> tableData = eventDAO.getTableData(SortBy.NAME, start, length, showCompleted
-                , search, startDate, endDate);
+        String orderField = "createdDateTime desc";
 
-        List<EventDTO> eventDTOS = tableData.getData().stream()
+        List<Event> events = eventDAO.getAll(search, orderField, offset, limit, showCompleted
+                , startDate, endDate, null);
+
+        List<EventDTO> eventDTOS = events.stream()
                 .map(event -> converter.toDTO(event))
                 .collect(Collectors.toList());
 
-        return new TableDataDTO<>(eventDTOS, draw
-                , tableData.getRecordsTotal(), tableData.getRecordsFiltered());
+        Long count = eventDAO.getCount(search, showCompleted, startDate, endDate, null);
+
+        return new TableDataDTO<>(eventDTOS, draw, count, count);
     }
 
     /**
@@ -213,17 +215,22 @@ public class EventService {
     public TableDataDTO getTable(Long prescriptionId, Map<String, String> data) {
 
         Integer draw = Integer.parseInt(data.get("draw"));
-        Integer start = Integer.parseInt(data.get("start"));
-        Integer length = Integer.parseInt(data.get("length"));
+        Integer offset = Integer.parseInt(data.get("start"));
+        Integer limit = Integer.parseInt(data.get("length"));
         String search = data.get("search");
 
-        List<Event> events = eventDAO.getAll(prescriptionId);
+        String orderField = "createdDateTime desc";
 
-        List<EventDTO> list = events.stream()
+        List<Event> events = eventDAO.getAll(search, orderField, offset, limit, true
+                , null, null, null);
+
+        List<EventDTO> eventDTOS = events.stream()
                 .map(event -> converter.toDTO(event))
                 .collect(Collectors.toList());
 
-        return new TableDataDTO<>(list , draw, (long) list.size(), (long) list.size());
+        Long count = eventDAO.getCount(search, true, null, null, prescriptionId);
+
+        return new TableDataDTO<>(eventDTOS , draw, count, count);
     }
 
     /**

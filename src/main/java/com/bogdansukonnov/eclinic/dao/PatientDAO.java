@@ -2,10 +2,7 @@ package com.bogdansukonnov.eclinic.dao;
 
 import com.bogdansukonnov.eclinic.entity.Patient;
 import org.apache.commons.lang3.StringUtils;
-import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
-
-import java.util.List;
 
 @Repository
 public class PatientDAO extends AbstractTableDAO<Patient> implements ITableDAO<Patient> {

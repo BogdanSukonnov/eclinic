@@ -2,6 +2,7 @@ package com.bogdansukonnov.eclinic.service;
 
 import com.bogdansukonnov.eclinic.entity.TimePatternItem;
 import lombok.AllArgsConstructor;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
@@ -12,10 +13,15 @@ import java.util.List;
 
 class EventServiceTest {
 
+    private EventService service;
+
+    @BeforeEach
+    void init() {
+        service = new EventService();
+    }
+
     @Test
     void twiceADay() {
-
-        EventService service = new EventService();
 
         List<ItemData> dataList = new ArrayList<>();
         dataList.add(new ItemData(0, 9, 0));
@@ -34,8 +40,6 @@ class EventServiceTest {
 
     @Test
     void twiceAWeek() {
-
-        EventService service = new EventService();
 
         List<ItemData> dataList = new ArrayList<>();
         dataList.add(new ItemData(1, 15, 0)); // tuesday
