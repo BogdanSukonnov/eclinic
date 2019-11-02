@@ -8,6 +8,6 @@ public interface ITableDAO<T> extends IDAO<T> {
 
     public List<T> getAll(String orderField, String search, int offset, int limit);
 
-    public Long getCount(String search);
+    public Long getTotalFiltered(String search);
 
 }

@@ -65,6 +65,8 @@ function buildAjaxObject(data) {
         draw: data.draw,
         offset: data.start,
         limit: data.length,
+        orderField: '',
+        orderDirection: '',
         showCompleted: showCompleted,
         startDate: periodDates().start.format(),
         endDate: periodDates().end.format()

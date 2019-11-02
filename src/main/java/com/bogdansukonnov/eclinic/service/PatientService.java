@@ -3,6 +3,7 @@ package com.bogdansukonnov.eclinic.service;
 import com.bogdansukonnov.eclinic.dao.PatientDAO;
 import com.bogdansukonnov.eclinic.dao.SortBy;
 import com.bogdansukonnov.eclinic.dto.PatientDTO;
+import com.bogdansukonnov.eclinic.dto.RequestTableDTO;
 import com.bogdansukonnov.eclinic.dto.TableDataDTO;
 import com.bogdansukonnov.eclinic.entity.Patient;
 import com.bogdansukonnov.eclinic.entity.PatientStatus;
@@ -13,7 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -44,15 +44,12 @@ public class PatientService {
     }
 
     @Transactional(readOnly = true)
-    public TableDataDTO getTable(Map<String, String> data) {
+    public TableDataDTO getTable(RequestTableDTO data) {
 
-        String orderField = data.get("orderColumn") + " " + data.get("orderDirection");
-        String search = data.get("search[value]");
-        int offset = Integer.parseInt(data.get("start"));
-        int limit = Integer.parseInt(data.get("length"));
-        List<Patient> patients = patientDAO.getAll(orderField, search, offset, limit);
+        List<Patient> patients = patientDAO.getAll(data.getOrderField(), data.getSearch(),
+                data.getOffset(), data.getLimit());
 
-        Long count = patientDAO.getCount(search);
+        Long totalFiltered = patientDAO.getTotalFiltered(data.getSearch());
 
         List<PatientDTO> list = patients.stream()
                 .map(patient -> {
@@ -62,7 +59,7 @@ public class PatientService {
                 })
                 .collect(Collectors.toList());
 
-        return new TableDataDTO<>(list, Integer.parseInt(data.get("draw")), count, count);
+        return new TableDataDTO<>(list, data.getDraw(), totalFiltered, totalFiltered);
     }
 
 }

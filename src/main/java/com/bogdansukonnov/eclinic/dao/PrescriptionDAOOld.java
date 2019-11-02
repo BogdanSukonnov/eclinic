@@ -45,8 +45,8 @@ public class PrescriptionDAOOld extends OldAbstractDAO<Prescription> {
         return query.list();
     }
 
-    public Long getCount(String search) {
-        String queryStr = "Select count (t.id) from Prescription t";
+    public Long getTotalFiltered(String search) {
+        String queryStr = "Select count(t.id) from Prescription t";
         addSearchToQuery(queryStr, search);
         Query query = getCurrentSession().createQuery(queryStr);
         if (!StringUtils.isBlank(search)) {

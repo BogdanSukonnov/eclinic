@@ -19,7 +19,6 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -192,10 +191,10 @@ public class EventService {
                 .map(event -> converter.toDTO(event))
                 .collect(Collectors.toList());
 
-        Long count = eventDAO.getCount(data.getSearch(), data.getShowCompleted(), startDate,
+        Long totalFiltered = eventDAO.getTotalFiltered(data.getSearch(), data.getShowCompleted(), startDate,
                 endDate, null);
 
-        return new TableDataDTO<>(eventDTOS, data.getDraw(), count, count);
+        return new TableDataDTO<>(eventDTOS, data.getDraw(), totalFiltered, totalFiltered);
     }
 
     /**
@@ -221,9 +220,9 @@ public class EventService {
                 .map(event -> converter.toDTO(event))
                 .collect(Collectors.toList());
 
-        Long count = eventDAO.getCount(search, true, null, null, prescriptionId);
+        Long totalFiltered = eventDAO.getTotalFiltered(search, true, null, null, prescriptionId);
 
-        return new TableDataDTO<>(eventDTOS , draw, count, count);
+        return new TableDataDTO<>(eventDTOS , draw, totalFiltered, totalFiltered);
     }
 
     /**

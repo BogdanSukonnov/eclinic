@@ -55,9 +55,9 @@ public class EventDAO extends AbstractTableDAO<Event> implements ITableDAO<Event
         return query.list();
     }
 
-    public Long getCount(String search, boolean showCompleted, LocalDateTime startDate, LocalDateTime endDate
+    public Long getTotalFiltered(String search, boolean showCompleted, LocalDateTime startDate, LocalDateTime endDate
         , Long prescriptionId) {
-        String queryStr = "Select count (t.id) from " + getClazz().getName() + " t";
+        String queryStr = "Select count(t.id) from " + getClazz().getName() + " t";
         queryStr += getQueryConditions(search, showCompleted, prescriptionId, startDate, endDate);
         Query query = getCurrentSession().createQuery(queryStr);
         setParameters(query, search, showCompleted, startDate, endDate, prescriptionId);

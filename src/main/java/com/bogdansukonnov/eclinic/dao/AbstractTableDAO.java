@@ -24,15 +24,15 @@ public abstract class AbstractTableDAO<T> extends AbstractDAO<T> {
         return query.list();
     }
 
-    public Long getCount(String search) {
-        String queryStr = "Select count (t.id) from " + getClazz().getName() + " t";
+    public Long getTotalFiltered(String search) {
+        String queryStr = "Select count(t.id) from " + getClazz().getName() + " t";
         queryStr += getQueryConditions(search);
         Query query = getCurrentSession().createQuery(queryStr);
         setParameters(query, search);
         return (Long) query.uniqueResult();
     }
 
-    protected void setParameters(Query query, String search) {
+    private void setParameters(Query query, String search) {
         if (!StringUtils.isBlank(search)) {
             query.setParameter("search", "%" + search + "%");
         }

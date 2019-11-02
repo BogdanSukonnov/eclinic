@@ -20,4 +20,8 @@ public class RequestTableDTO {
 
     String search;
 
+    String orderField;
+
+    String orderDirection;
+
 }

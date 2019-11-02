@@ -5,6 +5,17 @@ $(document).ready(function() {
     patientsTableInit();
 } );
 
+function buildAjaxObject(data) {
+    return {
+        search: data.search.value,
+        draw: data.draw,
+        offset: data.start,
+        limit: data.length,
+        orderField: data.columns[data.order[0].column].name,
+        orderDirection: data.order[0].dir
+    }
+}
+
 function patientsTableInit() {
     const table = $(patientsTableId).DataTable({
         dom: "<'tableHeaderRow'Bfl>" +
@@ -23,10 +34,7 @@ function patientsTableInit() {
         ajax: {
             url: '/doctor/patients-table',
             type: 'POST',
-            data: function ( d ) {
-                d.orderColumn = d.columns[d.order[0].column].name;
-                d.orderDirection = d.order[0].dir;
-            }
+            data: function(data) {return buildAjaxObject(data)}
         },
         rowId: 'id',
         columns: [
