@@ -4,10 +4,12 @@ import java.util.List;
 
 public interface ITableDAO<T> extends IDAO<T> {
 
-    String getQueryConditions(String search);
+    String getQueryConditions(String search, Long parentId);
 
-    public List<T> getAll(String orderField, String search, int offset, int limit);
+    String getParentField();
 
-    public Long getTotalFiltered(String search);
+    public List<T> getAll(String orderField, String search, int offset, int limit, Long parentId);
+
+    public Long getTotalFiltered(String search, Long parentId);
 
 }

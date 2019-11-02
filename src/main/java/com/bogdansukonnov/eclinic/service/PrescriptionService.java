@@ -13,14 +13,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
 public class PrescriptionService {
 
-    private PrescriptionDAOOld prescriptionDAO;
+    private PrescriptionDAO prescriptionDAO;
     private PrescriptionConverter converter;
     private TreatmentDAOOld treatmentDAO;
     private TimePatternDAOOld timePatternDAO;
@@ -88,25 +87,12 @@ public class PrescriptionService {
     }
 
     @Transactional(readOnly = true)
-    public TableDataDTO getTableByPatient(Long patientId, Map<String, String> data) {
-
-        List<Prescription> allByPatient = prescriptionDAO.getAllByPatient(patientId);
-
-        List<PrescriptionDTO> list = allByPatient.stream()
-                .map(prescription -> converter.toDTO(prescription))
-                .collect(Collectors.toList());
-
-        return new TableDataDTO<>(list
-                , Integer.parseInt(data.get("draw")), (long) list.size(), (long) list.size());
-    }
-
-    @Transactional(readOnly = true)
     public TableDataDTO getTable(RequestTableDTO data) {
 
         List<Prescription> prescriptions = prescriptionDAO.getAll("createdDateTime desc", data.getSearch(),
-                data.getOffset(), data.getLimit());
+                data.getOffset(), data.getLimit(), data.getParentId());
 
-        Long totalFiltered = prescriptionDAO.getTotalFiltered(data.getSearch());
+        Long totalFiltered = prescriptionDAO.getTotalFiltered(data.getSearch(), data.getParentId());
 
         List<PrescriptionDTO> list = prescriptions.stream()
                 .map(prescription -> converter.toDTO(prescription))

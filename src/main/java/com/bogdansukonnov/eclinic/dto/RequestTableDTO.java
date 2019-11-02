@@ -24,4 +24,6 @@ public class RequestTableDTO {
 
     String orderDirection;
 
+    Long parentId;
+
 }

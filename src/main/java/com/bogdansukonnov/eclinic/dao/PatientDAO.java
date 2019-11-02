@@ -12,12 +12,17 @@ public class PatientDAO extends AbstractTableDAO<Patient> implements ITableDAO<P
     }
 
     @Override
-    public String getQueryConditions(String search) {
+    public String getQueryConditions(String search, Long parentId) {
         String conditions = "";
         if (!StringUtils.isBlank(search)) {
             conditions = " where (lower(t.fullName) like lower(:search)) or (t.insuranceNumber like :search)";
         }
         return conditions;
+    }
+
+    @Override
+    public String getParentField() {
+        return null;
     }
 
 }

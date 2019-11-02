@@ -36,11 +36,13 @@
             <button type="submit" class="btn btn-light">New prescription</button>
         </form>
 
-        <div>
-            <table id="patientPrescriptionsTable" class="display" style="width:100%">
+        <div class="container-fluid">
+            <table id="patientPrescriptionsTable" class="table table-hover" style="width:100%">
                 <thead>
                     <tr>
                         <th>Date</th>
+                        <th>Status</th>
+                        <th>Patient</th>
                         <th>Type</th>
                         <th>Treatment</th>
                         <th>Dosage</th>

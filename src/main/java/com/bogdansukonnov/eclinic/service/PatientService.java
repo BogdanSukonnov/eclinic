@@ -47,9 +47,9 @@ public class PatientService {
     public TableDataDTO getTable(RequestTableDTO data) {
 
         List<Patient> patients = patientDAO.getAll(data.getOrderField(), data.getSearch(),
-                data.getOffset(), data.getLimit());
+                data.getOffset(), data.getLimit(), null);
 
-        Long totalFiltered = patientDAO.getTotalFiltered(data.getSearch());
+        Long totalFiltered = patientDAO.getTotalFiltered(data.getSearch(), null);
 
         List<PatientDTO> list = patients.stream()
                 .map(patient -> {

@@ -20,12 +20,13 @@ public class EventDAO extends AbstractTableDAO<Event> implements ITableDAO<Event
     }
 
     @Override
-    public String getQueryConditions(String search) {
-        String conditions = "";
-        if (!StringUtils.isBlank(search)) {
-            conditions += " where (lower(t.patient.fullName) like lower(:search))";
-        }
-        return conditions;
+    public String getQueryConditions(String search, Long parentId) {
+        return null;
+    }
+
+    @Override
+    public String getParentField() {
+        return "prescription";
     }
 
     @Override
@@ -114,5 +115,4 @@ public class EventDAO extends AbstractTableDAO<Event> implements ITableDAO<Event
             query.setParameter("prescriptionId", prescriptionId);
         }
     }
-
 }

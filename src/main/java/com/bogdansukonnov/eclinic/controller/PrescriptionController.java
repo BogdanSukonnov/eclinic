@@ -16,7 +16,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
-import java.util.Map;
 
 @Controller
 @AllArgsConstructor
@@ -66,14 +65,6 @@ public class PrescriptionController {
         prescriptionService.save(SaveType.UPDATE, prescriptionDTO);
         String page = "redirect:/doctor/prescriptions";
         return page;
-    }
-
-    @PostMapping("patient-prescriptions-table")
-    @ResponseBody
-    public TableDataDTO patientPrescriptions(
-            @RequestParam("patient_id") Long patientId,
-            @RequestParam Map<String, String> data) {
-        return prescriptionService.getTableByPatient(patientId, data);
     }
 
     @PostMapping("prescriptions-table")
