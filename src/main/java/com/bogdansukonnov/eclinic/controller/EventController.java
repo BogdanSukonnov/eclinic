@@ -1,17 +1,21 @@
 package com.bogdansukonnov.eclinic.controller;
 
+import com.bogdansukonnov.eclinic.dto.RequestEventTableDTO;
 import com.bogdansukonnov.eclinic.dto.TableDataDTO;
 import com.bogdansukonnov.eclinic.entity.EventStatus;
 import com.bogdansukonnov.eclinic.exceptions.EventStatusUpdateException;
 import com.bogdansukonnov.eclinic.service.EventService;
 import lombok.AllArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.time.LocalDateTime;
 import java.util.Map;
 
 @Controller
@@ -35,8 +39,12 @@ public class EventController {
     // REST controller
     @PostMapping("/nurse/events-table")
     @ResponseBody
-    public TableDataDTO eventsTable(@RequestParam Map<String, String> data) {
-        return eventService.getTable(data);
+    public TableDataDTO eventsTable(@Validated RequestEventTableDTO data,
+        @RequestParam("startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+                LocalDateTime startDate,
+        @RequestParam("endDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+                LocalDateTime endDate) {
+        return eventService.getTable(data, startDate, endDate);
     }
 
     // REST controller

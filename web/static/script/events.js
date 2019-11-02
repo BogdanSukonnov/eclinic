@@ -59,6 +59,18 @@ function onTableChange ( e, settings, json, xhr ) {
     setFiltersToUrl();
 }
 
+function buildAjaxObject(data) {
+    return {
+        search: data.search.value,
+        draw: data.draw,
+        offset: data.start,
+        limit: data.length,
+        showCompleted: showCompleted,
+        startDate: periodDates().start.format(),
+        endDate: periodDates().end.format()
+    }
+}
+
 function eventsTableInit() {
     table = tableElement.DataTable({
         dom: "<'tableHeaderRow'fl>" +
@@ -77,11 +89,7 @@ function eventsTableInit() {
         ajax: {
             url: '/nurse/events-table',
             type: 'POST',
-            data: {
-                "showCompleted": showCompleted,
-                "startDate": periodDates().start.format('DD-MM-YY HH:mm'),
-                "endDate": periodDates().end.format('DD-MM-YY HH:mm')
-            }
+            data: function(data) {return buildAjaxObject(data)}
         },
         rowId: 'id',
         columns: [

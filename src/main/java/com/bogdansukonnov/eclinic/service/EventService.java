@@ -3,6 +3,7 @@ package com.bogdansukonnov.eclinic.service;
 import com.bogdansukonnov.eclinic.converter.EventConverter;
 import com.bogdansukonnov.eclinic.dao.EventDAO;
 import com.bogdansukonnov.eclinic.dto.EventDTO;
+import com.bogdansukonnov.eclinic.dto.RequestEventTableDTO;
 import com.bogdansukonnov.eclinic.dto.TableDataDTO;
 import com.bogdansukonnov.eclinic.entity.*;
 import com.bogdansukonnov.eclinic.exceptions.EventStatusUpdateException;
@@ -180,29 +181,21 @@ public class EventService {
      * @return TableDataDTO
      */
     @Transactional(readOnly = true)
-    public TableDataDTO getTable(Map<String, String> data) {
-
-        Integer draw = Integer.parseInt(data.get("draw"));
-        Integer offset = Integer.parseInt(data.get("start"));
-        Integer limit = Integer.parseInt(data.get("length"));
-        boolean showCompleted = Boolean.parseBoolean(data.get("showCompleted"));
-        String search = data.get("search[value]");
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yy HH:mm");
-        LocalDateTime startDate = LocalDateTime.parse(data.get("startDate"), formatter);
-        LocalDateTime endDate = LocalDateTime.parse(data.get("endDate"), formatter);
+    public TableDataDTO getTable(RequestEventTableDTO data, LocalDateTime startDate, LocalDateTime endDate) {
 
         String orderField = "createdDateTime desc";
 
-        List<Event> events = eventDAO.getAll(search, orderField, offset, limit, showCompleted
-                , startDate, endDate, null);
+        List<Event> events = eventDAO.getAll(data.getSearch(), orderField, data.getOffset(), data.getLimit()
+                , data.getShowCompleted(), startDate, endDate, null);
 
         List<EventDTO> eventDTOS = events.stream()
                 .map(event -> converter.toDTO(event))
                 .collect(Collectors.toList());
 
-        Long count = eventDAO.getCount(search, showCompleted, startDate, endDate, null);
+        Long count = eventDAO.getCount(data.getSearch(), data.getShowCompleted(), startDate,
+                endDate, null);
 
-        return new TableDataDTO<>(eventDTOS, draw, count, count);
+        return new TableDataDTO<>(eventDTOS, data.getDraw(), count, count);
     }
 
     /**
