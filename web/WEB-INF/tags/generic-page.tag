@@ -30,7 +30,9 @@
         <div class="main-wrapper" id="${mainWrapperId}">
             <c:import url="${pageContext.request.contextPath}/WEB-INF/views/common/header.jsp" />
             <c:import url="${pageContext.request.contextPath}/WEB-INF/views/common/nav.jsp" />
-            <jsp:invoke fragment="content"/>
+            <div id="main-content">
+                <jsp:invoke fragment="content"/>
+            </div>
         </div>
         <c:import url="${pageContext.request.contextPath}/WEB-INF/views/common/scripts.jsp" />
         <%--    inject scripts    --%>

@@ -6,6 +6,16 @@
     --header-color: #888f8b;
 }
 
+body {
+    overflow: hidden;  /*makes the body non-scrollable (we will add scrolling to the sidebar and main content containers)*/
+}
+
+#main-content {
+    flex-grow: 1;  /*ensures that the container will take up the full height of the parent container*/
+    overflow-y: auto;  /*adds scroll to this container*/
+    width: 100%;
+}
+
 /* main CSS Grid*/
 
 /*Set grid names*/
