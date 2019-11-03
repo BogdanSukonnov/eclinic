@@ -1,6 +1,7 @@
 let treatmentSelect = $('#treatment');
 let patternSelect = $('#pattern');
 const statusIsPrescribed = $('#status').val() === 'PRESCRIBED';
+const periodInput = $('#period');
 
 $(document).ready(function() {
     if (isNew()) {
@@ -8,6 +9,7 @@ $(document).ready(function() {
     }
     dosageVisibility();
     eventsTableInit();
+    periodInit();
     if (isNew() || statusIsPrescribed) {
         treatmentSelectInit();
         $('input[name="treatmentType"]').click(function () {
@@ -153,4 +155,73 @@ function cancelPrescription() {
 
 function openEvent(id) {
     window.location.assign('/nurse/event?id=' + id);
+}
+
+function periodInit() {
+
+    period = {
+        isCustom: false,
+        range: '2 Weeks',
+        customStart: moment().add(1, 'day'),
+        customEnd: moment().add(2, 'week'),
+        ranges: {
+            '3 Days': [moment().add(1, 'day'), moment().add(3, 'day')],
+            '1 Week': [moment().add(1, 'day'), moment().add(1, 'week')],
+            '2 Weeks': [moment().add(1, 'day'), moment().add(2, 'week')],
+            '3 Weeks': [moment().add(1, 'day'), moment().add(3, 'week')],
+            '4 Weeks': [moment().add(1, 'day'), moment().add(4, 'week')]
+        }
+    };
+
+    if (!isNew()) {
+        // dates from server
+        period.isCustom = true;
+        period.customStart = moment($('#startDate').val());
+        period.customEnd = moment($('#endDate').val());
+    }
+
+    periodInput.daterangepicker({
+        "showDropdowns": true,
+        "timePicker": false,
+        "timePicker24Hour": false,
+        "timePickerIncrement": 10,
+        ranges: period.ranges,
+        "linkedCalendars": false,
+        "opens": "right",
+        "startDate": periodDates().start,
+        "endDate": periodDates().end,
+        locale: {
+            format: 'DD\.MM'
+        }
+    }, function(start, end, label) {
+        onPeriodChange(start, end, label);
+    });
+}
+
+function onPeriodChange(start, end, label) {
+    period.isCustom = label === 'Custom Range';
+    if (period.isCustom) {
+        period.customStart = start;
+        period.customEnd = end;
+    }
+    else {
+        period.range = label;
+    }
+    $('#startDate').val(periodDates().start.format());
+    $('#endDate').val(periodDates().end.format());
+}
+
+function periodDates() {
+    if (period.isCustom) {
+        return {
+            start: period.customStart,
+            end: period.customEnd
+        }
+    }
+    else {
+        return {
+            start: period.ranges[period.range][0],
+            end: period.ranges[period.range][1]
+        }
+    }
 }

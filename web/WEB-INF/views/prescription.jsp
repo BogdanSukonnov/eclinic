@@ -31,8 +31,8 @@
                 <label for="period" class="col-sm-2 col-form-label">Period</label>
                 <div class="col-sm-2">
                     <input id="period" type="text" name="period" class="form-control" >
-                    <input id="startDate" type="hidden" value="${prescription.startDateFormatted}">
-                    <input id="endDate" type="hidden" value="${prescription.endDateFormatted}">
+                    <input id="startDate" type="hidden" name="startDate" value="${prescription.startDateFormatted}">
+                    <input id="endDate" type="hidden" name="endDate" value="${prescription.endDateFormatted}">
                 </div>
             </div>
 
@@ -173,14 +173,17 @@
 
     <%--Common part start--%>
 </jsp:attribute>
-    <jsp:attribute name="pageScripts">
-    <script src="${pageContext.request.contextPath}/static/script/prescription.js"></script>
+<jsp:attribute name="pageScripts">
     <script src="${pageContext.request.contextPath}/static/script/lib/datatables.min.js"></script>
     <script src="${pageContext.request.contextPath}/static/script/lib/select2.min.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/static/script/lib/moment.min.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/static/script/lib/daterangepicker.js"></script>
+    <script src="${pageContext.request.contextPath}/static/script/prescription.js"></script>
 </jsp:attribute>
-    <jsp:attribute name="pageStyles">
+<jsp:attribute name="pageStyles">
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/static/css/lib/daterangepicker.css" />
     <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/lib/datatables.min.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/lib/select2.min.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/lib/select2.min.css"><link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/static/css/lib/daterangepicker.css" />
 </jsp:attribute>
 </t:generic-page>
 <%--Common part end--%>
