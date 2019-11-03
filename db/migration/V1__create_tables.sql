@@ -113,7 +113,8 @@ CREATE TABLE prescription
     version         INTEGER,
     dosage          VARCHAR(255),
     prescription_status VARCHAR(255) NOT NULL,
-    duration        SMALLINT NOT NULL,
+    start_date        TIMESTAMP NOT NULL,
+    end_date        TIMESTAMP NOT NULL,
     doctor_id       BIGINT NOT NULL
         CONSTRAINT prescription_doctor_fkey
         REFERENCES app_user,

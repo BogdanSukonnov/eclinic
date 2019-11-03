@@ -39,17 +39,15 @@
         <div class="container-fluid">
             <table id="patientPrescriptionsTable" class="table table-hover" style="width:100%">
                 <thead>
-                    <tr>
-                        <th>Date</th>
-                        <th>Status</th>
-                        <th>Patient</th>
-                        <th>Type</th>
-                        <th>Treatment</th>
-                        <th>Dosage</th>
-                        <th>Pattern</th>
-                        <th>Days</th>
-                        <th>Doctor</th>
-                    </tr>
+                <tr>
+                    <th>Status</th>
+                    <th>Period</th>
+                    <th>Patient</th>
+                    <th>Type</th>
+                    <th>Treatment</th>
+                    <th>Pattern</th>
+                    <th>Doctor</th>
+                </tr>
                 </thead>
             </table>
         </div>

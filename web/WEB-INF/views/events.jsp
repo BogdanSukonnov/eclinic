@@ -19,7 +19,7 @@
                     <label for="showCompleted" class="form-check-label" >Show completed</label>
                 </div>
                 <div class="col">
-                    <input id="eventsDates" type="text" name="eventsDates" class="form-control" />
+                    <input id="eventsDates" type="text" name="eventsDates" class="form-control" >
                 </div>
             </div>
         </div>

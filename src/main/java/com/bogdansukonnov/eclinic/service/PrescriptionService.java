@@ -5,8 +5,9 @@ import com.bogdansukonnov.eclinic.dao.PatientDAO;
 import com.bogdansukonnov.eclinic.dao.PrescriptionDAO;
 import com.bogdansukonnov.eclinic.dao.TimePatternDAO;
 import com.bogdansukonnov.eclinic.dao.TreatmentDAO;
-import com.bogdansukonnov.eclinic.dto.PrescriptionDTO;
+import com.bogdansukonnov.eclinic.dto.RequestPrescriptionDTO;
 import com.bogdansukonnov.eclinic.dto.RequestTableDTO;
+import com.bogdansukonnov.eclinic.dto.ResponsePrescriptionDTO;
 import com.bogdansukonnov.eclinic.dto.TableDataDTO;
 import com.bogdansukonnov.eclinic.entity.*;
 import com.bogdansukonnov.eclinic.exceptions.PrescriptionCreationException;
@@ -16,6 +17,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -32,49 +34,54 @@ public class PrescriptionService {
     private EventService eventService;
 
     @Transactional(readOnly = true)
-    public List<PrescriptionDTO> getAll(OrderType orderType) {
+    public List<ResponsePrescriptionDTO> getAll(OrderType orderType) {
         return prescriptionDAO.getAll(orderType).stream()
                 .map(prescription -> converter.toDTO(prescription))
                 .collect(Collectors.toList());
     }
 
     @Transactional
-    public Long save(SaveType saveType, PrescriptionDTO prescriptionDTO) throws PrescriptionCreationException {
+    public Long save(RequestPrescriptionDTO dto,
+                     LocalDateTime startDate, LocalDateTime endDate)
+            throws PrescriptionCreationException {
 
-        Treatment treatment = treatmentDAO.findOne(prescriptionDTO.getTreatmentId());
-        TimePattern timePattern = timePatternDAO.findOne(prescriptionDTO.getTimePatternId());
-        Patient patient = patientDAO.findOne(prescriptionDTO.getPatientId());
+        boolean isNew = dto.getId() == null;
+
+        Treatment treatment = treatmentDAO.findOne(dto.getTreatmentId());
+        TimePattern timePattern = timePatternDAO.findOne(dto.getTimePatternId());
+        Patient patient = patientDAO.findOne(dto.getPatientId());
 
         boolean isEventsAffected;
 
         Prescription prescription;
-        if (saveType == SaveType.CREATE) {
+        if (isNew) {
             if (patient.getPatientStatus() != PatientStatus.PATIENT) {
                 throw new PrescriptionCreationException(
                         "Can't create prescription to patient in status " + patient.getPatientStatus());
             }
             prescription = new Prescription();
-            prescription.setStatus(PrescriptionStatus.ACTIVE);
+            prescription.setStatus(PrescriptionStatus.PRESCRIBED);
             isEventsAffected = true;
         }
         else {
-            prescription = prescriptionDAO.findOne(prescriptionDTO.getId());
-            isEventsAffected = !prescription.getDuration().equals(prescriptionDTO.getDuration())
-                    || !prescription.getTimePattern().getId().equals(timePattern.getId());
+            prescription = prescriptionDAO.findOne(dto.getId());
+            isEventsAffected = !prescription.getStartDate().equals(startDate)
+                    || !prescription.getEndDate().equals(endDate)
+                    || !prescription.getTimePattern().equals(timePattern);
         }
 
-        prescription = converter.toEntity(prescription, prescriptionDTO, patient, treatment, timePattern);
+        prescription = converter.toEntity(prescription, dto, patient, treatment, timePattern, startDate, endDate);
 
         // set current user as doctor
         prescription.setDoctor(userGetter.getCurrentUser());
 
         // only medicine could have a dosage
-        if (prescription.getTreatment().getType() != TreatmentType.Medicine) {
+        if (prescription.getTreatment().getType() != TreatmentType.MEDICINE) {
             prescription.setDosage("");
         }
 
         // save prescription
-        if (saveType == SaveType.CREATE) {
+        if (isNew) {
             prescriptionDAO.create(prescription);
         }
         else {
@@ -91,7 +98,7 @@ public class PrescriptionService {
     }
 
     @Transactional(readOnly = true)
-    public PrescriptionDTO getOne(Long id) {
+    public ResponsePrescriptionDTO getOne(Long id) {
         Prescription prescription = prescriptionDAO.findOne(id);
         return converter.toDTO(prescription);
     }
@@ -99,12 +106,12 @@ public class PrescriptionService {
     @Transactional(readOnly = true)
     public TableDataDTO getTable(RequestTableDTO data) {
 
-        List<Prescription> prescriptions = prescriptionDAO.getAll("createdDateTime desc", data.getSearch(),
+        List<Prescription> prescriptions = prescriptionDAO.getAll("startDate desc", data.getSearch(),
                 data.getOffset(), data.getLimit(), data.getParentId());
 
         Long totalFiltered = prescriptionDAO.getTotalFiltered(data.getSearch(), data.getParentId());
 
-        List<PrescriptionDTO> list = prescriptions.stream()
+        List<ResponsePrescriptionDTO> list = prescriptions.stream()
                 .map(prescription -> converter.toDTO(prescription))
                 .collect(Collectors.toList());
 
@@ -121,7 +128,7 @@ public class PrescriptionService {
     @Transactional
     public void cancelPrescription(Long id) throws PrescriptionUpdateException {
         Prescription prescription = prescriptionDAO.findOne(id);
-        if (!prescription.getStatus().equals(PrescriptionStatus.ACTIVE)) {
+        if (!prescription.getStatus().equals(PrescriptionStatus.PRESCRIBED)) {
             throw new PrescriptionUpdateException("Only active prescriptions can be canceled.");
         }
         eventService.cancelAllScheduled(prescription);

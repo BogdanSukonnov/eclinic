@@ -80,17 +80,7 @@ public class EventService {
         // sorted from the database, but its critical, so sort again
         Collections.sort(items);
 
-        // period starts from today or from the first completed event
         List<Event> events = eventDAO.getAll(prescription);
-
-        Optional<Event> firstCompleted = events.stream()
-                .filter(event -> event.getEventStatus().equals(EventStatus.COMPLETED))
-                .findAny();
-
-        LocalDate periodStart = firstCompleted.isPresent()
-                ? LocalDate.from(firstCompleted.get().getDateTime())
-                : LocalDate.now();
-
 
         // event should not be created sooner than the last completed event and now
         // find last completed event
@@ -102,17 +92,13 @@ public class EventService {
                 .findAny();
 
         LocalDateTime notSooner = lastCompleted.isPresent()
-                ? lastCompleted.get().getDateTime().isBefore(LocalDateTime.now())
-                    ? LocalDateTime.now()
+                ? lastCompleted.get().getDateTime().isBefore(prescription.getStartDate())
+                    ? prescription.getStartDate()
                     : lastCompleted.get().getDateTime()
-                : LocalDateTime.now();
-
-        // end of period - the day, prescription stops
-        final LocalDateTime endDate = LocalDateTime.of(periodStart.plusDays(prescription.getDuration())
-                                        , LocalTime.MIN);
+                : prescription.getStartDate();
 
         // find all dates when to create events
-        List<LocalDateTime> dates = patternDates(items, periodStart, endDate
+        List<LocalDateTime> dates = patternDates(items, prescription.getStartDate(), prescription.getEndDate()
                 , timePattern.getCycleLength(), timePattern.getIsWeekCycle(), notSooner);
 
         // actually create all events
@@ -140,14 +126,14 @@ public class EventService {
      * @param notSooner do not plan event before this moment
      * @return list of all scheduled event dates
      */
-    public List<LocalDateTime> patternDates(List<TimePatternItem> items, LocalDate periodStart
+    public List<LocalDateTime> patternDates(List<TimePatternItem> items, LocalDateTime periodStart
             , LocalDateTime endDate, Short cycleLength, Boolean isWeekCycle, LocalDateTime notSooner) {
 
-        LocalDate cycleStart = periodStart;
+        LocalDate cycleStart = LocalDate.from(periodStart);
         if (isWeekCycle) {
             // weeks cycle starts last Monday
             // ToDo: what if the first day of week is Saturday?
-            cycleStart = notSooner.toLocalDate().with(DayOfWeek.MONDAY);
+            cycleStart = periodStart.toLocalDate().with(DayOfWeek.MONDAY);
         }
         // this variable brakes the infinite while loop
         LocalDateTime itemDate = cycleStart.atStartOfDay();

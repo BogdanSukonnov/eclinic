@@ -1,6 +1,6 @@
 let treatmentSelect = $('#treatment');
 let patternSelect = $('#pattern');
-const statusIsActive = $('#status').val() === 'ACTIVE';
+const statusIsPrescribed = $('#status').val() === 'PRESCRIBED';
 
 $(document).ready(function() {
     if (isNew()) {
@@ -8,7 +8,7 @@ $(document).ready(function() {
     }
     dosageVisibility();
     eventsTableInit();
-    if (isNew() || statusIsActive) {
+    if (isNew() || statusIsPrescribed) {
         treatmentSelectInit();
         $('input[name="treatmentType"]').click(function () {
             onTreatmentTypeChange()
@@ -49,7 +49,7 @@ function treatmentSelectInit() {
 }
 
 function dosageVisibility() {
-    if (treatmentType() === 'Medicine') {
+    if (treatmentType() === 'MEDICINE') {
         $("#dosageGroup").show();
     }
     else {
@@ -58,7 +58,7 @@ function dosageVisibility() {
 }
 
 function onTreatmentTypeChange() {
-    if (treatmentType() !== 'Medicine') {
+    if (treatmentType() !== 'MEDICINE') {
         $("#dosage").val('');
     }
     dosageVisibility();

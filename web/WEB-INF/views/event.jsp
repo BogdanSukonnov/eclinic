@@ -27,7 +27,7 @@
                 <div class="field-label">${event.treatmentType}:</div>
                 <div class="field">${event.treatmentName}</div>
             </div>
-            <c:if test="${event.treatmentType.equals('Medicine')}">
+            <c:if test="${event.treatmentType.equals('MEDICINE')}">
                 <div class="prop-row">
                     <div class="field-label">Dosage:</div>
                     <div class="field">${event.dosage}</div>

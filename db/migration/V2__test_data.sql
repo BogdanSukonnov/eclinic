@@ -30,16 +30,16 @@ VALUES (1, '10:00', 1, 1),
 
 
 INSERT INTO treatment (name, type, version)
-VALUES ('levothyroxine', 'Medicine', 1),
-       ('rosuvastatin', 'Medicine', 1),
-       ('albuterol', 'Medicine', 1),
-       ('esomeprazole', 'Medicine', 1),
-       ('fluticasone', 'Medicine', 1),
-       ('ultrasound', 'Procedure', 1),
-       ('electrical stimulation', 'Procedure', 1),
-       ('traction', 'Procedure', 1),
-       ('laser or therapy', 'Procedure', 1),
-       ('hydrotherapy', 'Procedure', 1);
+VALUES ('levothyroxine', 'MEDICINE', 1),
+       ('rosuvastatin', 'MEDICINE', 1),
+       ('albuterol', 'MEDICINE', 1),
+       ('esomeprazole', 'MEDICINE', 1),
+       ('fluticasone', 'MEDICINE', 1),
+       ('ultrasound', 'PROCEDURE', 1),
+       ('electrical stimulation', 'PROCEDURE', 1),
+       ('traction', 'PROCEDURE', 1),
+       ('laser or therapy', 'PROCEDURE', 1),
+       ('hydrotherapy', 'PROCEDURE', 1);
 
 --  all passwords is 123
 INSERT INTO app_user (username, full_name, password, version)
@@ -62,8 +62,8 @@ VALUES (1, 2),
        (7, 3);
 
 
-INSERT INTO prescription (created_datetime, dosage, duration, doctor_id, patient_id, time_pattern_id, treatment_id, version, prescription_status)
-VALUES ('2019-10-11 11:30:45', '1.3 g', 14, 1, 2, 2, 4, 1, 'ACTIVE'),
-       ('2019-10-13 12:07:28', null, 7, 2, 4, 3, 6, 1, 'ACTIVE'),
-       ('2019-10-15 13:43:19', '200 ml', 7, 4, 6, 1, 1, 1, 'ACTIVE');
+INSERT INTO prescription (created_datetime, dosage, start_date, end_date, doctor_id, patient_id, time_pattern_id, treatment_id, version, prescription_status)
+VALUES ('2019-10-11 11:30:45', '1.3 g', '2019-10-11 00:00:00', '2019-10-21 23:59:59', 1, 2, 2, 4, 1, 'PRESCRIBED'),
+       ('2019-10-13 12:07:28', null, '2019-10-13 00:00:00', '2019-10-25 23:59:59', 2, 4, 3, 6, 1, 'PRESCRIBED'),
+       ('2019-10-15 13:43:19', '200 ml', '2019-10-18 00:00:00', '2019-10-29 23:59:59', 4, 6, 1, 1, 1, 'PRESCRIBED');
 

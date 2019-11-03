@@ -8,7 +8,7 @@ import lombok.Setter;
 @EqualsAndHashCode(callSuper = true)
 @Getter
 @Setter
-public class PatientDTO extends AbstractDTO {
+public class RequestPatientDTO extends AbstractDTO {
 
     private String fullName;
 

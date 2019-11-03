@@ -1,7 +1,7 @@
 package com.bogdansukonnov.eclinic.controller;
 
-import com.bogdansukonnov.eclinic.dto.PatientDTO;
 import com.bogdansukonnov.eclinic.dto.RequestTableDTO;
+import com.bogdansukonnov.eclinic.dto.ResponsePatientDTO;
 import com.bogdansukonnov.eclinic.dto.TableDataDTO;
 import com.bogdansukonnov.eclinic.exceptions.PatientDischargeException;
 import com.bogdansukonnov.eclinic.service.PatientService;
@@ -33,8 +33,8 @@ public class PatientController {
     }
 
     @PostMapping("newPatient")
-    public String newPatient(PatientDTO patientDTO) {
-        Long id = patientService.addNew(patientDTO);
+    public String newPatient(ResponsePatientDTO responsePatientDTO) {
+        Long id = patientService.addNew(responsePatientDTO);
         return "redirect:/doctor/patient?id=" + id;
     }
 

@@ -6,6 +6,7 @@ import lombok.Setter;
 import org.springframework.lang.NonNull;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -13,6 +14,14 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Table(name = "prescription")
 public class Prescription extends AbstractEntity {
+
+    @Column(name = "start_date")
+    @NonNull
+    private LocalDateTime startDate;
+
+    @Column(name = "end_date")
+    @NonNull
+    private LocalDateTime endDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "patient_id")
@@ -33,11 +42,6 @@ public class Prescription extends AbstractEntity {
     @JoinColumn(name = "treatment_id")
     @NonNull
     private Treatment treatment;
-
-    // days
-    @Column(name = "duration")
-    @NonNull
-    Short duration;
 
     // only for drugs, any text
     @Column(name = "dosage")

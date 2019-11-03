@@ -28,7 +28,7 @@ class EventServiceTest {
         dataList.add(new ItemData(0, 18, 0));
         List<TimePatternItem> items = items(dataList);
 
-        LocalDate periodStart = LocalDate.of(2019, 10, 1);
+        LocalDateTime periodStart = LocalDateTime.of(2019, 10, 1, 0 , 0);
         LocalDateTime endDate = LocalDateTime.of(2019, 10, 4, 0, 0);
         LocalDateTime notSooner = LocalDateTime.of(2019, 10, 2, 10, 0);
 
@@ -46,7 +46,7 @@ class EventServiceTest {
         dataList.add(new ItemData(3, 15, 0)); // thursday
         List<TimePatternItem> items = items(dataList);
 
-        LocalDate periodStart = LocalDate.of(2019, 10, 4);
+        LocalDateTime periodStart = LocalDateTime.of(2019, 10, 4, 0 , 0);
         LocalDateTime endDate = LocalDateTime.of(2019, 10, 18, 0, 0);
         LocalDateTime notSooner = LocalDateTime.of(2019, 10, 4, 0, 0);
 

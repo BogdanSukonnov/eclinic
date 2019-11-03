@@ -22,7 +22,7 @@ function buildAjaxObject(data) {
 }
 
 function prescriptionsTableInit() {
-        const table = $(prescriptionsTableId).DataTable({
+    const table = $(prescriptionsTableId).DataTable({
         dom: "<'tableButtonContainer'B>" + "<'row'<'col-sm-12'tr>>",
         processing: true,
         serverSide: true,
@@ -32,43 +32,43 @@ function prescriptionsTableInit() {
         ajax: {
             url: '/doctor/prescriptions-table',
             type: 'POST',
-            data: function(data) {return buildAjaxObject(data)}
+            data: function (data) {
+                return buildAjaxObject(data)
+            }
         },
         rowId: 'id',
         columns: [
-            {data: 'dateTimeFormatted'},
             {data: 'status'},
+            {data: 'period'},
             {data: 'patient.fullName'},
             {data: 'treatment.type'},
-            {data: 'treatment.name'},
-            {data: 'dosage'},
+            {data: 'treatmentWithDosage'},
             {data: 'timePattern.name'},
-            {data: 'duration'},
             {data: 'doctorFullName'}
         ],
-            buttons: [
-                {
-                    text: 'Back',
-                    className: backBtnClass
-                },
-                {
-                    text: 'New prescription',
-                    className: newPrescriptionBtnClass
-                },
-                {
-                    text: 'Discharge',
-                    className: dischargeBtnClass
-                }
-            ]
+        buttons: [
+            {
+                text: 'Back',
+                className: backBtnClass
+            },
+            {
+                text: 'New prescription',
+                className: newPrescriptionBtnClass
+            },
+            {
+                text: 'Discharge',
+                className: dischargeBtnClass
+            }
+        ]
     });
 
-    table.on( 'draw', function () {
+    table.on('draw', function () {
         newPrescriptionBtnInit();
         backBtnInit();
         dischargeBtnInit();
         dischargeConfirmedBtnInit();
         styleButtons();
-    } );
+    });
 
     $(prescriptionsTableId + ' tbody').on('click', 'tr', function () {
         const data = table.row(this).data();

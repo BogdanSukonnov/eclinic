@@ -1,8 +1,8 @@
 package com.bogdansukonnov.eclinic.service;
 
 import com.bogdansukonnov.eclinic.dao.PatientDAO;
-import com.bogdansukonnov.eclinic.dto.PatientDTO;
 import com.bogdansukonnov.eclinic.dto.RequestTableDTO;
+import com.bogdansukonnov.eclinic.dto.ResponsePatientDTO;
 import com.bogdansukonnov.eclinic.dto.TableDataDTO;
 import com.bogdansukonnov.eclinic.entity.Patient;
 import com.bogdansukonnov.eclinic.entity.PatientStatus;
@@ -24,21 +24,21 @@ public class PatientService {
     private ModelMapper modelMapper;
 
     @Transactional(readOnly = true)
-    public List<PatientDTO> getAll(PrescriptionService.OrderType orderType) {
+    public List<ResponsePatientDTO> getAll(PrescriptionService.OrderType orderType) {
         return patientDAO.getAll(orderType).stream()
-                .map(patient -> modelMapper.map(patient, PatientDTO.class))
+                .map(patient -> modelMapper.map(patient, ResponsePatientDTO.class))
                 .collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)
-    public PatientDTO getOne(Long id) {
+    public ResponsePatientDTO getOne(Long id) {
         Patient patient = patientDAO.findOne(id);
-        return modelMapper.map(patient, PatientDTO.class);
+        return modelMapper.map(patient, ResponsePatientDTO.class);
     }
 
     @Transactional
-    public Long addNew(PatientDTO patientDTO) {
-        Patient patient = modelMapper.map(patientDTO, Patient.class);
+    public Long addNew(ResponsePatientDTO responsePatientDTO) {
+        Patient patient = modelMapper.map(responsePatientDTO, Patient.class);
         patient.setPatientStatus(PatientStatus.PATIENT);
         patient = patientDAO.create(patient);
         return patient.getId();
@@ -52,9 +52,9 @@ public class PatientService {
 
         Long totalFiltered = patientDAO.getTotalFiltered(data.getSearch(), null);
 
-        List<PatientDTO> list = patients.stream()
+        List<ResponsePatientDTO> list = patients.stream()
                 .map(patient -> {
-                    PatientDTO dto = modelMapper.map(patient, PatientDTO.class);
+                    ResponsePatientDTO dto = modelMapper.map(patient, ResponsePatientDTO.class);
                     dto.setFormattedDate(patient.getCreatedDateTime().format(DateTimeFormatter.ofPattern("dd.MM.yy")));
                     return dto;
                 })

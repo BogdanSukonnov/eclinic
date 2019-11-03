@@ -18,12 +18,22 @@
               </c:if> >
 
             <div class="form-group">
-                <h1>${isNew ? "New" : prescription.status == "ACTIVE" ? "Edit": prescription.status} prescription</h1>
+                <h1>${isNew ? "New" : prescription.status == "PRESCRIBED" ? "Edit": prescription.status} prescription</h1>
             </div>
 
             <div class="form-group row">
                 <p class="col-sm-2 col-form-label">Patient:</p>
                 <h5 class="col-sm-10">${patientFullName}</h5>
+            </div>
+
+                <%--      period      --%>
+            <div class="form-group row">
+                <label for="period" class="col-sm-2 col-form-label">Period</label>
+                <div class="col-sm-2">
+                    <input id="period" type="text" name="period" class="form-control" >
+                    <input id="startDate" type="hidden" value="${prescription.startDateFormatted}">
+                    <input id="endDate" type="hidden" value="${prescription.endDateFormatted}">
+                </div>
             </div>
 
                 <%--      treatment type      --%>
@@ -33,14 +43,14 @@
                     <div id="treatmentTypeContainer">
                         <div class="form-check form-check-inline">
                             <input class="form-check-input" type="radio" name="treatmentType" id="inlineRadio1"
-                                   value="Procedure"
-                                ${isNew ? "checked" : prescription.treatment.type == "Procedure" ? "checked" : ""}>
+                                   value="PROCEDURE"
+                                ${isNew ? "checked" : prescription.treatment.type == "PROCEDURE" ? "checked" : ""}>
                             <label class="form-check-label" for="inlineRadio1">Procedure</label>
                         </div>
                         <div class="col-2 form-check form-check-inline">
                             <input class="form-check-input" type="radio" name="treatmentType" id="inlineRadio2"
-                                   value="Medicine"
-                                ${isNew ? "" : prescription.treatment.type == "Medicine" ? "checked" : ""}>
+                                   value="MEDICINE"
+                                ${isNew ? "" : prescription.treatment.type == "MEDICINE" ? "checked" : ""}>
                             <label class="form-check-label" for="inlineRadio2">Medicine</label>
                         </div>
                     </div>
@@ -88,18 +98,6 @@
                 </div>
             </div>
 
-
-                <%--      duration      --%>
-            <div class="form-group row">
-                <label for="duration" class="col-sm-2 col-form-label">Duration</label>
-                <div class="col-sm-2">
-                    <input type="number" id="duration" class="form-control"
-                           placeholder="Duration (days)" name="duration"
-                           value="${prescription.duration}">
-                </div>
-            </div>
-
-
                 <%--    buttons    --%>
             <div class="form-row align-items-center">
                 <div class="col-auto my-1">
@@ -107,14 +105,14 @@
                         &nbsp;&nbsp;&nbsp;Back&nbsp;&nbsp;&nbsp;
                     </button>
                 </div>
-                <c:if test="${isNew || prescription.status == 'ACTIVE'}">
+                <c:if test="${isNew || prescription.status == 'PRESCRIBED'}">
                     <div class="col-auto my-1">
                         <button type="submit" class="btn btn-primary">
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Save&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         </button>
                     </div>
                 </c:if>
-                <c:if test="${!isNew && prescription.status == 'ACTIVE'}">
+                <c:if test="${!isNew && prescription.status == 'PRESCRIBED'}">
                     <div class="col-auto my-1">
                         <button id="cancelButton" type="button" class="btn btn-outline-danger"
                                 data-toggle="modal" data-target="#cancelModal">

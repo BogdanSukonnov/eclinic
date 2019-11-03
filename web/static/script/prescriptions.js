@@ -33,14 +33,12 @@ function prescriptionsTableInit() {
         },
         rowId: 'id',
         columns: [
-            {data: 'dateTimeFormatted'},
             {data: 'status'},
+            {data: 'period'},
             {data: 'patient.fullName'},
             {data: 'treatment.type'},
-            {data: 'treatment.name'},
-            {data: 'dosage'},
+            {data: 'treatmentWithDosage'},
             {data: 'timePattern.name'},
-            {data: 'duration'},
             {data: 'doctorFullName'}
         ]
     });
