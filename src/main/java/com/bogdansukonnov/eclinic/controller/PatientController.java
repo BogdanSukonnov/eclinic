@@ -3,6 +3,7 @@ package com.bogdansukonnov.eclinic.controller;
 import com.bogdansukonnov.eclinic.dto.PatientDTO;
 import com.bogdansukonnov.eclinic.dto.RequestTableDTO;
 import com.bogdansukonnov.eclinic.dto.TableDataDTO;
+import com.bogdansukonnov.eclinic.exceptions.PatientDischargeException;
 import com.bogdansukonnov.eclinic.service.PatientService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -41,6 +42,11 @@ public class PatientController {
     @ResponseBody
     public TableDataDTO patientsTable(@Validated RequestTableDTO data) {
         return patientService.getTable(data);
+    }
+
+    @PostMapping("/discharge-patient")
+    public void dischargePatient(@RequestParam("patient_id") Long id) throws PatientDischargeException {
+        patientService.dischargePatient(id);
     }
 
 }

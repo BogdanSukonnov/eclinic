@@ -2,6 +2,8 @@ let length = 8;
 let prescriptionsTableId = '#patientPrescriptionsTable';
 let newPrescriptionBtnClass = 'newPrescriptionBtn';
 let backBtnClass = 'backBtn';
+let dischargeBtnClass = 'dischargeBtn';
+let dischargeConfirmedBtnId = 'dischargeConfirmedBtn';
 
 $(document).ready(function() {
     prescriptionsTableInit();
@@ -52,6 +54,10 @@ function prescriptionsTableInit() {
                 {
                     text: 'New prescription',
                     className: newPrescriptionBtnClass
+                },
+                {
+                    text: 'Discharge',
+                    className: dischargeBtnClass
                 }
             ]
     });
@@ -59,6 +65,8 @@ function prescriptionsTableInit() {
     table.on( 'draw', function () {
         newPrescriptionBtnInit();
         backBtnInit();
+        dischargeBtnInit();
+        dischargeConfirmedBtnInit();
         styleButtons();
     } );
 
@@ -89,6 +97,28 @@ function newPrescriptionBtnInit() {
             + $('#patient_fullName').val());
     });
     newPrescriptionBtn.prop('disabled', !isStatusPatient());
+}
+
+function dischargeBtnInit() {
+    $('.' + dischargeBtnClass)
+        .prop('disabled', !isStatusPatient())
+        .attr('data-toggle', 'modal')
+        .attr('data-target', '#dischargeModal');
+}
+
+function dischargeConfirmedBtnInit() {
+    let dischargeConfirmedBtn = $('#' + dischargeConfirmedBtnId);
+    dischargeConfirmedBtn.click(function () {
+        $.post('/doctor/discharge-patient', {patient_id: $('#patient_id').val()},
+            function () {
+                location.reload();
+            })
+            .fail(function () {
+            })
+            .always(function () {
+            });
+    });
+    dischargeConfirmedBtn.prop('disabled', !isStatusPatient());
 }
 
 function backBtnInit() {

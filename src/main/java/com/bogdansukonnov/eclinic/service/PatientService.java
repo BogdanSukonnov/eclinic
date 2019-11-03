@@ -6,6 +6,7 @@ import com.bogdansukonnov.eclinic.dto.RequestTableDTO;
 import com.bogdansukonnov.eclinic.dto.TableDataDTO;
 import com.bogdansukonnov.eclinic.entity.Patient;
 import com.bogdansukonnov.eclinic.entity.PatientStatus;
+import com.bogdansukonnov.eclinic.exceptions.PatientDischargeException;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -62,4 +63,16 @@ public class PatientService {
         return new TableDataDTO<>(list, data.getDraw(), totalFiltered, totalFiltered);
     }
 
+    @Transactional
+    public void dischargePatient(Long id) throws PatientDischargeException {
+        Patient patient = patientDAO.findOne(id);
+        if (patient.getPatientStatus() != PatientStatus.PATIENT) {
+            throw new PatientDischargeException("Can't discharge patient in status " + patient.getPatientStatus());
+        }
+        patient.setPatientStatus(PatientStatus.DISCHARGED);
+        patientDAO.update(patient);
+
+        //cancel active prescriptions
+
+    }
 }
