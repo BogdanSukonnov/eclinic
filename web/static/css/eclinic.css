@@ -240,6 +240,10 @@ table a {
     padding: .375rem .75rem !important;
 }
 
+span.select2 {
+    width: 100% !important;
+}
+
 .table thead th {
     border-bottom-width: 1px !important;
 }
@@ -250,3 +254,4 @@ table a {
     justify-content: space-between;
     align-items: baseline;
 }
+
