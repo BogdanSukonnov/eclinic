@@ -9,6 +9,7 @@ import com.bogdansukonnov.eclinic.dto.PrescriptionDTO;
 import com.bogdansukonnov.eclinic.dto.RequestTableDTO;
 import com.bogdansukonnov.eclinic.dto.TableDataDTO;
 import com.bogdansukonnov.eclinic.entity.*;
+import com.bogdansukonnov.eclinic.exceptions.PrescriptionCreationException;
 import com.bogdansukonnov.eclinic.exceptions.PrescriptionUpdateException;
 import com.bogdansukonnov.eclinic.security.UserGetter;
 import lombok.AllArgsConstructor;
@@ -38,7 +39,7 @@ public class PrescriptionService {
     }
 
     @Transactional
-    public void save(SaveType saveType, PrescriptionDTO prescriptionDTO) {
+    public Long save(SaveType saveType, PrescriptionDTO prescriptionDTO) throws PrescriptionCreationException {
 
         Treatment treatment = treatmentDAO.findOne(prescriptionDTO.getTreatmentId());
         TimePattern timePattern = timePatternDAO.findOne(prescriptionDTO.getTimePatternId());
@@ -48,6 +49,10 @@ public class PrescriptionService {
 
         Prescription prescription;
         if (saveType == SaveType.CREATE) {
+            if (patient.getPatientStatus() != PatientStatus.PATIENT) {
+                throw new PrescriptionCreationException(
+                        "Can't create prescription to patient in status " + patient.getPatientStatus());
+            }
             prescription = new Prescription();
             prescription.setStatus(PrescriptionStatus.ACTIVE);
             isEventsAffected = true;
@@ -81,6 +86,8 @@ public class PrescriptionService {
             eventService.cancelAllScheduled(prescription);
             eventService.createEvents(prescription);
         }
+
+        return prescription.getId();
     }
 
     @Transactional(readOnly = true)

@@ -36,10 +36,11 @@ public class PatientService {
     }
 
     @Transactional
-    public void addNew(PatientDTO patientDTO) {
+    public Long addNew(PatientDTO patientDTO) {
         Patient patient = modelMapper.map(patientDTO, Patient.class);
         patient.setPatientStatus(PatientStatus.PATIENT);
-        patientDAO.create(patient);
+        patient = patientDAO.create(patient);
+        return patient.getId();
     }
 
     @Transactional(readOnly = true)

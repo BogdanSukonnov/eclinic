@@ -10,12 +10,12 @@
     <div class="container-fluid">
 
         <form id="prescriptionForm" method="post"
-                <c:if test="${isNew}">
-            action="${pageContext.request.contextPath}/doctor/saveNewPrescription"
-          </c:if>
-                <c:if test="${!isNew}">
-            action="${pageContext.request.contextPath}/doctor/updatePrescription"
-          </c:if> >
+            <c:if test="${isNew}">
+                action="${pageContext.request.contextPath}/doctor/saveNewPrescription"
+              </c:if>
+                    <c:if test="${!isNew}">
+                action="${pageContext.request.contextPath}/doctor/updatePrescription"
+              </c:if> >
 
             <div class="form-group">
                 <h1>${isNew ? "New" : prescription.status == "ACTIVE" ? "Edit": prescription.status} prescription</h1>
@@ -126,7 +126,7 @@
             <div hidden>
                 <input id="prescriptionId" type="hidden" name="id" value=${isNew ? null : prescription.id}>
                 <input id="status" type="hidden" name="status" value=${isNew ? null : prescription.status}>
-                <input type="hidden" name="patientId" value=${patientId}/>
+                <input type="hidden" name="patientId" id="patientId" value=${patientId}>
             </div>
         </form>
 

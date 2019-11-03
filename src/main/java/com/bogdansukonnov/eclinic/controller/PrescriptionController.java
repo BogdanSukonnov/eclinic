@@ -4,6 +4,7 @@ import com.bogdansukonnov.eclinic.dto.PrescriptionDTO;
 import com.bogdansukonnov.eclinic.dto.RequestTableDTO;
 import com.bogdansukonnov.eclinic.dto.TableDataDTO;
 import com.bogdansukonnov.eclinic.dto.Update;
+import com.bogdansukonnov.eclinic.exceptions.PrescriptionCreationException;
 import com.bogdansukonnov.eclinic.exceptions.PrescriptionUpdateException;
 import com.bogdansukonnov.eclinic.service.PrescriptionService;
 import com.bogdansukonnov.eclinic.service.SaveType;
@@ -53,17 +54,17 @@ public class PrescriptionController {
     }
 
     @PostMapping("saveNewPrescription")
-    public String newPrescription(@Validated PrescriptionDTO prescriptionDTO) {
-        prescriptionService.save(SaveType.CREATE, prescriptionDTO);
-        String page = "redirect:/doctor/patients";
-        return page;
+    public String newPrescription(@Validated PrescriptionDTO prescriptionDTO)
+            throws PrescriptionCreationException {
+        Long id = prescriptionService.save(SaveType.CREATE, prescriptionDTO);
+        return "redirect:/doctor/prescription?id=" + id;
     }
 
     @PostMapping("updatePrescription")
-    public String updatePrescription(@Validated(Update.class) PrescriptionDTO prescriptionDTO) {
+    public String updatePrescription(@Validated(Update.class) PrescriptionDTO prescriptionDTO)
+            throws PrescriptionCreationException {
         prescriptionService.save(SaveType.UPDATE, prescriptionDTO);
-        String page = "redirect:/doctor/prescriptions";
-        return page;
+        return "redirect:/doctor/prescriptions";
     }
 
     @PostMapping("prescriptions-table")

@@ -1,6 +1,7 @@
 let length = 8;
 let prescriptionsTableId = '#patientPrescriptionsTable';
 let newPrescriptionBtnClass = 'newPrescriptionBtn';
+let backBtnClass = 'backBtn';
 
 $(document).ready(function() {
     prescriptionsTableInit();
@@ -20,7 +21,7 @@ function buildAjaxObject(data) {
 
 function prescriptionsTableInit() {
         const table = $(prescriptionsTableId).DataTable({
-        dom: "<B>" + "<'row'<'col-sm-12'tr>>",
+        dom: "<'tableButtonContainer'B>" + "<'row'<'col-sm-12'tr>>",
         processing: true,
         serverSide: true,
         lengthChange: false,
@@ -45,6 +46,10 @@ function prescriptionsTableInit() {
         ],
             buttons: [
                 {
+                    text: 'Back',
+                    className: backBtnClass
+                },
+                {
                     text: 'New prescription',
                     className: newPrescriptionBtnClass
                 }
@@ -53,6 +58,8 @@ function prescriptionsTableInit() {
 
     table.on( 'draw', function () {
         newPrescriptionBtnInit();
+        backBtnInit();
+        styleButtons();
     } );
 
     $(prescriptionsTableId + ' tbody').on('click', 'tr', function () {
@@ -61,22 +68,31 @@ function prescriptionsTableInit() {
     });
 }
 
+function styleButtons() {
+    $('.dt-buttons.btn-group').removeClass('btn-group');
+
+}
+
 function openPrescription(id) {
     window.location.assign('/doctor/prescription?id=' + id);
 }
 
+function isStatusPatient() {
+    return $('#patient_status').val() === 'PATIENT';
+}
+
 function newPrescriptionBtnInit() {
-    $('.' + newPrescriptionBtnClass).click(function () {
+    let newPrescriptionBtn = $('.' + newPrescriptionBtnClass);
+    newPrescriptionBtn.click(function () {
         window.location.assign('/doctor/newPrescription?patient_id='
             + $('#patient_id').val() + '&patient_fullName='
             + $('#patient_fullName').val());
-        // $.ajax({
-        //     type: 'GET',
-        //     url: '/doctor/newPrescription',
-        //     data: {
-        //         patient_id: $('#patient_id').val(),
-        //         patient_fullName: $('#patient_fullName').val()
-        //     }
-        // })
+    });
+    newPrescriptionBtn.prop('disabled', !isStatusPatient());
+}
+
+function backBtnInit() {
+    $('.' + backBtnClass).click(function () {
+        history.back();
     });
 }

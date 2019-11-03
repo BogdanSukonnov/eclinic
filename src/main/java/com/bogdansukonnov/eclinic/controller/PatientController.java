@@ -33,8 +33,8 @@ public class PatientController {
 
     @PostMapping("newPatient")
     public String newPatient(PatientDTO patientDTO) {
-        patientService.addNew(patientDTO);
-        return "redirect:/doctor/patients";
+        Long id = patientService.addNew(patientDTO);
+        return "redirect:/doctor/patient?id=" + id;
     }
 
     @PostMapping("/patients-table")

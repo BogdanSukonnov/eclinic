@@ -3,6 +3,9 @@ let patternSelect = $('#pattern');
 const statusIsActive = $('#status').val() === 'ACTIVE';
 
 $(document).ready(function() {
+    if (isNew()) {
+        changeNewHistory();
+    }
     dosageVisibility();
     eventsTableInit();
     if (isNew() || statusIsActive) {
@@ -19,6 +22,10 @@ $(document).ready(function() {
         disableInputs();
     }
 });
+
+function changeNewHistory() {
+    history.replaceState(null, '', '/doctor/patient?id=' + $('#patientId').val());
+}
 
 function disableInputs() {
     $('#prescriptionForm input,select').prop('disabled', true);
