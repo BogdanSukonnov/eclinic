@@ -255,3 +255,7 @@ span.select2 {
     align-items: baseline;
 }
 
+#treatmentTypeContainer {
+    display: flex;
+    height: 100%;
+}
