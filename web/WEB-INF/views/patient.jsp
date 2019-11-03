@@ -30,11 +30,10 @@
              </div>
         </div>
 
-        <form id="newPrescriptionButtonForm" action="${pageContext.request.contextPath}/doctor/newPrescription" method="post">
-            <input type="hidden" name='patient_id' id="patient_id" value="${patient.id}" />
-            <input type="hidden" name='patient_fullName' value="${patient.fullName}" />
-            <button type="submit" class="btn btn-light">New prescription</button>
-        </form>
+        <div hidden>
+            <input type="hidden" id="patient_id" value="${patient.id}" />
+            <input type="hidden" id="patient_fullName" value="${patient.fullName}" />
+        </div>
 
         <div class="container-fluid">
             <table id="patientPrescriptionsTable" class="table table-hover" style="width:100%">

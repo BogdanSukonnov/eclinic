@@ -42,13 +42,13 @@ public class PrescriptionController {
         return model;
     }
 
-    @PostMapping("newPrescription")
-    public ModelAndView newPrescription(@RequestParam("patient_id") Long patient_id,
-                                        @RequestParam("patient_fullName") String patient_fullName) {
+    @GetMapping("newPrescription")
+    public ModelAndView newPrescription(@RequestParam("patient_id") Long patientId,
+                                        @RequestParam("patient_fullName") String patientFullName) {
         ModelAndView model = new ModelAndView("prescription");
         model.addObject("isNew", true);
-        model.addObject("patientId", patient_id);
-        model.addObject("patientFullName", patient_fullName);
+        model.addObject("patientId", patientId);
+        model.addObject("patientFullName", patientFullName);
         return model;
     }
 

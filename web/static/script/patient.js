@@ -1,5 +1,6 @@
 let length = 8;
 let prescriptionsTableId = '#patientPrescriptionsTable';
+let newPrescriptionBtnClass = 'newPrescriptionBtn';
 
 $(document).ready(function() {
     prescriptionsTableInit();
@@ -19,7 +20,7 @@ function buildAjaxObject(data) {
 
 function prescriptionsTableInit() {
         const table = $(prescriptionsTableId).DataTable({
-        dom: "<'row'<'col-sm-12'tr>>",
+        dom: "<B>" + "<'row'<'col-sm-12'tr>>",
         processing: true,
         serverSide: true,
         lengthChange: false,
@@ -41,8 +42,18 @@ function prescriptionsTableInit() {
             {data: 'timePattern.name'},
             {data: 'duration'},
             {data: 'doctorFullName'}
-        ]
+        ],
+            buttons: [
+                {
+                    text: 'New prescription',
+                    className: newPrescriptionBtnClass
+                }
+            ]
     });
+
+    table.on( 'draw', function () {
+        newPrescriptionBtnInit();
+    } );
 
     $(prescriptionsTableId + ' tbody').on('click', 'tr', function () {
         const data = table.row(this).data();
@@ -52,4 +63,20 @@ function prescriptionsTableInit() {
 
 function openPrescription(id) {
     window.location.assign('/doctor/prescription?id=' + id);
+}
+
+function newPrescriptionBtnInit() {
+    $('.' + newPrescriptionBtnClass).click(function () {
+        window.location.assign('/doctor/newPrescription?patient_id='
+            + $('#patient_id').val() + '&patient_fullName='
+            + $('#patient_fullName').val());
+        // $.ajax({
+        //     type: 'GET',
+        //     url: '/doctor/newPrescription',
+        //     data: {
+        //         patient_id: $('#patient_id').val(),
+        //         patient_fullName: $('#patient_fullName').val()
+        //     }
+        // })
+    });
 }
