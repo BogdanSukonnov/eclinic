@@ -101,20 +101,24 @@
 
 
                 <%--    buttons    --%>
-            <div class="form-group row">
+            <div class="form-row align-items-center">
                 <div class="col-auto my-1">
-                    <button type="button" class="btn btn-outline-secondary" onclick="window.history.back();">Back
+                    <button type="button" class="btn btn-secondary" onclick="window.history.back();">
+                        &nbsp;&nbsp;&nbsp;Back&nbsp;&nbsp;&nbsp;
                     </button>
                 </div>
                 <c:if test="${isNew || prescription.status == 'ACTIVE'}">
                     <div class="col-auto my-1">
-                        <button type="submit" class="btn btn-outline-primary">Save</button>
+                        <button type="submit" class="btn btn-primary">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Save&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        </button>
                     </div>
                 </c:if>
                 <c:if test="${!isNew && prescription.status == 'ACTIVE'}">
                     <div class="col-auto my-1">
                         <button id="cancelButton" type="button" class="btn btn-outline-danger"
-                                data-toggle="modal" data-target="#cancelModal">Cancel prescription
+                                data-toggle="modal" data-target="#cancelModal">
+                            Cancel prescription
                         </button>
                     </div>
                 </c:if>
