@@ -6,12 +6,10 @@ import com.bogdansukonnov.eclinic.exceptions.PrescriptionUpdateException;
 import com.bogdansukonnov.eclinic.service.PrescriptionService;
 import lombok.AllArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletResponse;
@@ -84,6 +82,7 @@ public class PrescriptionController {
     }
 
     @PostMapping("cancel-prescription")
+    @ResponseStatus(HttpStatus.OK)
     public void cancelPrescription(@RequestParam("id") Long id, HttpServletResponse response)
             throws PrescriptionUpdateException {
         prescriptionService.cancelPrescription(id);
