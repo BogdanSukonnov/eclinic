@@ -37,7 +37,11 @@ function cancelEvent() {
     $.ajax({
         type: "POST",
         url: '/nurse/cancel-event',
-        data: { 'id': $('#eventId').val() , 'cancel-reason': reasonInput.val() }
+        data: {
+            id: $('#eventId').val(),
+            version: $('#version').val(),
+            cancel_reason: reasonInput.val()
+        }
     });
     window.history.back();
 }

@@ -125,6 +125,7 @@
                 <input id="prescriptionId" type="hidden" name="id" value=${isNew ? null : prescription.id}>
                 <input id="status" type="hidden" name="status" value=${isNew ? null : prescription.status}>
                 <input type="hidden" name="patientId" id="patientId" value=${patientId}>
+                <input type="hidden" name="version" value=${prescription.version}>
             </div>
         </form>
 

@@ -1,7 +1,7 @@
 package com.bogdansukonnov.eclinic.controller;
 
 import com.bogdansukonnov.eclinic.dto.*;
-import com.bogdansukonnov.eclinic.exceptions.PrescriptionCreationException;
+import com.bogdansukonnov.eclinic.exceptions.PrescriptionCreateException;
 import com.bogdansukonnov.eclinic.exceptions.PrescriptionUpdateException;
 import com.bogdansukonnov.eclinic.service.PrescriptionService;
 import lombok.AllArgsConstructor;
@@ -58,7 +58,7 @@ public class PrescriptionController {
               @RequestParam("endDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
                       LocalDateTime endDate
     )
-            throws PrescriptionCreationException {
+            throws PrescriptionCreateException {
         Long id = prescriptionService.save(dto, startDate, endDate);
         return "redirect:/doctor/prescription?id=" + id;
     }
@@ -69,7 +69,7 @@ public class PrescriptionController {
                      LocalDateTime startDate,
              @RequestParam("endDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
                          LocalDateTime endDate)
-            throws PrescriptionCreationException {
+            throws PrescriptionCreateException {
         prescriptionService.save(dto, startDate, endDate);
         return "redirect:/doctor/prescriptions";
     }

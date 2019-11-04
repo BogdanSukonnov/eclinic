@@ -10,6 +10,7 @@
     <div>
         <h1>Event</h1>
         <input type="hidden" id="eventId" value="${event.id}">
+        <input type="hidden" id="version" value="${event.version}">
         <div class="prop-list">
             <div class="prop-row">
                 <div class="field-label">Patient:</div>

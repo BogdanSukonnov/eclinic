@@ -216,9 +216,10 @@ public class EventService {
      * @param id event id
      * @param status new event status
      * @param cancelReason mandatory reason for cancel status
+     * @param version
      */
     @Transactional
-    public void updateStatus(Long id, EventStatus status, String cancelReason) throws EventStatusUpdateException {
+    public void updateStatus(Long id, EventStatus status, String cancelReason, Integer version) throws EventStatusUpdateException {
         // check reason for cancel
         if (status.equals(EventStatus.CANCELED) && StringUtils.isBlank(cancelReason)) {
             throw new EventStatusUpdateException("Can't cancel event without reason.");
@@ -228,6 +229,10 @@ public class EventService {
         if (!event.getEventStatus().equals(EventStatus.SCHEDULED)) {
             throw new EventStatusUpdateException("Can't change event status. It's allready "
                     + event.getEventStatus());
+        }
+        // check version
+        if (!event.getVersion().equals(version)) {
+            throw new EventStatusUpdateException("Can't change event status. Version conflict");
         }
         // we're good to go
         event.setEventStatus(status);

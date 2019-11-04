@@ -14,4 +14,7 @@ public abstract class AbstractDTO {
     @NotNull(groups = Update.class)
     private Long id;
 
+    @NotNull(groups = Update.class)
+    private Integer version;
+
 }

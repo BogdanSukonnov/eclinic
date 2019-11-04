@@ -109,7 +109,10 @@ function dischargeBtnInit() {
 function dischargeConfirmedBtnInit() {
     let dischargeConfirmedBtn = $('#' + dischargeConfirmedBtnId);
     dischargeConfirmedBtn.click(function () {
-        $.post('/doctor/discharge-patient', {patient_id: $('#patient_id').val()},
+        $.post('/doctor/discharge-patient', {
+            patient_id: $('#patient_id').val(),
+            version: $('#version').val()
+            },
             function () {
                 location.reload();
             })

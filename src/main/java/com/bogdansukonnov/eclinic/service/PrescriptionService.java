@@ -10,7 +10,7 @@ import com.bogdansukonnov.eclinic.dto.RequestTableDTO;
 import com.bogdansukonnov.eclinic.dto.ResponsePrescriptionDTO;
 import com.bogdansukonnov.eclinic.dto.TableDataDTO;
 import com.bogdansukonnov.eclinic.entity.*;
-import com.bogdansukonnov.eclinic.exceptions.PrescriptionCreationException;
+import com.bogdansukonnov.eclinic.exceptions.PrescriptionCreateException;
 import com.bogdansukonnov.eclinic.exceptions.PrescriptionUpdateException;
 import com.bogdansukonnov.eclinic.security.UserGetter;
 import lombok.AllArgsConstructor;
@@ -43,7 +43,7 @@ public class PrescriptionService {
     @Transactional
     public Long save(RequestPrescriptionDTO dto,
                      LocalDateTime startDate, LocalDateTime endDate)
-            throws PrescriptionCreationException {
+            throws PrescriptionCreateException {
 
         boolean isNew = dto.getId() == null;
 
@@ -56,7 +56,7 @@ public class PrescriptionService {
         Prescription prescription;
         if (isNew) {
             if (patient.getPatientStatus() != PatientStatus.PATIENT) {
-                throw new PrescriptionCreationException(
+                throw new PrescriptionCreateException(
                         "Can't create prescription to patient in status " + patient.getPatientStatus());
             }
             prescription = new Prescription();

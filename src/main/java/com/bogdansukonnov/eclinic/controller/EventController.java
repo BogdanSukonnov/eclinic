@@ -52,16 +52,18 @@ public class EventController {
     }
 
     @PostMapping("/nurse/complete-event")
-    public void completeEvent(@RequestParam("id") Long eventId)
+    public void completeEvent(@RequestParam("id") Long eventId,
+                              @RequestParam("version") Integer version)
             throws EventStatusUpdateException {
-        eventService.updateStatus(eventId, EventStatus.COMPLETED, "");
+        eventService.updateStatus(eventId, EventStatus.COMPLETED, "", version);
     }
 
     @PostMapping("/nurse/cancel-event")
-    public void completeEvent(@RequestParam("id") Long eventId
-        , @RequestParam("cancel-reason") String cancelReason)
+    public void completeEvent(@RequestParam("id") Long eventId,
+                              @RequestParam("cancel-reason") String cancelReason,
+                              @RequestParam("version") Integer version)
             throws EventStatusUpdateException {
-        eventService.updateStatus(eventId, EventStatus.CANCELED, cancelReason);
+        eventService.updateStatus(eventId, EventStatus.CANCELED, cancelReason, version);
     }
 
 }

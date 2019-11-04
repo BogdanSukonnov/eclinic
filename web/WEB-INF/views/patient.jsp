@@ -32,6 +32,7 @@
 
         <div hidden>
             <input type="hidden" id="patient_id" value="${patient.id}" />
+            <input type="hidden" id="version" value="${patient.version}" />
             <input type="hidden" id="patient_fullName" value="${patient.fullName}" />
             <input type="hidden" id="patient_status" value="${patient.patientStatus}" />
         </div>

@@ -6,7 +6,7 @@ import com.bogdansukonnov.eclinic.dto.ResponsePatientDTO;
 import com.bogdansukonnov.eclinic.dto.TableDataDTO;
 import com.bogdansukonnov.eclinic.entity.Patient;
 import com.bogdansukonnov.eclinic.entity.PatientStatus;
-import com.bogdansukonnov.eclinic.exceptions.PatientDischargeException;
+import com.bogdansukonnov.eclinic.exceptions.PatientUpdateException;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -64,10 +64,13 @@ public class PatientService {
     }
 
     @Transactional
-    public void dischargePatient(Long id) throws PatientDischargeException {
+    public void dischargePatient(Long id, Integer version) throws PatientUpdateException {
         Patient patient = patientDAO.findOne(id);
         if (patient.getPatientStatus() != PatientStatus.PATIENT) {
-            throw new PatientDischargeException("Can't discharge patient in status " + patient.getPatientStatus());
+            throw new PatientUpdateException("Can't discharge patient in status " + patient.getPatientStatus());
+        }
+        if (!patient.getVersion().equals(version)) {
+            throw new PatientUpdateException("Can't discharge patient. Version conflict.");
         }
         patient.setPatientStatus(PatientStatus.DISCHARGED);
         patientDAO.update(patient);
