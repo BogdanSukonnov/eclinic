@@ -9,12 +9,13 @@ import lombok.AllArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletResponse;
 import java.time.LocalDateTime;
 
 @Controller
@@ -23,12 +24,12 @@ public class EventController {
 
     private EventService eventService;
 
-    @GetMapping("/nurse/events")
+    @RequestMapping("/nurse/events")
     public String events() {
         return "events";
     }
 
-    @GetMapping("/nurse/event")
+    @RequestMapping("/nurse/event")
     public ModelAndView event(@RequestParam("id") Long id) {
         ModelAndView mv = new ModelAndView("event");
         mv.addObject("event", eventService.getOne(id));
@@ -53,13 +54,14 @@ public class EventController {
 
     @PostMapping("/nurse/complete-event")
     public void completeEvent(@RequestParam("id") Long eventId,
-                              @RequestParam("version") Integer version)
+                              @RequestParam("version") Integer version,
+                              HttpServletResponse response)
             throws EventStatusUpdateException {
         eventService.updateStatus(eventId, EventStatus.COMPLETED, "", version);
     }
 
     @PostMapping("/nurse/cancel-event")
-    public void completeEvent(@RequestParam("id") Long eventId,
+    public void cancelEvent(@RequestParam("id") Long eventId,
                               @RequestParam("cancel-reason") String cancelReason,
                               @RequestParam("version") Integer version)
             throws EventStatusUpdateException {

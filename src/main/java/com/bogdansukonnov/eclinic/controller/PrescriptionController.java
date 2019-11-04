@@ -30,7 +30,7 @@ public class PrescriptionController {
         return model;
     }
 
-    @GetMapping("prescription")
+    @RequestMapping("prescription")
     public ModelAndView prescription(@RequestParam("id") Long id) {
         ModelAndView model = new ModelAndView("prescription");
         ResponsePrescriptionDTO prescription = prescriptionService.getOne(id);

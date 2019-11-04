@@ -23,13 +23,16 @@ function completeEvent() {
     $.ajax({
         type: "POST",
         url: '/nurse/complete-event',
-        data: {id: $('#eventId').val()}
+        data: {
+            id: $('#eventId').val(),
+            version: $('#version').val()
+        }
     })
         .done(function () {
             window.history.back();
         })
         .fail(function ( jqXHR, textStatus, errorThrown) {
-            console.log(console.log(jqXHR.responseText));
+            document.write(jqXHR.responseText);
         });
 }
 

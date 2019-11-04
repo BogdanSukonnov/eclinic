@@ -11,6 +11,7 @@
         <h1>Event</h1>
         <input type="hidden" id="eventId" value="${event.id}">
         <input type="hidden" id="version" value="${event.version}">
+        <input type="hidden" id="status" value="${event.eventStatus}">
         <div class="prop-list">
             <div class="prop-row">
                 <div class="field-label">Patient:</div>
@@ -68,35 +69,36 @@
                     </button>
                 </c:if>
             </div>
-                <%--    cancel modal   --%>
-            <div class="modal fade" id="cancelEventModal" tabindex="-1" role="dialog"
-                 aria-labelledby="cancelEventModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="cancelEventModalLabel">Cancel event</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
+        </div>
+    </div>
+
+    <%--    cancel modal   --%>
+    <div class="modal fade" id="cancelEventModal" tabindex="-1" role="dialog"
+         aria-labelledby="cancelEventModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="cancelEventModalLabel">Cancel event</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div id="cancellingReasonGroup" class="form-group">
+                            <label for="cancellingReason">Reason</label>
+                            <input type="text" class="form-control" id="cancellingReason"
+                                   placeholder="Please enter the reason" name="reason">
                         </div>
-                        <div class="modal-body">
-                            <form>
-                                <div id="cancellingReasonGroup" class="form-group">
-                                    <label for="cancellingReason">Reason</label>
-                                    <input type="text" class="form-control" id="cancellingReason"
-                                           placeholder="Please enter the reason" name="reason">
-                                </div>
-                            </form>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
-                            <span id="submitReasonPopoverSpan" class="d-inline-block" data-toggle="popover"
-                                  data-content="Please enter the reason">
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
+                    <span id="submitReasonPopoverSpan" class="d-inline-block" data-toggle="popover"
+                          data-content="Please enter the reason">
                             <button id="submitReasonBtn" style="pointer-events: none;" type="button"
                                     class="btn btn-outline-success" disabled>Submit the reason</button>
                         </span>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
