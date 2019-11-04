@@ -216,7 +216,7 @@ public class EventService {
      * @param id event id
      * @param status new event status
      * @param cancelReason mandatory reason for cancel status
-     * @param version
+     * @param version data version
      */
     @Transactional
     public void updateStatus(Long id, EventStatus status, String cancelReason, Integer version) throws EventStatusUpdateException {

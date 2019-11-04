@@ -97,7 +97,7 @@
                     <span id="submitReasonPopoverSpan" class="d-inline-block" data-toggle="popover"
                           data-content="Please enter the reason">
                             <button id="submitReasonBtn" style="pointer-events: none;" type="button"
-                                    class="btn btn-outline-success" disabled>Submit the reason</button>
+                                    class="btn btn-outline-success" disabled>Cancel event</button>
                         </span>
                 </div>
             </div>

@@ -8,7 +8,10 @@ import lombok.AllArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletResponse;
@@ -22,7 +25,7 @@ public class PrescriptionController {
 
     private PrescriptionService prescriptionService;
 
-    @GetMapping("prescriptions")
+    @RequestMapping("prescriptions")
     public ModelAndView prescriptions() {
         List<ResponsePrescriptionDTO> prescriptions = prescriptionService.getAll(PrescriptionService.OrderType.CREATION);
         ModelAndView model = new ModelAndView("prescriptions");
@@ -41,7 +44,7 @@ public class PrescriptionController {
         return model;
     }
 
-    @GetMapping("newPrescription")
+    @RequestMapping("newPrescription")
     public ModelAndView newPrescription(@RequestParam("patient_id") Long patientId,
                                         @RequestParam("patient_fullName") String patientFullName) {
         ModelAndView model = new ModelAndView("prescription");

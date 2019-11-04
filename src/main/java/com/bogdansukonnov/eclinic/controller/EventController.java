@@ -62,8 +62,9 @@ public class EventController {
 
     @PostMapping("/nurse/cancel-event")
     public void cancelEvent(@RequestParam("id") Long eventId,
-                              @RequestParam("cancel-reason") String cancelReason,
-                              @RequestParam("version") Integer version)
+                              @RequestParam("cancel_reason") String cancelReason,
+                              @RequestParam("version") Integer version,
+                            HttpServletResponse response)
             throws EventStatusUpdateException {
         eventService.updateStatus(eventId, EventStatus.CANCELED, cancelReason, version);
     }

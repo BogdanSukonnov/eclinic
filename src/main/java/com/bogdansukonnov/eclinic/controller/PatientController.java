@@ -8,7 +8,10 @@ import com.bogdansukonnov.eclinic.service.PatientService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletResponse;
@@ -20,12 +23,12 @@ public class PatientController {
 
     private PatientService patientService;
 
-    @GetMapping("patients")
+    @RequestMapping("patients")
     public String patients() {
         return "patients";
     }
 
-    @GetMapping("patient")
+    @RequestMapping("patient")
     public ModelAndView patient(@RequestParam("id") Long id, HttpServletResponse response) {
         ModelAndView model = new ModelAndView("patient");
         model.addObject("patient", patientService.getOne(id));

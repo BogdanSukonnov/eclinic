@@ -5,8 +5,8 @@ import com.bogdansukonnov.eclinic.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
@@ -15,7 +15,7 @@ public class UserController {
 
     private UserService userService;
 
-    @GetMapping("/")
+    @RequestMapping("/")
     public String welcome(Authentication auth) {
         String redirect = "";
         if (auth == null) {
@@ -27,7 +27,7 @@ public class UserController {
         return redirect;
     }
 
-    @GetMapping("/admin/addUser")
+    @RequestMapping("/admin/addUser")
     public String addUserPage() {
         return "addUser";
     }

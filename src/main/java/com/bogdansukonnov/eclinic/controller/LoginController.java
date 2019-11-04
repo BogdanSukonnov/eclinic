@@ -7,7 +7,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.support.SessionStatus;
@@ -21,24 +20,24 @@ public class LoginController {
 
     private UserService userService;
 
-    @GetMapping("sign-in")
+    @RequestMapping("sign-in")
     public String loginPage() {
         return "login";
     }
 
-    @GetMapping("sign-out")
+    @RequestMapping("sign-out")
     public String logoutPage() {
         return "login";
     }
 
-    @GetMapping("loginFailed")
+    @RequestMapping("loginFailed")
     public String loginError(Model model) {
         // ToDo: log.info("Login attempt failed");
         model.addAttribute("error", "true");
         return "login";
     }
 
-    @GetMapping("logout")
+    @RequestMapping("logout")
     public String logout(SessionStatus session) {
         SecurityContextHolder.getContext().setAuthentication(null);
         session.setComplete();

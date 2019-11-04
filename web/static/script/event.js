@@ -45,8 +45,12 @@ function cancelEvent() {
             version: $('#version').val(),
             cancel_reason: reasonInput.val()
         }
-    });
-    window.history.back();
+    }).done(function () {
+        window.history.back();
+    })
+        .fail(function ( jqXHR, textStatus, errorThrown) {
+            document.write(jqXHR.responseText);
+        });
 }
 
 function onReasonChange() {
