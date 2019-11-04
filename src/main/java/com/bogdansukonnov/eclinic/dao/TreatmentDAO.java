@@ -2,13 +2,14 @@ package com.bogdansukonnov.eclinic.dao;
 
 import com.bogdansukonnov.eclinic.entity.Treatment;
 import com.bogdansukonnov.eclinic.entity.TreatmentType;
+import org.apache.commons.lang3.StringUtils;
 import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
-public class TreatmentDAO extends AbstractDAO<Treatment> implements IDAO<Treatment> {
+public class TreatmentDAO extends AbstractTableDAO<Treatment> implements ITableDAO<Treatment> {
 
     public TreatmentDAO() {
         setClazz(Treatment.class);
@@ -32,5 +33,14 @@ public class TreatmentDAO extends AbstractDAO<Treatment> implements IDAO<Treatme
     @Override
     protected String getOrderField() {
         return "name";
+    }
+
+    @Override
+    public String getQueryConditions(String search, Long parentId) {
+        String conditions = "";
+        if (!StringUtils.isBlank(search)) {
+            conditions = " where lower(t.name) like lower(:search)";
+        }
+        return conditions;
     }
 }

@@ -1,9 +1,13 @@
 package com.bogdansukonnov.eclinic.controller;
 
+import com.bogdansukonnov.eclinic.dto.RequestTableDTO;
 import com.bogdansukonnov.eclinic.dto.SelectorDataDTO;
+import com.bogdansukonnov.eclinic.dto.TableDataDTO;
+import com.bogdansukonnov.eclinic.entity.TreatmentType;
 import com.bogdansukonnov.eclinic.service.TreatmentService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -27,6 +31,19 @@ public class TreatmentController {
     @RequestMapping("treatments")
     public ModelAndView treatments() {
         return new ModelAndView("treatments");
+    }
+
+    @PostMapping("treatments-table")
+    @ResponseBody
+    public TableDataDTO treatmentsTable(@Validated RequestTableDTO data) {
+        return treatmentService.getTable(data);
+    }
+
+    @PostMapping("new-treatment")
+    public String newTreatment(@RequestParam("treatmentType") TreatmentType type,
+                             @RequestParam("name") String name) {
+        treatmentService.newTreatment(type, name);
+        return "treatments";
     }
 
 }

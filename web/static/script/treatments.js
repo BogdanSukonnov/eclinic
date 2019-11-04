@@ -3,6 +3,9 @@ let treatmentsTableId = '#treatmentsTable';
 
 $(document).ready(function() {
     treatmentsTableInit();
+    $('#newTreatmentModal input').on('input', function () {
+        onInputChange();
+    });
 } );
 
 function buildAjaxObject(data) {
@@ -56,3 +59,8 @@ function newTreatmentBtnInit() {
         .attr('data-target', '#newTreatmentModal');
 }
 
+function onInputChange() {
+    a = $("#newTreatmentName").val() === '';
+    b = !($("input[name='treatmentType']:checked").length > 0);
+    $("#saveTreatmentBtn").prop('disabled', a || b);
+}

@@ -14,6 +14,7 @@
             <sec:authorize access="hasAnyRole('ADMIN', 'DOCTOR')">
                 <button class="nav-item nav-link" onclick="window.location.href = '/doctor/patients';">Patients</button>
                 <button class="nav-item nav-link" onclick="window.location.href = '/doctor/prescriptions';">Prescriptions</button>
+                <button class="nav-item nav-link" onclick="window.location.href = '/doctor/treatments';">Treatments</button>
             </sec:authorize>
             <sec:authorize access="hasAnyRole('ADMIN', 'DOCTOR', 'NURSE')">
                 <button class="nav-item nav-link" onclick="window.location.href = '/nurse/events';">Events</button>

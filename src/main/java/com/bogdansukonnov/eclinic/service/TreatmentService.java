@@ -2,7 +2,9 @@ package com.bogdansukonnov.eclinic.service;
 
 import com.bogdansukonnov.eclinic.converter.SelectorDataConverter;
 import com.bogdansukonnov.eclinic.dao.TreatmentDAO;
+import com.bogdansukonnov.eclinic.dto.RequestTableDTO;
 import com.bogdansukonnov.eclinic.dto.SelectorDataDTO;
+import com.bogdansukonnov.eclinic.dto.TableDataDTO;
 import com.bogdansukonnov.eclinic.dto.TreatmentDTO;
 import com.bogdansukonnov.eclinic.entity.SelectorData;
 import com.bogdansukonnov.eclinic.entity.Treatment;
@@ -49,4 +51,28 @@ public class TreatmentService {
                 .map(t -> (SelectorData) t)
                 .collect(Collectors.toList()));
     }
+
+    @Transactional(readOnly = true)
+    public TableDataDTO getTable(RequestTableDTO data) {
+
+        List<Treatment> treatments = treatmentDAO.getAll("name", data.getSearch(),
+                data.getOffset(), data.getLimit(), null);
+
+        Long totalFiltered = treatmentDAO.getTotalFiltered(data.getSearch(), null);
+
+        List<TreatmentDTO> list = treatments.stream()
+                .map(treatment -> modelMapper.map(treatment, TreatmentDTO.class))
+                .collect(Collectors.toList());
+
+        return new TableDataDTO<>(list, data.getDraw(), totalFiltered, totalFiltered);
+    }
+
+    @Transactional
+    public Long newTreatment(TreatmentType treatmentType, String name) {
+        Treatment treatment = new Treatment();
+        treatment.setType(treatmentType);
+        treatment.setName(name);
+        return treatmentDAO.create(treatment).getId();
+    }
+
 }

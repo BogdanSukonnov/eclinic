@@ -38,14 +38,32 @@
                     </button>
                 </div>
                 <div class="modal-body">
+                        <%--      treatment type      --%>
                     <div class="form-group">
-                        <label for="newTreatmentFullName">name</label>
-                        <input type="text" class="form-control" id="newTreatmentFullName" placeholder="Full name" name="fullName">
+                        <label>Type</label>
+                        <div>
+                            <div id="treatmentTypeContainer">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="treatmentType" id="inlineRadio1"
+                                           value="PROCEDURE">
+                                    <label class="form-check-label" for="inlineRadio1">Procedure</label>
+                                </div>
+                                <div class="col-2 form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="treatmentType" id="inlineRadio2"
+                                           value="MEDICINE">
+                                    <label class="form-check-label" for="inlineRadio2">Medicine</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="newTreatmentName">name</label>
+                        <input type="text" class="form-control" id="newTreatmentName" placeholder="Full name" name="name">
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Save treatment</button>
+                    <button type="submit" id="saveTreatmentBtn" class="btn btn-primary" disabled>Save treatment</button>
                 </div>
             </form>
         </div>
