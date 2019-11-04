@@ -2,7 +2,9 @@ package com.bogdansukonnov.eclinic.service;
 
 import com.bogdansukonnov.eclinic.converter.SelectorDataConverter;
 import com.bogdansukonnov.eclinic.dao.TimePatternDAO;
+import com.bogdansukonnov.eclinic.dto.RequestTableDTO;
 import com.bogdansukonnov.eclinic.dto.SelectorDataDTO;
+import com.bogdansukonnov.eclinic.dto.TableDataDTO;
 import com.bogdansukonnov.eclinic.dto.TimePatternDTO;
 import com.bogdansukonnov.eclinic.entity.SelectorData;
 import com.bogdansukonnov.eclinic.entity.TimePattern;
@@ -46,6 +48,21 @@ public class TimePatternService {
         return selectorDataConverter.toDTO(timePatternDAO.getAll(search).stream()
                 .map(t -> (SelectorData) t)
                 .collect(Collectors.toList()));
+    }
+
+    @Transactional(readOnly = true)
+    public TableDataDTO getTable(RequestTableDTO data) {
+
+        List<TimePattern> patterns = timePatternDAO.getAll("name", data.getSearch(),
+                data.getOffset(), data.getLimit(), null);
+
+        Long totalFiltered = timePatternDAO.getTotalFiltered(data.getSearch(), null);
+
+        List<TimePatternDTO> list = patterns.stream()
+                .map(timePattern -> modelMapper.map(timePattern, TimePatternDTO.class))
+                .collect(Collectors.toList());
+
+        return new TableDataDTO<>(list, data.getDraw(), totalFiltered, totalFiltered);
     }
 
 }

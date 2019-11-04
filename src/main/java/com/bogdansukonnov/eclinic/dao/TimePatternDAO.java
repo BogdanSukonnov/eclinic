@@ -1,13 +1,14 @@
 package com.bogdansukonnov.eclinic.dao;
 
 import com.bogdansukonnov.eclinic.entity.TimePattern;
+import org.apache.commons.lang3.StringUtils;
 import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
-public class TimePatternDAO extends AbstractDAO<TimePattern> implements IDAO<TimePattern> {
+public class TimePatternDAO extends AbstractTableDAO<TimePattern> implements ITableDAO<TimePattern> {
 
     public TimePatternDAO() {
         setClazz(TimePattern.class);
@@ -30,6 +31,15 @@ public class TimePatternDAO extends AbstractDAO<TimePattern> implements IDAO<Tim
     @Override
     protected String getOrderField() {
         return "name";
+    }
+
+    @Override
+    public String getQueryConditions(String search, Long parentId) {
+        String conditions = "";
+        if (!StringUtils.isBlank(search)) {
+            conditions = " where lower(t.name) like lower(:search)";
+        }
+        return conditions;
     }
 
 }
