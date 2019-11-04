@@ -18,8 +18,8 @@ public class PrescriptionConverter {
 
     public ResponsePrescriptionDTO toDTO(Prescription prescription) {
         ResponsePrescriptionDTO dto = modelMapper.map(prescription, ResponsePrescriptionDTO.class);
-        dto.setStartDateFormatted(prescription.getStartDate().format(DateTimeFormatter.ISO_LOCAL_DATE));
-        dto.setEndDateFormatted(prescription.getEndDate().format(DateTimeFormatter.ISO_LOCAL_DATE));
+        dto.setStartDateFormatted(prescription.getStartDate().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
+        dto.setEndDateFormatted(prescription.getEndDate().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM");
         dto.setPeriod(prescription.getStartDate().format(formatter) + " - "
             + prescription.getEndDate().format(formatter));

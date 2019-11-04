@@ -43,7 +43,7 @@ public class PrescriptionService {
     @Transactional
     public Long save(RequestPrescriptionDTO dto,
                      LocalDateTime startDate, LocalDateTime endDate)
-            throws PrescriptionCreateException {
+            throws PrescriptionCreateException, PrescriptionUpdateException {
 
         boolean isNew = dto.getId() == null;
 
@@ -65,6 +65,9 @@ public class PrescriptionService {
         }
         else {
             prescription = prescriptionDAO.findOne(dto.getId());
+            if (!dto.getVersion().equals(prescription.getVersion())) {
+                throw new PrescriptionUpdateException("Can't update prescription. Version conflict.");
+            }
             isEventsAffected = !prescription.getStartDate().equals(startDate)
                     || !prescription.getEndDate().equals(endDate)
                     || !prescription.getTimePattern().equals(timePattern);

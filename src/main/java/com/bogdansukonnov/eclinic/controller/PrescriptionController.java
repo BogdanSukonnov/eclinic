@@ -53,23 +53,23 @@ public class PrescriptionController {
 
     @PostMapping("saveNewPrescription")
     public String newPrescription(@Validated RequestPrescriptionDTO dto,
-              @RequestParam("startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-                      LocalDateTime startDate,
-              @RequestParam("endDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-                      LocalDateTime endDate
+                  @RequestParam("startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+                          LocalDateTime startDate,
+                  @RequestParam("endDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+                          LocalDateTime endDate
     )
-            throws PrescriptionCreateException {
+            throws PrescriptionCreateException, PrescriptionUpdateException {
         Long id = prescriptionService.save(dto, startDate, endDate);
         return "redirect:/doctor/prescription?id=" + id;
     }
 
     @PostMapping("updatePrescription")
     public String updatePrescription(@Validated(Update.class) RequestPrescriptionDTO dto,
-             @RequestParam("startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-                     LocalDateTime startDate,
-             @RequestParam("endDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-                         LocalDateTime endDate)
-            throws PrescriptionCreateException {
+                 @RequestParam("startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+                         LocalDateTime startDate,
+                 @RequestParam("endDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+                             LocalDateTime endDate)
+            throws PrescriptionCreateException, PrescriptionUpdateException {
         prescriptionService.save(dto, startDate, endDate);
         return "redirect:/doctor/prescriptions";
     }
