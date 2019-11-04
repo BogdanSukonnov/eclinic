@@ -1,6 +1,6 @@
 package com.bogdansukonnov.eclinic.dao;
 
-import com.bogdansukonnov.eclinic.service.PrescriptionService;
+import com.bogdansukonnov.eclinic.service.OrderType;
 
 import java.util.List;
 
@@ -10,7 +10,7 @@ public interface IDAO<T> {
 
     T findOne(long id);
 
-    List<T> getAll(PrescriptionService.OrderType orderType);
+    List<T> getAll(OrderType orderType);
 
     T create(T entity);
 

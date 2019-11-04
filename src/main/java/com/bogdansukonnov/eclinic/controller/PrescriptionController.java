@@ -3,6 +3,7 @@ package com.bogdansukonnov.eclinic.controller;
 import com.bogdansukonnov.eclinic.dto.*;
 import com.bogdansukonnov.eclinic.exceptions.PrescriptionCreateException;
 import com.bogdansukonnov.eclinic.exceptions.PrescriptionUpdateException;
+import com.bogdansukonnov.eclinic.service.OrderType;
 import com.bogdansukonnov.eclinic.service.PrescriptionService;
 import lombok.AllArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -25,7 +26,7 @@ public class PrescriptionController {
 
     @RequestMapping("prescriptions")
     public ModelAndView prescriptions() {
-        List<ResponsePrescriptionDTO> prescriptions = prescriptionService.getAll(PrescriptionService.OrderType.CREATION);
+        List<ResponsePrescriptionDTO> prescriptions = prescriptionService.getAll(OrderType.CREATION);
         ModelAndView model = new ModelAndView("prescriptions");
         model.addObject("prescriptions", prescriptions);
         return model;

@@ -1,6 +1,6 @@
 package com.bogdansukonnov.eclinic.dao;
 
-import com.bogdansukonnov.eclinic.service.PrescriptionService;
+import com.bogdansukonnov.eclinic.service.OrderType;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,9 +27,9 @@ public abstract class AbstractDAO<T> {
     }
 
     @SuppressWarnings("unchecked")
-    public List<T> getAll(PrescriptionService.OrderType orderType) {
+    public List<T> getAll(OrderType orderType) {
         String orderField;
-        if (orderType == PrescriptionService.OrderType.NAME) {
+        if (orderType == OrderType.NAME) {
             orderField = getOrderField();
         }
         else {

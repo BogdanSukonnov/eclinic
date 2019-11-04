@@ -51,14 +51,15 @@ public class PrescriptionService {
         TimePattern timePattern = timePatternDAO.findOne(dto.getTimePatternId());
         Patient patient = patientDAO.findOne(dto.getPatientId());
 
+        if (patient.getPatientStatus() != PatientStatus.PATIENT) {
+            throw new PrescriptionCreateException(
+                    "Can't create prescription to patient in status " + patient.getPatientStatus());
+        }
+
         boolean isEventsAffected;
 
         Prescription prescription;
         if (isNew) {
-            if (patient.getPatientStatus() != PatientStatus.PATIENT) {
-                throw new PrescriptionCreateException(
-                        "Can't create prescription to patient in status " + patient.getPatientStatus());
-            }
             prescription = new Prescription();
             prescription.setStatus(PrescriptionStatus.PRESCRIBED);
             isEventsAffected = true;
@@ -85,19 +86,23 @@ public class PrescriptionService {
 
         // save prescription
         if (isNew) {
-            prescriptionDAO.create(prescription);
+            prescription = prescriptionDAO.create(prescription);
         }
         else {
-            prescriptionDAO.update(prescription);
+            prescription = prescriptionDAO.update(prescription);
         }
 
         // update events
         if (isEventsAffected) {
-            eventService.cancelAllScheduled(prescription);
-            eventService.createEvents(prescription);
+            updateEvents(prescription);
         }
 
         return prescription.getId();
+    }
+
+    private void updateEvents(Prescription prescription) {
+        eventService.cancelAllScheduled(prescription);
+        eventService.createEvents(prescription);
     }
 
     @Transactional(readOnly = true)
@@ -139,7 +144,21 @@ public class PrescriptionService {
         prescriptionDAO.update(prescription);
     }
 
-    public enum OrderType {
-        CREATION, NAME
+    /**
+     * complete patient's active prescriptions
+     * @param patient patient
+     */
+    @Transactional
+    public void completeAllActive(Patient patient) {
+        List<Prescription> prescriptions = prescriptionDAO.getAll(patient);
+        for (Prescription prescription : prescriptions) {
+            if (!prescription.getStatus().equals(PrescriptionStatus.CANCELED) &&
+                prescription.getEndDate().isAfter(LocalDateTime.now())) {
+                prescription.setEndDate(LocalDateTime.now());
+                prescription = prescriptionDAO.update(prescription);
+                updateEvents(prescription);
+            }
+        }
     }
+
 }

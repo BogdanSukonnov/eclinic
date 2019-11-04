@@ -159,9 +159,11 @@ function openEvent(id) {
 
 function periodInit() {
 
+    const defaultPeriod = '2 Weeks';
+
     period = {
         isCustom: false,
-        range: '2 Weeks',
+        range: defaultPeriod,
         customStart: moment().add(1, 'day'),
         customEnd: moment().add(2, 'week'),
         ranges: {
@@ -172,8 +174,11 @@ function periodInit() {
             '4 Weeks': [moment().add(1, 'day'), moment().add(4, 'week')]
         }
     };
-
-    if (!isNew()) {
+    
+    if (isNew()) {
+        onPeriodChange(null, null, defaultPeriod);
+    }
+    else {
         // dates from server
         period.isCustom = true;
         period.customStart = moment($('#startDate').val());

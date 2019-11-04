@@ -24,7 +24,7 @@ public class TreatmentService {
     private SelectorDataConverter selectorDataConverter;
 
     @Transactional(readOnly = true)
-    public List<TreatmentDTO> getAll(PrescriptionService.OrderType orderType) {
+    public List<TreatmentDTO> getAll(OrderType orderType) {
         return treatmentDAO.getAll(orderType).stream()
                 .map(treatment -> modelMapper.map(treatment, TreatmentDTO.class))
                 .collect(Collectors.toList());

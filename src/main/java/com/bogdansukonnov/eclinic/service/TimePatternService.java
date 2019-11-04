@@ -23,7 +23,7 @@ public class TimePatternService {
     private SelectorDataConverter selectorDataConverter;
 
     @Transactional(readOnly = true)
-    public List<TimePatternDTO> getAll(PrescriptionService.OrderType orderType) {
+    public List<TimePatternDTO> getAll(OrderType orderType) {
         return timePatternDAO.getAll(orderType).stream()
                 .map(timePattern -> modelMapper.map(timePattern, TimePatternDTO.class))
                 .collect(Collectors.toList());

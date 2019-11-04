@@ -22,9 +22,10 @@ public class PatientService {
 
     private PatientDAO patientDAO;
     private ModelMapper modelMapper;
+    private PrescriptionService prescriptionService;
 
     @Transactional(readOnly = true)
-    public List<ResponsePatientDTO> getAll(PrescriptionService.OrderType orderType) {
+    public List<ResponsePatientDTO> getAll(OrderType orderType) {
         return patientDAO.getAll(orderType).stream()
                 .map(patient -> modelMapper.map(patient, ResponsePatientDTO.class))
                 .collect(Collectors.toList());
@@ -73,9 +74,9 @@ public class PatientService {
             throw new PatientUpdateException("Can't discharge patient. Version conflict.");
         }
         patient.setPatientStatus(PatientStatus.DISCHARGED);
-        patientDAO.update(patient);
+        patient = patientDAO.update(patient);
 
-        //cancel active prescriptions
-
+        //complete active prescriptions
+        prescriptionService.completeAllActive(patient);
     }
 }
