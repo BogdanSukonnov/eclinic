@@ -38,9 +38,8 @@ public class TimePatternService {
     }
 
     @Transactional(readOnly = true)
-    public TimePatternDTO getOne(Long id) {
-        TimePattern timePattern = timePatternDAO.findOne(id);
-        return modelMapper.map(timePattern, TimePatternDTO.class);
+    public TimePattern getOne(Long id) {
+        return timePatternDAO.findOne(id);
     }
 
     @Transactional(readOnly = true)

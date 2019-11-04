@@ -38,5 +38,12 @@ public class TimePatternController {
         return timePatternService.getTable(data);
     }
 
+    @RequestMapping("time-pattern")
+    public ModelAndView timePattern(@RequestParam("id") Long id) {
+        ModelAndView mv = new ModelAndView("timePattern");
+        mv.addObject("timePattern", timePatternService.getOne(id));
+        return mv;
+    }
+
 
 }

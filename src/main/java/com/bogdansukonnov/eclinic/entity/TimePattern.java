@@ -29,7 +29,8 @@ public class TimePattern extends AbstractEntity implements SelectorData {
 
     @OneToMany(targetEntity = TimePatternItem.class
             , mappedBy = "timePattern"
-            , cascade = CascadeType.ALL)
+            , cascade = CascadeType.ALL
+            , fetch = FetchType.EAGER)
     @OrderBy("dayOfCycle, time")
     private List<TimePatternItem> items;
 

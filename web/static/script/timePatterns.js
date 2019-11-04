@@ -50,10 +50,21 @@ function timePatternsTableInit() {
         newTimePatternBtnInit();
     } );
 
+    $(timePatternsTableId + ' tbody').on('click', 'tr', function () {
+        const data = table.row(this).data();
+        openTimePattern(data.id);
+    });
+
 }
 
 function newTimePatternBtnInit() {
-    $('.newTimePatternBtn').click(function () {
-        window.location.assign('/doctor/new-time-pattern');
-    });
+    $('.newTimePatternBtn')
+        .attr('disabled', true)
+        .click(function () {
+            window.location.assign('/doctor/new-time-pattern');
+        });
+}
+
+function openTimePattern(id) {
+    window.location.assign('/doctor/time-pattern?id=' + id);
 }
