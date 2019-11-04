@@ -54,16 +54,28 @@ public class EventService {
     /**
      * <p>Cancels all scheduled event for given prescription</p>
      * @param prescription the prescription
+     * @param reason the reason
      */
     @Transactional
-    public void cancelAllScheduled(Prescription prescription) {
+    public void cancelAllScheduled(Prescription prescription, String reason) {
         eventDAO.getAll(prescription).stream()
                 .filter(event -> event.getEventStatus().equals(EventStatus.SCHEDULED))
                 .forEach(event -> {
                     event.setEventStatus(EventStatus.CANCELED);
-                    event.setCancelReason("Prescription canceled");
+                    event.setCancelReason(reason);
                     eventDAO.update(event);
                 });
+    }
+
+    /**
+     * <p>Cancels all scheduled event for given prescription</p>
+     * @param prescription the prescription
+     */
+    @Transactional
+    public void deleteAllScheduled(Prescription prescription) {
+        eventDAO.getAll(prescription).stream()
+                .filter(event -> event.getEventStatus().equals(EventStatus.SCHEDULED))
+                .forEach(event -> eventDAO.delete(event));
     }
 
     /**
@@ -181,34 +193,6 @@ public class EventService {
                 endDate, null);
 
         return new TableDataDTO<>(eventDTOS, data.getDraw(), totalFiltered, totalFiltered);
-    }
-
-    /**
-     * <p>REST service. Generates data for the table of given
-     * prescription's events.</p>
-     * @param data request parameter
-     * @return TableDataDTO
-     */
-    @Transactional(readOnly = true)
-    public TableDataDTO getTable(Long prescriptionId, Map<String, String> data) {
-
-        Integer draw = Integer.parseInt(data.get("draw"));
-        Integer offset = Integer.parseInt(data.get("start"));
-        Integer limit = Integer.parseInt(data.get("length"));
-        String search = data.get("search");
-
-        String orderField = "createdDateTime desc";
-
-        List<Event> events = eventDAO.getAll(search, orderField, offset, limit, true
-                , null, null, null);
-
-        List<EventDTO> eventDTOS = events.stream()
-                .map(event -> converter.toDTO(event))
-                .collect(Collectors.toList());
-
-        Long totalFiltered = eventDAO.getTotalFiltered(search, true, null, null, prescriptionId);
-
-        return new TableDataDTO<>(eventDTOS , draw, totalFiltered, totalFiltered);
     }
 
     /**

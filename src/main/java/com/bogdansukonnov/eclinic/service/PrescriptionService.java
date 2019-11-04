@@ -101,7 +101,7 @@ public class PrescriptionService {
     }
 
     private void updateEvents(Prescription prescription) {
-        eventService.cancelAllScheduled(prescription);
+        eventService.deleteAllScheduled(prescription);
         eventService.createEvents(prescription);
     }
 
@@ -139,7 +139,7 @@ public class PrescriptionService {
         if (!prescription.getStatus().equals(PrescriptionStatus.PRESCRIBED)) {
             throw new PrescriptionUpdateException("Only active prescriptions can be canceled.");
         }
-        eventService.cancelAllScheduled(prescription);
+        eventService.cancelAllScheduled(prescription, "Prescription cancelled");
         prescription.setStatus(PrescriptionStatus.CANCELED);
         prescriptionDAO.update(prescription);
     }

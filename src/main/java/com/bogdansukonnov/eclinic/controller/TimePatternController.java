@@ -16,7 +16,6 @@ public class TimePatternController {
 
     private TimePatternService timePatternService;
 
-    // REST controller
     @PostMapping("time-pattern-selector-data")
     @ResponseBody
     public SelectorDataDTO timePatternSelectorData(

@@ -29,7 +29,6 @@ function patientsTableInit() {
         order: [[4, 'desc']],
         pageLength: length,
         lengthMenu: [length, 25, 50, 100],
-        paging: true,
         stateSave: true,
         ajax: {
             url: '/doctor/patients-table',

@@ -164,14 +164,14 @@ function periodInit() {
     period = {
         isCustom: false,
         range: defaultPeriod,
-        customStart: moment().add(1, 'day'),
-        customEnd: moment().add(2, 'week'),
+        customStart: moment().add(1, 'day').startOf('day'),
+        customEnd: moment().add(2, 'week').endOf('day'),
         ranges: {
-            '3 Days': [moment().add(1, 'day'), moment().add(3, 'day')],
-            '1 Week': [moment().add(1, 'day'), moment().add(1, 'week')],
-            '2 Weeks': [moment().add(1, 'day'), moment().add(2, 'week')],
-            '3 Weeks': [moment().add(1, 'day'), moment().add(3, 'week')],
-            '4 Weeks': [moment().add(1, 'day'), moment().add(4, 'week')]
+            '3 Days': [moment().add(1, 'day').startOf('day'), moment().add(3, 'day').endOf('day')],
+            '1 Week': [moment().add(1, 'day').startOf('day'), moment().add(1, 'week').endOf('day')],
+            '2 Weeks': [moment().add(1, 'day').startOf('day'), moment().add(2, 'week').endOf('day')],
+            '3 Weeks': [moment().add(1, 'day').startOf('day'), moment().add(3, 'week').endOf('day')],
+            '4 Weeks': [moment().add(1, 'day').startOf('day'), moment().add(4, 'week').endOf('day')]
         }
     };
     
@@ -199,7 +199,7 @@ function periodInit() {
             format: 'DD\.MM'
         }
     }, function(start, end, label) {
-        onPeriodChange(start, end, label);
+        onPeriodChange(start.startOf('day'), end.endOf('day'), label);
     });
 }
 

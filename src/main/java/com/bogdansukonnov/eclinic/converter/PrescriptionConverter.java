@@ -21,7 +21,7 @@ public class PrescriptionConverter {
         dto.setStartDateFormatted(prescription.getStartDate().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
         dto.setEndDateFormatted(prescription.getEndDate().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM");
-        dto.setPeriod(prescription.getStartDate().format(formatter) + " - "
+        dto.setPeriod(prescription.getStartDate().format(formatter) + "-"
             + prescription.getEndDate().format(formatter));
         dto.setTreatmentWithDosage(prescription.getTreatment().getName()
             + (prescription.getTreatment().getType() == TreatmentType.MEDICINE

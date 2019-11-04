@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @AllArgsConstructor
@@ -16,12 +17,16 @@ public class TreatmentController {
 
     private TreatmentService treatmentService;
 
-    // REST controller
     @PostMapping("treatments-selector-data")
     @ResponseBody
     public SelectorDataDTO treatmentsSelectorData(@RequestParam("type") String type
             , @RequestParam(name = "search", required = false) String search) {
         return treatmentService.getAll(type, search);
+    }
+
+    @RequestMapping("treatments")
+    public ModelAndView treatments() {
+        return new ModelAndView("treatments");
     }
 
 }
