@@ -116,9 +116,8 @@ function dischargeConfirmedBtnInit() {
             function () {
                 location.reload();
             })
-            .fail(function () {
-            })
-            .always(function () {
+            .fail(function ( jqXHR, textStatus, errorThrown) {
+                document.write(jqXHR.responseText);
             });
     });
     dischargeConfirmedBtn.prop('disabled', !isStatusPatient());
