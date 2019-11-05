@@ -27,7 +27,7 @@ public class PatientController {
     }
 
     @RequestMapping("patient")
-    public ModelAndView patient(@RequestParam("id") Long id, HttpServletResponse response) {
+    public ModelAndView patient(@RequestParam("id") Long id) {
         ModelAndView model = new ModelAndView("patient");
         model.addObject("patient", patientService.getOne(id));
         return model;

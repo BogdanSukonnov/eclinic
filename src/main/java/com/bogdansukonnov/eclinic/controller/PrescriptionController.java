@@ -73,7 +73,7 @@ public class PrescriptionController {
                              LocalDateTime endDate)
             throws PrescriptionCreateException, PrescriptionUpdateException {
         prescriptionService.save(dto, startDate, endDate);
-        return "redirect:/doctor/prescriptions";
+        return "redirect:/doctor/patient?id=" + dto.getPatientId();
     }
 
     @PostMapping("prescriptions-table")

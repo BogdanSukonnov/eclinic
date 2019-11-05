@@ -20,7 +20,7 @@ function onNewPatientFullNameChange() {
         function () {
             nameUniqueSpan.text('   free');
             nameUniqueSpan.css('color', 'green');
-            newPatientFullNameInput.prop('pattern', '')
+            newPatientFullNameInput.prop('pattern', newPatientFullNameInput.val())
         })
         .fail(function () {
             nameUniqueSpan.text('   busy');

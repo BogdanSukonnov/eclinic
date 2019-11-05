@@ -80,6 +80,7 @@ function onTreatmentTypeChange() {
     dosageVisibility();
     treatmentSelect.empty();
     treatmentSelect.append('<option selected>Seleect ' + treatmentType().toLowerCase() + '</option>');
+    onInputChange();
 }
 
 function treatmentType() {
@@ -228,6 +229,7 @@ function onPeriodChange(start, end, label) {
     }
     $('#startDate').val(periodDates().start.format());
     $('#endDate').val(periodDates().end.format());
+    onInputChange();
 }
 
 function periodDates() {
