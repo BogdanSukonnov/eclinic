@@ -9,6 +9,7 @@
 
 <div>
     <div class="container-fluid">
+        <form>
         <div id="eventsTitleRow" class="form-row">
             <div class="">
                 <h1>Events</h1>
@@ -38,6 +39,7 @@
                 </thead>
             </table>
         </div>
+        </form>
     </div>
 </div>
 

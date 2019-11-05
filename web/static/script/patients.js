@@ -2,6 +2,7 @@ let length = 8;
 let patientsTableId = '#patientsTable';
 
 $(document).ready(function() {
+    length = lengthCalculate();
     patientsTableInit();
 } );
 
@@ -28,7 +29,7 @@ function patientsTableInit() {
         ordering: true,
         order: [[4, 'desc']],
         pageLength: length,
-        lengthMenu: [length, 25, 50, 100],
+        lengthMenu: [length, 20, 50, 100],
         stateSave: true,
         ajax: {
             url: '/doctor/patients-table',

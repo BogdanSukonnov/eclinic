@@ -78,8 +78,8 @@
             <div id="dosageGroup" class="form-group row">
                 <label for="dosage" class="col-sm-2 col-form-label">Dosage</label>
                 <div class="col-sm-3">
-                    <input type="text" id="dosage" class="form-control"
-                           placeholder="Dosage" name="dosage" value="${prescription.dosage}">
+                    <input type="text" id="dosage" class="form-control" placeholder="Dosage"
+                           name="dosage" value="${prescription.dosage}">
                 </div>
             </div>
 
@@ -108,9 +108,13 @@
                 </div>
                 <c:if test="${isNew || prescription.status == 'PRESCRIBED'}">
                     <div class="col-auto my-1">
-                        <button type="submit" class="btn btn-primary edit-button">
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Save&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        </button>
+                        <span id="savePrescriptionPopoverSpan" class="d-inline-block" data-toggle="popover"
+                              data-content="Please fill all fields">
+                            <button id="savePrescriptionBtn" type="submit" class="btn btn-primary edit-button"
+                                    style="pointer-events: none;" disabled>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Save&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            </button>
+                        </span>
                     </div>
                 </c:if>
                 <c:if test="${!isNew && prescription.status == 'PRESCRIBED'}">
@@ -128,9 +132,7 @@
                 <input type="hidden" name="patientId" id="patientId" value=${patientId}>
                 <input type="hidden" name="version" value=${prescription.version}>
             </div>
-        </form>
 
-        <form>
             <div class="form-group">
                 <table id="prescriptionEventsTable" class="table table-hover" style="width:100%">
                     <thead>

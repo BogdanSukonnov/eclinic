@@ -45,7 +45,7 @@
                             <div id="treatmentTypeContainer">
                                 <div class="form-check form-check-inline">
                                     <input class="form-check-input" type="radio" name="treatmentType" id="inlineRadio1"
-                                           value="PROCEDURE">
+                                           value="PROCEDURE" required>
                                     <label class="form-check-label" for="inlineRadio1">Procedure</label>
                                 </div>
                                 <div class="col-2 form-check form-check-inline">
@@ -58,7 +58,8 @@
                     </div>
                     <div class="form-group">
                         <label for="newTreatmentName">name</label>
-                        <input type="text" class="form-control" id="newTreatmentName" placeholder="Full name" name="name">
+                        <input type="text" class="form-control" id="newTreatmentName" placeholder="Full name"
+                               name="name" required>
                     </div>
                 </div>
                 <div class="modal-footer">

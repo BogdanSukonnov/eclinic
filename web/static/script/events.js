@@ -10,7 +10,7 @@ let isPageSet = false;
 
 let period = {
     isCustom: false,
-    range: 'Today',
+    range: 'This week',
     customStart: moment().startOf('day'),
     customEnd: moment().add(1, 'day').startOf('day'),
     ranges: {
@@ -33,7 +33,8 @@ let paramMap = {
 };
 
 $(document).ready(function() {
-    console.log($("#main-content").height());
+    length = lengthCalculate();
+    console.log(length);
     getStateFromURL();
     eventsTableInit();
     setSearch();
@@ -86,7 +87,7 @@ function eventsTableInit() {
         // scrollY: '300px',
         lengthChange: true,
         pageLength: length,
-        lengthMenu: [8, 25, 50, 100],
+        lengthMenu: [length, 20, 50, 100],
         paging: true,
         // stateSave: true,
         ajax: {

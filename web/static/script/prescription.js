@@ -2,10 +2,15 @@ let treatmentSelect = $('#treatment');
 let patternSelect = $('#pattern');
 const statusIsPrescribed = $('#status').val() === 'PRESCRIBED';
 const periodInput = $('#period');
+const savePrescriptionBtn = $('#savePrescriptionBtn');
+const savePrescriptionPopoverSpan = $('#savePrescriptionPopoverSpan');
 
 $(document).ready(function() {
     if (isNew()) {
         changeNewHistory();
+    }
+    else {
+        $('#savePrescriptionPopoverSpan').attr('data-content', 'Nothing changed')
     }
     dosageVisibility();
     eventsTableInit();
@@ -23,6 +28,14 @@ $(document).ready(function() {
     else {
         disableInputs();
     }
+    // init popover
+    savePrescriptionPopoverSpan.popover();
+    $('input').on('input', function () {
+        onInputChange();
+    });
+    $('select').on('change', function () {
+        onInputChange();
+    });
 });
 
 function changeNewHistory() {
@@ -229,5 +242,20 @@ function periodDates() {
             start: period.ranges[period.range][0],
             end: period.ranges[period.range][1]
         }
+    }
+}
+
+function onInputChange() {
+    let hasEmpty = isNaN($('#treatment').val()) || isNaN($('#pattern').val()) ||
+        $("input[name='treatmentType']:checked").val() === 'MEDICINE' && isEmpty($('#dosage').val());
+    if (hasEmpty) {
+        savePrescriptionBtn.prop('disabled', true);
+        savePrescriptionBtn.css('pointer-events', 'none');
+        savePrescriptionPopoverSpan.popover('enable');
+    }
+    else {
+        savePrescriptionBtn.prop('disabled', false);
+        savePrescriptionBtn.css('pointer-events', 'auto');
+        savePrescriptionPopoverSpan.popover('disable');
     }
 }

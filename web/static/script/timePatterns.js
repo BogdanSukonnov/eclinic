@@ -2,6 +2,7 @@ let length = 8;
 let timePatternsTableId = '#timePatternsTable';
 
 $(document).ready(function() {
+    length = lengthCalculate();
     timePatternsTableInit();
 } );
 

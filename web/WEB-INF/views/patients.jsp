@@ -43,15 +43,18 @@
                 <div class="modal-body">
                     <div class="form-group">
                         <label for="newPatientFullName">Full name</label>
-                        <input type="text" class="form-control" id="newPatientFullName" placeholder="Full name" name="fullName">
+                        <input type="text" class="form-control" id="newPatientFullName" placeholder="Full name"
+                               name="fullName" required>
                     </div>
                     <div class="form-group">
                         <label for="newPatientInsurance">Insurance</label>
-                        <input type="text" class="form-control" id="newPatientInsurance" placeholder="Insurance" name="insuranceNumber">
+                        <input type="text" class="form-control" id="newPatientInsurance" placeholder="Insurance"
+                               name="insuranceNumber" required>
                     </div>
                     <div class="form-group">
                         <label for="newPatientDiagnosis">Diagnosis</label>
-                        <input type="text" class="form-control" id="newPatientDiagnosis" placeholder="Diagnosis" name="diagnosis">
+                        <input type="text" class="form-control" id="newPatientDiagnosis" placeholder="Diagnosis"
+                               name="diagnosis" required>
                     </div>
                     <input type="hidden" name="patientStatus" value="PATIENT">
                 </div>

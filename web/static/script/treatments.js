@@ -2,6 +2,7 @@ let length = 8;
 let treatmentsTableId = '#treatmentsTable';
 
 $(document).ready(function() {
+    length = lengthCalculate();
     treatmentsTableInit();
     $('#newTreatmentModal input').on('input', function () {
         onInputChange();

@@ -2,6 +2,7 @@ let length = 8;
 let prescriptionsTableId = '#prescriptionsTable';
 
 $(document).ready(function() {
+    length = lengthCalculate();
     prescriptionsTableInit();
 } );
 
@@ -25,6 +26,8 @@ function prescriptionsTableInit() {
         serverSide: true,
         lengthChange: true,
         paging: true,
+        pageLength: length,
+        lengthMenu: [length, 20, 50, 100],
         ordering: false,
         ajax: {
             url: '/doctor/prescriptions-table',

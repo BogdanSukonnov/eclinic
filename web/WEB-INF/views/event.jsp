@@ -106,7 +106,7 @@
 
     <%--Common part start--%>
 </jsp:attribute>
-    <jsp:attribute name="pageScripts">
+<jsp:attribute name="pageScripts">
     <script src="${pageContext.request.contextPath}/static/script/event.js"></script>
 </jsp:attribute>
 </t:generic-page>

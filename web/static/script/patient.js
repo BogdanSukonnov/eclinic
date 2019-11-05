@@ -6,6 +6,7 @@ let dischargeBtnClass = 'dischargeBtn';
 let dischargeConfirmedBtnId = 'dischargeConfirmedBtn';
 
 $(document).ready(function() {
+    length = lengthCalculate();
     prescriptionsTableInit();
 });
 
