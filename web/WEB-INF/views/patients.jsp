@@ -44,7 +44,8 @@
                     <div class="form-group">
                         <label for="newPatientFullName">Full name</label>
                         <input type="text" class="form-control" id="newPatientFullName" placeholder="Full name"
-                               name="fullName" required>
+                               name="fullName" required pattern=".*">
+                        <span id="nameUnique"></span>
                     </div>
                     <div class="form-group">
                         <label for="newPatientInsurance">Insurance</label>

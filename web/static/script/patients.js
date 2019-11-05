@@ -1,10 +1,33 @@
 let length = 8;
 let patientsTableId = '#patientsTable';
+let newPatientFullNameInput = $('#newPatientFullName');
+let nameUniqueSpan = $('#nameUnique');
+
 
 $(document).ready(function() {
     length = lengthCalculate();
     patientsTableInit();
+    newPatientFullNameInput.on('input', function () {
+        onNewPatientFullNameChange();
+    });
 } );
+
+function onNewPatientFullNameChange() {
+    $.post("/doctor/patient-name-is-unique",
+        {
+            fullName: newPatientFullNameInput.val()
+        },
+        function () {
+            nameUniqueSpan.text('   free');
+            nameUniqueSpan.css('color', 'green');
+            newPatientFullNameInput.prop('pattern', '')
+        })
+        .fail(function () {
+            nameUniqueSpan.text('   busy');
+            nameUniqueSpan.css('color', 'red');
+            newPatientFullNameInput.prop('pattern', 'NO' + newPatientFullNameInput.val())
+        });
+}
 
 function buildAjaxObject(data) {
     return {

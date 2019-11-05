@@ -39,18 +39,27 @@ public class PatientController {
         return "redirect:/doctor/patient?id=" + id;
     }
 
-    @PostMapping("/patients-table")
+    @PostMapping("patients-table")
     @ResponseBody
     public TableDataDTO patientsTable(@Validated RequestTableDTO data) {
         return patientService.getTable(data);
     }
 
-    @PostMapping("/discharge-patient")
+    @PostMapping("discharge-patient")
     @ResponseStatus(HttpStatus.OK)
     public void dischargePatient(@RequestParam("patient_id") Long id,
                                  @RequestParam("version") Integer version)
             throws PatientUpdateException {
         patientService.dischargePatient(id, version);
+    }
+
+    @PostMapping("patient-name-is-unique")
+    public void patientNameIsUnique(@RequestParam("fullName") String fullName,
+                                    HttpServletResponse response) {
+        if (patientService.patientNameIsBusy(fullName)) {
+            response.setStatus(HttpStatus.CONFLICT.value());
+        }
+        else response.setStatus(HttpStatus.OK.value());
     }
 
 }

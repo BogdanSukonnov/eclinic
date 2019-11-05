@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -78,5 +79,11 @@ public class PatientService {
 
         //complete active prescriptions
         prescriptionService.completeAllActive(patient);
+    }
+
+    @Transactional
+    public boolean patientNameIsBusy(String fullName) {
+        Optional<Patient> patient = patientDAO.findOne(fullName.trim());
+        return patient.isPresent();
     }
 }
