@@ -23,7 +23,8 @@
 
             <div class="form-group row">
                 <p class="col-sm-2 col-form-label">Patient:</p>
-                <h5 class="col-sm-10">${patientFullName}</h5>
+                <h5 class="col-sm-10">${patientFullName}${((!isNew && prescription.patient.patientStatus == "DISCHARGED") ? " - DISCHARGED" : "")}</h5>
+                <input type="hidden" id="patientStatus" value="${isNew ? "" : prescription.patient.patientStatus}">
             </div>
 
                 <%--      period      --%>
@@ -107,14 +108,14 @@
                 </div>
                 <c:if test="${isNew || prescription.status == 'PRESCRIBED'}">
                     <div class="col-auto my-1">
-                        <button type="submit" class="btn btn-primary">
+                        <button type="submit" class="btn btn-primary edit-button">
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Save&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         </button>
                     </div>
                 </c:if>
                 <c:if test="${!isNew && prescription.status == 'PRESCRIBED'}">
                     <div class="col-auto my-1">
-                        <button id="cancelButton" type="button" class="btn btn-outline-danger"
+                        <button id="cancelButton" type="button" class="btn btn-outline-danger edit-button"
                                 data-toggle="modal" data-target="#cancelModal">
                             Cancel prescription
                         </button>

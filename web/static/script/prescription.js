@@ -10,12 +10,12 @@ $(document).ready(function() {
     dosageVisibility();
     eventsTableInit();
     periodInit();
-    if (isNew() || statusIsPrescribed) {
-        treatmentSelectInit();
+    treatmentSelectInit();
+    patternSelectInit();
+    if ((isNew() || statusIsPrescribed) && ($('#patientStatus').val() !== 'DISCHARGED')) {
         $('input[name="treatmentType"]').click(function () {
             onTreatmentTypeChange()
         });
-        patternSelectInit();
         $('#cancelPrescriptionBtn').click(function () {
             cancelPrescription()
         });
@@ -31,6 +31,7 @@ function changeNewHistory() {
 
 function disableInputs() {
     $('#prescriptionForm input,select').prop('disabled', true);
+    $('.edit-button').prop('disabled', true);
 }
 
 function treatmentSelectInit() {

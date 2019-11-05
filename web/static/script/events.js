@@ -33,6 +33,7 @@ let paramMap = {
 };
 
 $(document).ready(function() {
+    console.log($("#main-content").height());
     getStateFromURL();
     eventsTableInit();
     setSearch();
