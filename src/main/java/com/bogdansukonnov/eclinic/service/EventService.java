@@ -33,6 +33,7 @@ public class EventService {
     private EventDAO eventDAO;
     private EventConverter converter;
     private UserGetter userGetter;
+    private MessagingService messagingService;
 
     /**
      * <p>Cross-service communication.Checks if prescription has events</p>
@@ -51,6 +52,7 @@ public class EventService {
      */
     @Transactional(readOnly = true)
     public EventDTO getOne(Long id) {
+        messagingService.send();
         return converter.toDTO(eventDAO.findOne(id));
     }
 
