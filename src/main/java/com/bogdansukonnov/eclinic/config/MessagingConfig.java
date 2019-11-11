@@ -19,7 +19,8 @@ public class MessagingConfig {
     public ActiveMQConnectionFactory connectionFactory(){
         ActiveMQConnectionFactory connectionFactory = new ActiveMQConnectionFactory();
         connectionFactory.setBrokerURL(environment.getProperty("broker.url"));
-//        connectionFactory.setTrustedPackages(Arrays.asList("com.bogdansukonnov.eclinic"));
+        connectionFactory.setUserName(environment.getProperty("broker.username"));
+        connectionFactory.setPassword(environment.getProperty("broker.password"));
         return connectionFactory;
     }
 
@@ -27,7 +28,8 @@ public class MessagingConfig {
     public JmsTemplate jmsTemplate(){
         JmsTemplate template = new JmsTemplate();
         template.setConnectionFactory(connectionFactory());
-        template.setDefaultDestinationName(environment.getProperty("queue.name"));
+        template.setPubSubDomain(true);
+        template.setDefaultDestinationName(environment.getProperty("topic.name"));
         return template;
     }
 }
