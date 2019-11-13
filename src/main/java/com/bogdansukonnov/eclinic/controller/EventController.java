@@ -1,5 +1,6 @@
 package com.bogdansukonnov.eclinic.controller;
 
+import com.bogdansukonnov.eclinic.dto.EventsInfoResponseDTO;
 import com.bogdansukonnov.eclinic.dto.RequestEventTableDTO;
 import com.bogdansukonnov.eclinic.dto.TableDataDTO;
 import com.bogdansukonnov.eclinic.entity.EventStatus;
@@ -64,6 +65,13 @@ public class EventController {
                               @RequestParam("version") Integer version)
             throws EventStatusUpdateException {
         eventService.updateStatus(eventId, EventStatus.CANCELED, cancelReason, version);
+    }
+
+    @GetMapping("/info/events")
+    @ResponseBody
+    public EventsInfoResponseDTO eventsInfo(@RequestParam("id") Long id,
+                                            @RequestParam("controlVal") Integer controlVal) {
+        return eventService.eventsInfo(id, controlVal);
     }
 
 }

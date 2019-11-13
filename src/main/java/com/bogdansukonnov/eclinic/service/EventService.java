@@ -3,6 +3,7 @@ package com.bogdansukonnov.eclinic.service;
 import com.bogdansukonnov.eclinic.converter.EventConverter;
 import com.bogdansukonnov.eclinic.dao.EventDAO;
 import com.bogdansukonnov.eclinic.dto.EventDTO;
+import com.bogdansukonnov.eclinic.dto.EventsInfoResponseDTO;
 import com.bogdansukonnov.eclinic.dto.RequestEventTableDTO;
 import com.bogdansukonnov.eclinic.dto.TableDataDTO;
 import com.bogdansukonnov.eclinic.entity.*;
@@ -34,6 +35,7 @@ public class EventService {
     private EventConverter converter;
     private UserGetter userGetter;
     private MessagingService messagingService;
+    private Control control;
 
     /**
      * <p>Cross-service communication.Checks if prescription has events</p>
@@ -229,6 +231,29 @@ public class EventService {
         // save current user
         event.setNurse(userGetter.getCurrentUser());
         eventDAO.update(event);
+    }
+
+    @Transactional(readOnly = true)
+    public EventsInfoResponseDTO eventsInfo(Long id, Integer controlVal) {
+        EventsInfoResponseDTO eventsDTO = new EventsInfoResponseDTO();
+        if (id > 0 && controlVal > 0 && control.getControl() == controlVal) {
+            // one event
+            Event event = eventDAO.findOne(id);
+            boolean show = event.getEventStatus().equals(EventStatus.SCHEDULED) &&
+                    event.getDateTime().getDayOfYear() != LocalDateTime.now().getDayOfYear();
+            eventsDTO.getEvents().add(converter.toInfoDTO(event, show));
+        } else {
+            // full update
+            eventsDTO.setFullUpdate(true);
+            List<Event> events = eventDAO.getAll(null, "dateTime", 0, 100, false,
+                    LocalDateTime.of(LocalDate.now(), LocalTime.MIN),
+                    LocalDateTime.of(LocalDate.now(), LocalTime.MAX), null);
+            eventsDTO.setEvents(events.stream()
+                    .map(event -> converter.toInfoDTO(event, true))
+                    .collect(Collectors.toList()));
+        }
+        control.setControl(eventsDTO.getControl());
+        return eventsDTO;
     }
 
 }
