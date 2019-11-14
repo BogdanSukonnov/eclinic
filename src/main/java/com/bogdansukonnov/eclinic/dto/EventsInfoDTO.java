@@ -10,7 +10,7 @@ import java.util.List;
 @Setter
 public class EventsInfoDTO {
 
-    private long messageId;
+    private Long messageId;
     private boolean fullUpdate;
     private List<EventInfoDTO> events = new ArrayList<>();
 
