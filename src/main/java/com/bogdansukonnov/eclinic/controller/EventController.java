@@ -1,6 +1,6 @@
 package com.bogdansukonnov.eclinic.controller;
 
-import com.bogdansukonnov.eclinic.dto.EventsInfoResponseDTO;
+import com.bogdansukonnov.eclinic.dto.EventsInfoDTO;
 import com.bogdansukonnov.eclinic.dto.RequestEventTableDTO;
 import com.bogdansukonnov.eclinic.dto.TableDataDTO;
 import com.bogdansukonnov.eclinic.entity.EventStatus;
@@ -69,9 +69,9 @@ public class EventController {
 
     @GetMapping("/info/events")
     @ResponseBody
-    public EventsInfoResponseDTO eventsInfo(@RequestParam("id") Long id,
-                                            @RequestParam("controlVal") Integer controlVal) {
-        return eventService.eventsInfo(id, controlVal);
+    public EventsInfoDTO eventsInfo(@RequestParam("eventId") Long eventId,
+                                    @RequestParam("lastMessageId") Long lastMessageId) {
+        return eventService.eventsInfo(eventId, lastMessageId);
     }
 
 }

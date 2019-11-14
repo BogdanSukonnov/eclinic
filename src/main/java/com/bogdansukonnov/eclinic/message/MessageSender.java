@@ -12,12 +12,11 @@ import javax.jms.TextMessage;
 
 @Component
 @AllArgsConstructor
-public class Sender {
+public class MessageSender {
 
     private JmsTemplate jmsTemplate;
 
     public void sendMessage(String message) {
-
         jmsTemplate.send(new MessageCreator(){
             @Override
             @NonNull
@@ -26,5 +25,4 @@ public class Sender {
             }
         });
     }
-
 }

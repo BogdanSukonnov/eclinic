@@ -3,11 +3,12 @@ package com.bogdansukonnov.eclinic.service;
 import com.bogdansukonnov.eclinic.converter.EventConverter;
 import com.bogdansukonnov.eclinic.dao.EventDAO;
 import com.bogdansukonnov.eclinic.dto.EventDTO;
-import com.bogdansukonnov.eclinic.dto.EventsInfoResponseDTO;
+import com.bogdansukonnov.eclinic.dto.EventsInfoDTO;
 import com.bogdansukonnov.eclinic.dto.RequestEventTableDTO;
 import com.bogdansukonnov.eclinic.dto.TableDataDTO;
 import com.bogdansukonnov.eclinic.entity.*;
 import com.bogdansukonnov.eclinic.exceptions.EventStatusUpdateException;
+import com.bogdansukonnov.eclinic.message.MessageCounter;
 import com.bogdansukonnov.eclinic.security.UserGetter;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -35,7 +36,7 @@ public class EventService {
     private EventConverter converter;
     private UserGetter userGetter;
     private MessagingService messagingService;
-    private Control control;
+    private MessageCounter messageCounter;
 
     /**
      * <p>Cross-service communication.Checks if prescription has events</p>
@@ -54,7 +55,7 @@ public class EventService {
      */
     @Transactional(readOnly = true)
     public EventDTO getOne(Long id) {
-        messagingService.send();
+        messagingService.send(id.toString());
         return converter.toDTO(eventDAO.findOne(id));
     }
 
@@ -234,16 +235,16 @@ public class EventService {
     }
 
     @Transactional(readOnly = true)
-    public EventsInfoResponseDTO eventsInfo(Long id, Integer controlVal) {
-        EventsInfoResponseDTO eventsDTO = new EventsInfoResponseDTO();
-        if (id > 0 && controlVal > 0 && control.getControl() == controlVal) {
+    public EventsInfoDTO eventsInfo(Long eventId, Long lastMessageId) {
+        EventsInfoDTO eventsDTO = new EventsInfoDTO();
+        if (eventId > 0 && lastMessageId > 0 && lastMessageId == messageCounter.getCounter()) {
             // one event
-            Event event = eventDAO.findOne(id);
+            Event event = eventDAO.findOne(eventId);
             boolean show = event.getEventStatus().equals(EventStatus.SCHEDULED) &&
                     event.getDateTime().getDayOfYear() != LocalDateTime.now().getDayOfYear();
             eventsDTO.getEvents().add(converter.toInfoDTO(event, show));
         } else {
-            // full update
+            // full update, all today's events
             eventsDTO.setFullUpdate(true);
             List<Event> events = eventDAO.getAll(null, "dateTime", 0, 100, false,
                     LocalDateTime.of(LocalDate.now(), LocalTime.MIN),
@@ -252,7 +253,7 @@ public class EventService {
                     .map(event -> converter.toInfoDTO(event, true))
                     .collect(Collectors.toList()));
         }
-        control.setControl(eventsDTO.getControl());
+        eventsDTO.setMessageId(messageCounter.incrementAndGet());
         return eventsDTO;
     }
 

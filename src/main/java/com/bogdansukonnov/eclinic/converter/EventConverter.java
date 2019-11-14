@@ -1,7 +1,7 @@
 package com.bogdansukonnov.eclinic.converter;
 
 import com.bogdansukonnov.eclinic.dto.EventDTO;
-import com.bogdansukonnov.eclinic.dto.EventsInfoResponseDTO;
+import com.bogdansukonnov.eclinic.dto.EventsInfoDTO;
 import com.bogdansukonnov.eclinic.entity.Event;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -26,9 +26,9 @@ public class EventConverter {
         return dto;
     }
 
-    public EventsInfoResponseDTO.EventInfoDTO toInfoDTO(Event event, boolean show) {
-        EventsInfoResponseDTO.EventInfoDTO eventDTO = new EventsInfoResponseDTO.EventInfoDTO();
-        eventDTO.setId(event.getId());
+    public EventsInfoDTO.EventInfoDTO toInfoDTO(Event event, boolean show) {
+        EventsInfoDTO.EventInfoDTO eventDTO = new EventsInfoDTO.EventInfoDTO();
+        eventDTO.setEventId(event.getId());
         eventDTO.setShow(show);
         if (show) {
             eventDTO.setPatient(event.getPatient().getFullName());
