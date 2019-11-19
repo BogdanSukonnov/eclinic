@@ -1,3 +1,5 @@
+//import {formatDate} from "../lib/fullcalendar/core";
+
 var calendar = null;
 var nameEl = $('#name');
 var calendarEl = document.getElementById('calendar');
@@ -287,23 +289,44 @@ function constructName() {
 }
 
 function onSave() {
-    let obj = {
-        name: 'New pattern',
-        cycleLength: 4,
-        isWeekCycle: false,
-        items: [{time: '14:20', dayOfCycle: 1}]
+    let cycleLength = 1;
+    let isWeekCycle = false;
+    let items = [];
+
+    if (getPeriodType() === 'Custom') {
+        cycleLength = customLengthEl.val() === 'Week' ? 7 : customLengthEl.val();
+        isWeekCycle = customLengthEl.val() === 'Week';
+        table.rows().every(function (rowIdx, tableLoop, rowLoop) {
+            let rowData = this.data();
+            items.push({dayNumber: rowData.dayNumber, time: rowData.time});
+        });
+    } else {
+        if (getPeriodType() === 'Every') {
+            cycleLength = everyDaysEl.val();
+        } else if (getPeriodType() === 'Weekly') {
+            cycleLength = 7;
+            isWeekCycle = true;
+        }
+        for (let event of calendar.getEvents()) {
+            items.push({
+                dayNumber: '',
+                time: formatDate(event.start.getTime(), {hour: '2-digit', minute: '2-digit'})
+            });
+        }
+    }
+
+    let dto = {
+        name: nameEl.val(),
+        cycleLength: cycleLength,
+        isWeekCycle: isWeekCycle,
+        items: items
     };
 
     $.ajax({
         method: "PUT",
         contentType: "application/json",
         url: "/doctor/new-time-pattern",
-        data: JSON.stringify({
-            name: 'New pattern',
-            cycleLength: 4,
-            isWeekCycle: false,
-            items: [{time: '14:20', dayOfCycle: 1}]
-        })
+        data: JSON.stringify(dto)
     })
         .done(function (msg) {
             window.location.assign('/doctor/time-pattern?id=' + msg.id);
