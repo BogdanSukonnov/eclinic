@@ -1,5 +1,5 @@
 /*Bootstrap CSS*/
-@import url(/static/css/lib/bootstrap.min.css);
+@import url(/static/lib/bootstrap/bootstrap.min.css);
 
 :root {
     --nav-color: #222e3a;
@@ -207,26 +207,6 @@ table a {
 .navbar {
     height: 54px;
 }
-
-/*Prescription Grid*/
-
-/*#prescriptionLeft {*/
-/*    grid-area: prescriptionLeft;*/
-/*}*/
-/*#prescriptionForm {*/
-/*    grid-area: prescriptionForm;*/
-/*}*/
-/*#prescriptionRight {*/
-/*    grid-area: prescriptionRight;*/
-/*}*/
-
-/*!*Grid wrapper*!*/
-
-/*#prescriptionWrapper {*/
-/*    display: grid;*/
-/*    grid-template-columns: 1fr 550px 1fr;*/
-/*    grid-template-areas: "prescriptionLeft prescriptionForm prescriptionRight";*/
-/*}*/
 
 #newPrescriptionButtonForm {
     padding: 16px;

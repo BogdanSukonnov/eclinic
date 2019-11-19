@@ -60,7 +60,6 @@ function timePatternsTableInit() {
 
 function newTimePatternBtnInit() {
     $('.newTimePatternBtn')
-        .attr('disabled', true)
         .click(function () {
             window.location.assign('/doctor/new-time-pattern');
         });

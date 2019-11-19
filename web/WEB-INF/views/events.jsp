@@ -46,14 +46,17 @@
 <%--Common part start--%>
 </jsp:attribute>
 <jsp:attribute name="pageScripts">
-    <script src="${pageContext.request.contextPath}/static/script/lib/datatables.min.js"></script>
-    <script type="text/javascript" src="${pageContext.request.contextPath}/static/script/lib/moment.min.js"></script>
-    <script type="text/javascript" src="${pageContext.request.contextPath}/static/script/lib/daterangepicker.js"></script>
+    <script src="${pageContext.request.contextPath}/static/lib/datatables/datatables.min.js"></script>
+    <script type="text/javascript"
+            src="${pageContext.request.contextPath}/static/lib/datarangepicker/moment.min.js"></script>
+    <script type="text/javascript"
+            src="${pageContext.request.contextPath}/static/lib/datarangepicker/daterangepicker.js"></script>
     <script src="${pageContext.request.contextPath}/static/script/events.js"></script>
 </jsp:attribute>
 <jsp:attribute name="pageStyles">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/lib/datatables.min.css">
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/static/css/lib/daterangepicker.css" />
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/static/lib/datatables/datatables.min.css">
+    <link rel="stylesheet" type="text/css"
+          href="${pageContext.request.contextPath}/static/lib/datarangepicker/daterangepicker.css"/>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/events.css">
 </jsp:attribute>
 </t:generic-page>

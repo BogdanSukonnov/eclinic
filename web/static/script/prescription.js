@@ -79,7 +79,7 @@ function onTreatmentTypeChange() {
     }
     dosageVisibility();
     treatmentSelect.empty();
-    treatmentSelect.append('<option selected>Seleect ' + treatmentType().toLowerCase() + '</option>');
+    treatmentSelect.append('<option selected>Select ' + treatmentType().toLowerCase() + '</option>');
     onInputChange();
 }
 
