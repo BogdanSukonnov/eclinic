@@ -1,5 +1,3 @@
-//import {formatDate} from "../lib/fullcalendar/core";
-
 var calendar = null;
 var nameEl = $('#name');
 var calendarEl = document.getElementById('calendar');
@@ -298,7 +296,7 @@ function onSave() {
         isWeekCycle = customLengthEl.val() === 'Week';
         table.rows().every(function (rowIdx, tableLoop, rowLoop) {
             let rowData = this.data();
-            items.push({dayNumber: rowData.dayNumber, time: rowData.time});
+            items.push({dayOfCycle: rowData.dayNumber, time: rowData.time});
         });
     } else {
         if (getPeriodType() === 'Every') {
@@ -309,8 +307,8 @@ function onSave() {
         }
         for (let event of calendar.getEvents()) {
             items.push({
-                dayNumber: '',
-                time: formatDate(event.start.getTime(), {hour: '2-digit', minute: '2-digit'})
+                time: event.start.toLocaleTimeString('en-US', {hour12: false, hour: '2-digit', minute: '2-digit'}),
+                dayOfCycle: getPeriodType() === 'Weekly' ? event.start.getDay() : 0
             });
         }
     }
