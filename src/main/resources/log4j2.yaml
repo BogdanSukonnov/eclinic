@@ -1,13 +1,38 @@
 Configutation:
   name: Default
+
+  Properties:
+    Property:
+      name: log-path
+      value: "D:/Idea-Projects/JavaSchool/eclinic/logs"
+
   Appenders:
     Console:
       name: Console_Appender
       target: SYSTEM_OUT
       PatternLayout:
         pattern: "[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{1} - %msg%n"
+
+    RollingFile:
+      - name: LogToRollingFile
+        fileName: ${log-path}/app.log
+        filePattern: "${log-path}/$${date:yyyy-MM}/app-%d{MM-dd-yyyy}-%i.log.gz"
+        PatternLayout:
+          pattern: "[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{1} - %msg%n"
+        Policies:
+          SizeBasedTriggeringPolicy:
+            size: 1MB
+        DefaultRollOverStrategy:
+          max: 10
+
   Loggers:
     Root:
       level: error
       AppenderRef:
         - ref: Console_Appender
+
+    Logger:
+      name: com.bogdansukonnov.eclinic
+      level: debug
+      AppenderRef:
+        - ref: LogToRollingFile
