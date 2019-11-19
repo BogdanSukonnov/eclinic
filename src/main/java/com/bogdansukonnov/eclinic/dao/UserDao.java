@@ -7,9 +7,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 
 @Repository
-public class UserDAO extends AbstractDAO<AppUser> implements IUserDAO {
+public class UserDao extends AbstractDao<AppUser> implements IUserDao {
 
-    public UserDAO() {
+    public UserDao() {
         setClazz(AppUser.class);
     }
 

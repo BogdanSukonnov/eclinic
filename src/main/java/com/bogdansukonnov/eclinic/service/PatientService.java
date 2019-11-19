@@ -1,6 +1,6 @@
 package com.bogdansukonnov.eclinic.service;
 
-import com.bogdansukonnov.eclinic.dao.PatientDAO;
+import com.bogdansukonnov.eclinic.dao.PatientDao;
 import com.bogdansukonnov.eclinic.dto.RequestTableDto;
 import com.bogdansukonnov.eclinic.dto.ResponsePatientDto;
 import com.bogdansukonnov.eclinic.dto.TableDataDto;
@@ -21,20 +21,20 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class PatientService {
 
-    private PatientDAO patientDAO;
+    private PatientDao patientDao;
     private ModelMapper modelMapper;
     private PrescriptionService prescriptionService;
 
     @Transactional(readOnly = true)
     public List<ResponsePatientDto> getAll(OrderType orderType) {
-        return patientDAO.getAll(orderType).stream()
+        return patientDao.getAll(orderType).stream()
                 .map(patient -> modelMapper.map(patient, ResponsePatientDto.class))
                 .collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)
     public ResponsePatientDto getOne(Long id) {
-        Patient patient = patientDAO.findOne(id);
+        Patient patient = patientDao.findOne(id);
         return modelMapper.map(patient, ResponsePatientDto.class);
     }
 
@@ -42,17 +42,17 @@ public class PatientService {
     public Long addNew(ResponsePatientDto responsePatientDto) {
         Patient patient = modelMapper.map(responsePatientDto, Patient.class);
         patient.setPatientStatus(PatientStatus.PATIENT);
-        patient = patientDAO.create(patient);
+        patient = patientDao.create(patient);
         return patient.getId();
     }
 
     @Transactional(readOnly = true)
     public TableDataDto getTable(RequestTableDto data) {
 
-        List<Patient> patients = patientDAO.getAll(data.getOrderField(), data.getSearch(),
+        List<Patient> patients = patientDao.getAll(data.getOrderField(), data.getSearch(),
                 data.getOffset(), data.getLimit(), null);
 
-        Long totalFiltered = patientDAO.getTotalFiltered(data.getSearch(), null);
+        Long totalFiltered = patientDao.getTotalFiltered(data.getSearch(), null);
 
         List<ResponsePatientDto> list = patients.stream()
                 .map(patient -> {
@@ -67,7 +67,7 @@ public class PatientService {
 
     @Transactional
     public void dischargePatient(Long id, Integer version) throws PatientUpdateException {
-        Patient patient = patientDAO.findOne(id);
+        Patient patient = patientDao.findOne(id);
         if (patient.getPatientStatus() != PatientStatus.PATIENT) {
             throw new PatientUpdateException("Can't discharge patient in status " + patient.getPatientStatus());
         }
@@ -75,7 +75,7 @@ public class PatientService {
             throw new PatientUpdateException("Can't discharge patient. Version conflict.");
         }
         patient.setPatientStatus(PatientStatus.DISCHARGED);
-        patient = patientDAO.update(patient);
+        patient = patientDao.update(patient);
 
         //complete active prescriptions
         prescriptionService.completeAllActive(patient);
@@ -83,7 +83,7 @@ public class PatientService {
 
     @Transactional
     public boolean patientNameIsBusy(String fullName) {
-        Optional<Patient> patient = patientDAO.findOne(fullName.trim());
+        Optional<Patient> patient = patientDao.findOne(fullName.trim());
         return patient.isPresent();
     }
 }

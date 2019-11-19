@@ -1,7 +1,7 @@
 package com.bogdansukonnov.eclinic.service;
 
 import com.bogdansukonnov.eclinic.converter.SelectorDataConverter;
-import com.bogdansukonnov.eclinic.dao.TreatmentDAO;
+import com.bogdansukonnov.eclinic.dao.TreatmentDao;
 import com.bogdansukonnov.eclinic.dto.RequestTableDto;
 import com.bogdansukonnov.eclinic.dto.SelectorDataDto;
 import com.bogdansukonnov.eclinic.dto.TableDataDto;
@@ -21,13 +21,13 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class TreatmentService {
 
-    private TreatmentDAO treatmentDAO;
+    private TreatmentDao treatmentDao;
     private ModelMapper modelMapper;
     private SelectorDataConverter selectorDataConverter;
 
     @Transactional(readOnly = true)
     public List<TreatmentDto> getAll(OrderType orderType) {
-        return treatmentDAO.getAll(orderType).stream()
+        return treatmentDao.getAll(orderType).stream()
                 .map(treatment -> modelMapper.map(treatment, TreatmentDto.class))
                 .collect(Collectors.toList());
     }
@@ -35,19 +35,19 @@ public class TreatmentService {
     @Transactional
     public void addNew() {
         Treatment treatment = new Treatment();
-        treatmentDAO.create(treatment);
+        treatmentDao.create(treatment);
     }
 
     @Transactional(readOnly = true)
     public TreatmentDto getOne(Long id) {
-        Treatment treatment = treatmentDAO.findOne(id);
+        Treatment treatment = treatmentDao.findOne(id);
         return modelMapper.map(treatment, TreatmentDto.class);
     }
 
     @Transactional(readOnly = true)
     public SelectorDataDto getAll(String type, String search) {
         TreatmentType treatmentType = TreatmentType.valueOf(type);
-        return selectorDataConverter.toDto(treatmentDAO.getAll(treatmentType, search).stream()
+        return selectorDataConverter.toDto(treatmentDao.getAll(treatmentType, search).stream()
                 .map(t -> (SelectorData) t)
                 .collect(Collectors.toList()));
     }
@@ -55,10 +55,10 @@ public class TreatmentService {
     @Transactional(readOnly = true)
     public TableDataDto getTable(RequestTableDto data) {
 
-        List<Treatment> treatments = treatmentDAO.getAll("name", data.getSearch(),
+        List<Treatment> treatments = treatmentDao.getAll("name", data.getSearch(),
                 data.getOffset(), data.getLimit(), null);
 
-        Long totalFiltered = treatmentDAO.getTotalFiltered(data.getSearch(), null);
+        Long totalFiltered = treatmentDao.getTotalFiltered(data.getSearch(), null);
 
         List<TreatmentDto> list = treatments.stream()
                 .map(treatment -> modelMapper.map(treatment, TreatmentDto.class))
@@ -72,7 +72,7 @@ public class TreatmentService {
         Treatment treatment = new Treatment();
         treatment.setType(treatmentType);
         treatment.setName(name);
-        return treatmentDAO.create(treatment).getId();
+        return treatmentDao.create(treatment).getId();
     }
 
 }

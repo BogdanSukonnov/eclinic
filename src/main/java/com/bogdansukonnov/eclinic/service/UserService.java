@@ -1,6 +1,6 @@
 package com.bogdansukonnov.eclinic.service;
 
-import com.bogdansukonnov.eclinic.dao.IUserDAO;
+import com.bogdansukonnov.eclinic.dao.IUserDao;
 import com.bogdansukonnov.eclinic.entity.AppUser;
 import com.bogdansukonnov.eclinic.security.AuthorityType;
 import com.bogdansukonnov.eclinic.security.UserPrincipal;
@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 @AllArgsConstructor
 public class UserService {
 
-    private IUserDAO userDAO;
+    private IUserDao userDao;
     private PasswordEncoder encoder;
 
     @Transactional
@@ -23,7 +23,7 @@ public class UserService {
         user.setUsername(username);
         user.setPassword(encoder.encode(password));
 
-        userDAO.create(user);
+        userDao.create(user);
     }
 
     public String defaultPage(UserPrincipal principal) {

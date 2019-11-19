@@ -13,9 +13,9 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public class EventDAO extends AbstractTableDAO<Event> implements ITableDAO<Event> {
+public class EventDao extends AbstractTableDao<Event> implements ITableDao<Event> {
 
-    public EventDAO() {
+    public EventDao() {
         setClazz(Event.class);
     }
 

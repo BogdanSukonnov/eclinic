@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
-public abstract class AbstractDAO<T> {
+public abstract class AbstractDao<T> {
 
     private Class<T> clazz;
 

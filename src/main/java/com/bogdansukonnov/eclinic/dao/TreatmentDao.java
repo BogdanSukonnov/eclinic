@@ -1,6 +1,7 @@
 package com.bogdansukonnov.eclinic.dao;
 
-import com.bogdansukonnov.eclinic.entity.TimePattern;
+import com.bogdansukonnov.eclinic.entity.Treatment;
+import com.bogdansukonnov.eclinic.entity.TreatmentType;
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
@@ -8,20 +9,21 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public class TimePatternDAO extends AbstractTableDAO<TimePattern> implements ITableDAO<TimePattern> {
+public class TreatmentDao extends AbstractTableDao<Treatment> implements ITableDao<Treatment> {
 
-    public TimePatternDAO() {
-        setClazz(TimePattern.class);
+    public TreatmentDao() {
+        setClazz(Treatment.class);
     }
 
-    public List<TimePattern> getAll(String search) {
+    public List<Treatment> getAll(TreatmentType treatmentType, String search) {
         boolean needSearch = search != null && !search.isEmpty();
-        String queryStr = "from TimePattern t";
+        String queryStr = "from Treatment t where t.type=:treatmentType";
         if (needSearch) {
-            queryStr += " where lower(t.name) like lower(:search)";
+            queryStr += " and lower(t.name) like lower(:search)";
         }
         queryStr += "  order by " + getOrderField();
         Query query = getCurrentSession().createQuery(queryStr);
+        query.setParameter("treatmentType", treatmentType);
         if (needSearch) {
             query.setParameter("search", "%" + search + "%");
         }
@@ -41,5 +43,4 @@ public class TimePatternDAO extends AbstractTableDAO<TimePattern> implements ITa
         }
         return conditions;
     }
-
 }

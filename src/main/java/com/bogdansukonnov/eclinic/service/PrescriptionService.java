@@ -1,10 +1,10 @@
 package com.bogdansukonnov.eclinic.service;
 
 import com.bogdansukonnov.eclinic.converter.PrescriptionConverter;
-import com.bogdansukonnov.eclinic.dao.PatientDAO;
-import com.bogdansukonnov.eclinic.dao.PrescriptionDAO;
-import com.bogdansukonnov.eclinic.dao.TimePatternDAO;
-import com.bogdansukonnov.eclinic.dao.TreatmentDAO;
+import com.bogdansukonnov.eclinic.dao.PatientDao;
+import com.bogdansukonnov.eclinic.dao.PrescriptionDao;
+import com.bogdansukonnov.eclinic.dao.TimePatternDao;
+import com.bogdansukonnov.eclinic.dao.TreatmentDao;
 import com.bogdansukonnov.eclinic.dto.RequestPrescriptionDto;
 import com.bogdansukonnov.eclinic.dto.RequestTableDto;
 import com.bogdansukonnov.eclinic.dto.ResponsePrescriptionDto;
@@ -25,17 +25,17 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class PrescriptionService {
 
-    private PrescriptionDAO prescriptionDAO;
+    private PrescriptionDao prescriptionDao;
     private PrescriptionConverter converter;
-    private TreatmentDAO treatmentDAO;
-    private TimePatternDAO timePatternDAO;
-    private PatientDAO patientDAO;
+    private TreatmentDao treatmentDao;
+    private TimePatternDao timePatternDao;
+    private PatientDao patientDao;
     private UserGetter userGetter;
     private EventService eventService;
 
     @Transactional(readOnly = true)
     public List<ResponsePrescriptionDto> getAll(OrderType orderType) {
-        return prescriptionDAO.getAll(orderType).stream()
+        return prescriptionDao.getAll(orderType).stream()
                 .map(prescription -> converter.toDto(prescription))
                 .collect(Collectors.toList());
     }
@@ -47,9 +47,9 @@ public class PrescriptionService {
 
         boolean isNew = dto.getId() == null;
 
-        Treatment treatment = treatmentDAO.findOne(dto.getTreatmentId());
-        TimePattern timePattern = timePatternDAO.findOne(dto.getTimePatternId());
-        Patient patient = patientDAO.findOne(dto.getPatientId());
+        Treatment treatment = treatmentDao.findOne(dto.getTreatmentId());
+        TimePattern timePattern = timePatternDao.findOne(dto.getTimePatternId());
+        Patient patient = patientDao.findOne(dto.getPatientId());
 
         if (patient.getPatientStatus() != PatientStatus.PATIENT) {
             throw new PrescriptionCreateException(
@@ -65,7 +65,7 @@ public class PrescriptionService {
             isEventsAffected = true;
         }
         else {
-            prescription = prescriptionDAO.findOne(dto.getId());
+            prescription = prescriptionDao.findOne(dto.getId());
             if (!dto.getVersion().equals(prescription.getVersion())) {
                 throw new PrescriptionUpdateException("Can't update prescription. Version conflict.");
             }
@@ -86,10 +86,10 @@ public class PrescriptionService {
 
         // save prescription
         if (isNew) {
-            prescription = prescriptionDAO.create(prescription);
+            prescription = prescriptionDao.create(prescription);
         }
         else {
-            prescription = prescriptionDAO.update(prescription);
+            prescription = prescriptionDao.update(prescription);
         }
 
         // update events
@@ -107,17 +107,17 @@ public class PrescriptionService {
 
     @Transactional(readOnly = true)
     public ResponsePrescriptionDto getOne(Long id) {
-        Prescription prescription = prescriptionDAO.findOne(id);
+        Prescription prescription = prescriptionDao.findOne(id);
         return converter.toDto(prescription);
     }
 
     @Transactional(readOnly = true)
     public TableDataDto getTable(RequestTableDto data) {
 
-        List<Prescription> prescriptions = prescriptionDAO.getAll("startDate desc", data.getSearch(),
+        List<Prescription> prescriptions = prescriptionDao.getAll("startDate desc", data.getSearch(),
                 data.getOffset(), data.getLimit(), data.getParentId());
 
-        Long totalFiltered = prescriptionDAO.getTotalFiltered(data.getSearch(), data.getParentId());
+        Long totalFiltered = prescriptionDao.getTotalFiltered(data.getSearch(), data.getParentId());
 
         List<ResponsePrescriptionDto> list = prescriptions.stream()
                 .map(prescription -> converter.toDto(prescription))
@@ -135,13 +135,13 @@ public class PrescriptionService {
      */
     @Transactional
     public void cancelPrescription(Long id) throws PrescriptionUpdateException {
-        Prescription prescription = prescriptionDAO.findOne(id);
+        Prescription prescription = prescriptionDao.findOne(id);
         if (!prescription.getStatus().equals(PrescriptionStatus.PRESCRIBED)) {
             throw new PrescriptionUpdateException("Only active prescriptions can be canceled.");
         }
         eventService.cancelAllScheduled(prescription, "Prescription cancelled");
         prescription.setStatus(PrescriptionStatus.CANCELED);
-        prescriptionDAO.update(prescription);
+        prescriptionDao.update(prescription);
     }
 
     /**
@@ -150,12 +150,12 @@ public class PrescriptionService {
      */
     @Transactional
     public void completeAllActive(Patient patient) {
-        List<Prescription> prescriptions = prescriptionDAO.getAll(patient);
+        List<Prescription> prescriptions = prescriptionDao.getAll(patient);
         for (Prescription prescription : prescriptions) {
             if (!prescription.getStatus().equals(PrescriptionStatus.CANCELED) &&
                 prescription.getEndDate().isAfter(LocalDateTime.now())) {
                 prescription.setEndDate(LocalDateTime.now());
-                prescription = prescriptionDAO.update(prescription);
+                prescription = prescriptionDao.update(prescription);
                 updateEvents(prescription);
             }
         }

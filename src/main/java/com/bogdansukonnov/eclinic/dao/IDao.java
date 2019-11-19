@@ -4,7 +4,7 @@ import com.bogdansukonnov.eclinic.service.OrderType;
 
 import java.util.List;
 
-public interface IDAO<T> {
+public interface IDao<T> {
 
     void setClazz(Class<T> clazzToSet);
 

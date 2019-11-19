@@ -1,6 +1,6 @@
 package com.bogdansukonnov.eclinic.service;
 
-import com.bogdansukonnov.eclinic.dao.IUserDAO;
+import com.bogdansukonnov.eclinic.dao.IUserDao;
 import com.bogdansukonnov.eclinic.entity.AppUser;
 import com.bogdansukonnov.eclinic.security.UserPrincipal;
 import lombok.AllArgsConstructor;
@@ -13,11 +13,11 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor
 public class AppUserDetailsService implements UserDetailsService {
 
-    private IUserDAO userDAO;
+    private IUserDao userDao;
 
     @Override
     public UserDetails loadUserByUsername(String username) {
-        AppUser user = userDAO.findByUsername(username);
+        AppUser user = userDao.findByUsername(username);
         if (user == null) {
             throw new UsernameNotFoundException(username);
         }

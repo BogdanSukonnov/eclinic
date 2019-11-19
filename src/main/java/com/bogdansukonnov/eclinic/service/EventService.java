@@ -1,7 +1,7 @@
 package com.bogdansukonnov.eclinic.service;
 
 import com.bogdansukonnov.eclinic.converter.EventConverter;
-import com.bogdansukonnov.eclinic.dao.EventDAO;
+import com.bogdansukonnov.eclinic.dao.EventDao;
 import com.bogdansukonnov.eclinic.dto.EventDto;
 import com.bogdansukonnov.eclinic.dto.EventsInfoDto;
 import com.bogdansukonnov.eclinic.dto.RequestEventTableDto;
@@ -32,7 +32,7 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 public class EventService {
 
-    private EventDAO eventDAO;
+    private EventDao eventDao;
     private EventConverter converter;
     private UserGetter userGetter;
     private MessagingService messagingService;
@@ -45,7 +45,7 @@ public class EventService {
      */
     @Transactional(readOnly = true)
     public boolean hasEvents(Prescription prescription) {
-        return !eventDAO.getAll(prescription).isEmpty();
+        return !eventDao.getAll(prescription).isEmpty();
     }
 
     /**
@@ -56,7 +56,7 @@ public class EventService {
     @Transactional(readOnly = true)
     public EventDto getOne(Long id) {
         messagingService.send(id.toString());
-        return converter.toDto(eventDAO.findOne(id));
+        return converter.toDto(eventDao.findOne(id));
     }
 
     /**
@@ -66,12 +66,12 @@ public class EventService {
      */
     @Transactional
     public void cancelAllScheduled(Prescription prescription, String reason) {
-        eventDAO.getAll(prescription).stream()
+        eventDao.getAll(prescription).stream()
                 .filter(event -> event.getEventStatus().equals(EventStatus.SCHEDULED))
                 .forEach(event -> {
                     event.setEventStatus(EventStatus.CANCELED);
                     event.setCancelReason(reason);
-                    eventDAO.update(event);
+                    eventDao.update(event);
                 });
     }
 
@@ -81,9 +81,9 @@ public class EventService {
      */
     @Transactional
     public void deleteAllScheduled(Prescription prescription) {
-        eventDAO.getAll(prescription).stream()
+        eventDao.getAll(prescription).stream()
                 .filter(event -> event.getEventStatus().equals(EventStatus.SCHEDULED))
-                .forEach(event -> eventDAO.delete(event));
+                .forEach(event -> eventDao.delete(event));
     }
 
     /**
@@ -100,7 +100,7 @@ public class EventService {
         // sorted from the database, but its critical, so sort again
         Collections.sort(items);
 
-        List<Event> events = eventDAO.getAll(prescription);
+        List<Event> events = eventDao.getAll(prescription);
 
         // event should not be created sooner than the last completed event and now
         // find last completed event
@@ -132,7 +132,7 @@ public class EventService {
             event.setTimePattern(prescription.getTimePattern());
             event.setTreatment(prescription.getTreatment());
             event.setDoctor(userGetter.getCurrentUser());
-            eventDAO.create(event);
+            eventDao.create(event);
         }
     }
 
@@ -190,14 +190,14 @@ public class EventService {
 
         String orderField = "dateTime";
 
-        List<Event> events = eventDAO.getAll(data.getSearch(), orderField, data.getOffset(), data.getLimit()
+        List<Event> events = eventDao.getAll(data.getSearch(), orderField, data.getOffset(), data.getLimit()
                 , data.getShowCompleted(), startDate, endDate, data.getParentId());
 
         List<EventDto> eventDtoS = events.stream()
                 .map(event -> converter.toDto(event))
                 .collect(Collectors.toList());
 
-        Long totalFiltered = eventDAO.getTotalFiltered(data.getSearch(), data.getShowCompleted(), startDate,
+        Long totalFiltered = eventDao.getTotalFiltered(data.getSearch(), data.getShowCompleted(), startDate,
                 endDate, null);
 
         return new TableDataDto<>(eventDtoS, data.getDraw(), totalFiltered, totalFiltered);
@@ -217,7 +217,7 @@ public class EventService {
             throw new EventStatusUpdateException("Can't cancel event without reason.");
         }
         // check current status
-        Event event = eventDAO.findOne(id);
+        Event event = eventDao.findOne(id);
         if (!event.getEventStatus().equals(EventStatus.SCHEDULED)) {
             throw new EventStatusUpdateException("Can't change event status. It's allready "
                     + event.getEventStatus());
@@ -231,7 +231,7 @@ public class EventService {
         event.setCancelReason(status.equals(EventStatus.CANCELED) ? cancelReason : "");
         // save current user
         event.setNurse(userGetter.getCurrentUser());
-        eventDAO.update(event);
+        eventDao.update(event);
     }
 
     @Transactional(readOnly = true)
@@ -239,14 +239,14 @@ public class EventService {
         EventsInfoDto eventsDto = new EventsInfoDto();
         if (eventId > 0 && lastMessageId > 0 && lastMessageId == messageCounter.getCounter()) {
             // one event
-            Event event = eventDAO.findOne(eventId);
+            Event event = eventDao.findOne(eventId);
             boolean show = event.getEventStatus().equals(EventStatus.SCHEDULED) &&
                     event.getDateTime().getDayOfYear() != LocalDateTime.now().getDayOfYear();
             eventsDto.getEvents().add(converter.toInfoDto(event, show));
         } else {
             // full update, all today's events
             eventsDto.setFullUpdate(true);
-            List<Event> events = eventDAO.getAll(null, "dateTime", 0, 100, false,
+            List<Event> events = eventDao.getAll(null, "dateTime", 0, 100, false,
                     LocalDateTime.of(LocalDate.now(), LocalTime.MIN),
                     LocalDateTime.of(LocalDate.now(), LocalTime.MAX), null);
             eventsDto.setEvents(events.stream()

@@ -5,7 +5,7 @@ import org.hibernate.query.Query;
 
 import java.util.List;
 
-public abstract class AbstractTableDAO<T> extends AbstractDAO<T> {
+public abstract class AbstractTableDao<T> extends AbstractDao<T> {
 
     abstract String getQueryConditions(String search, Long parentId);
 

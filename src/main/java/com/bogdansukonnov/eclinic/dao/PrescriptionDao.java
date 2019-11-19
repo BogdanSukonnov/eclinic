@@ -10,9 +10,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Repository
-public class PrescriptionDAO extends AbstractTableDAO<Prescription> implements ITableDAO<Prescription> {
+public class PrescriptionDao extends AbstractTableDao<Prescription> implements ITableDao<Prescription> {
 
-    public PrescriptionDAO() {
+    public PrescriptionDao() {
         setClazz(Prescription.class);
     }
 

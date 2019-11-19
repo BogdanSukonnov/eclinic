@@ -8,9 +8,9 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public class PatientDAO extends AbstractTableDAO<Patient> implements ITableDAO<Patient> {
+public class PatientDao extends AbstractTableDao<Patient> implements ITableDao<Patient> {
 
-    public PatientDAO() {
+    public PatientDao() {
         setClazz(Patient.class);
     }
 
