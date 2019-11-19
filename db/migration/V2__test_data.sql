@@ -16,14 +16,14 @@ VALUES ('Lennon John', '697-28-0304', 'DISCHARGED', 'Hypertension', '2019-10-11 
 
 
 INSERT INTO time_pattern (cycle_length, name, is_week_cycle, version)
-VALUES (7, 'two days a week: Tu Th', true, 1),
-       (1, 'twice a day: morning evening', false, 1),
-       (1, 'every day: 2PM', false, 1);
+VALUES (7, '2 days a week: Tue Thu', true, 1),
+       (1, 'Daily 09:00 and 18:00', false, 1),
+       (1, 'Daily: 14:00', false, 1);
 
 
 INSERT INTO time_pattern_item (day_of_cycle, time, time_pattern_id, version)
-VALUES (1, '10:00', 1, 1),
-       (3, '10:00', 1, 1),
+VALUES (2, '10:00', 1, 1),
+       (4, '10:00', 1, 1),
        (0, '09:00', 2, 1),
        (0, '18:00', 2, 1),
        (0, '14:00', 3, 1);

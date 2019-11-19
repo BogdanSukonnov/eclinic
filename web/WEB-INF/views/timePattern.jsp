@@ -44,11 +44,11 @@
                 <tbody>
                 <c:forEach var="item" items="${timePattern.items}">
                     <tr>
-                        <td>${!timePattern.isWeekCycle ? item.dayOfCycle : item.dayOfCycle == 0
+                        <td>${!timePattern.isWeekCycle ? item.dayOfCycle + 1 : item.dayOfCycle == 0
                                 ? "Sun" : item.dayOfCycle == 1 ? "Mon" : item.dayOfCycle == 2
                                 ? "Tue" : item.dayOfCycle == 3 ? "Wed" : item.dayOfCycle == 4
                                 ? "Thu" : item.dayOfCycle == 5 ? "Fri" : item.dayOfCycle == 6
-                                ? "Sat" : item.dayOfCycle}</td>
+                                ? "Sat" : item.dayOfCycle + 1}</td>
                         <td>${item.time}</td>
                     </tr>
                 </c:forEach>
