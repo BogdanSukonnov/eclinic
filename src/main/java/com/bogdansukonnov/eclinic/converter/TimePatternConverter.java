@@ -1,12 +1,15 @@
 package com.bogdansukonnov.eclinic.converter;
 
 import com.bogdansukonnov.eclinic.dto.TimePatternDto;
+import com.bogdansukonnov.eclinic.dto.TimePatternItemDto;
 import com.bogdansukonnov.eclinic.entity.TimePattern;
 import com.bogdansukonnov.eclinic.entity.TimePatternItem;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.Date;
 import java.util.stream.Collectors;
 
 @Component
@@ -28,6 +31,23 @@ public class TimePatternConverter {
                 })
                 .collect(Collectors.toList()));
         return timePattern;
+    }
+
+    public TimePatternDto toDto(TimePattern timePattern) {
+        TimePatternDto dto = new TimePatternDto();
+        dto.setCycleLength(timePattern.getCycleLength());
+        dto.setIsWeekCycle(timePattern.getIsWeekCycle());
+        dto.setName(timePattern.getName());
+        dto.setItems(timePattern.getItems().stream()
+                .map(item -> {
+                    TimePatternItemDto itemDto = new TimePatternItemDto();
+                    itemDto.setDayOfCycle(item.getDayOfCycle());
+                    itemDto.setTime(Date.from(item.getTime().atDate(LocalDate.of(2020, 1, 1)).
+                            atZone(ZoneId.systemDefault()).toInstant()));
+                    return itemDto;
+                })
+                .collect(Collectors.toList()));
+        return dto;
     }
 
 }

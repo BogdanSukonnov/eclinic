@@ -37,8 +37,8 @@ public class TimePatternService {
     }
 
     @Transactional(readOnly = true)
-    public TimePattern getOne(Long id) {
-        return timePatternDao.findOne(id);
+    public TimePatternDto getOne(Long id) {
+        return timePatternConverter.toDto(timePatternDao.findOne(id));
     }
 
     @Transactional(readOnly = true)

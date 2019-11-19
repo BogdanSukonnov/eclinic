@@ -2,6 +2,7 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <t:generic-page>
 <jsp:attribute name="content">
@@ -49,7 +50,7 @@
                                 ? "Tue" : item.dayOfCycle == 3 ? "Wed" : item.dayOfCycle == 4
                                 ? "Thu" : item.dayOfCycle == 5 ? "Fri" : item.dayOfCycle == 6
                                 ? "Sat" : item.dayOfCycle + 1}</td>
-                        <td>${item.time}</td>
+                        <td><fmt:formatDate value="${item.time}" pattern="HH:mm"/></td>
                     </tr>
                 </c:forEach>
                 </tbody>
