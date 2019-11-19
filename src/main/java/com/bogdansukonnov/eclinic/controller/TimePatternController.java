@@ -1,10 +1,9 @@
 package com.bogdansukonnov.eclinic.controller;
 
-import com.bogdansukonnov.eclinic.dto.RequestTableDto;
-import com.bogdansukonnov.eclinic.dto.SelectorDataDto;
-import com.bogdansukonnov.eclinic.dto.TableDataDto;
+import com.bogdansukonnov.eclinic.dto.*;
 import com.bogdansukonnov.eclinic.service.TimePatternService;
 import lombok.AllArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +11,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @AllArgsConstructor
+@Log4j2
 @RequestMapping("doctor")
 public class TimePatternController {
 
@@ -20,6 +20,12 @@ public class TimePatternController {
     @GetMapping("new-time-pattern")
     public String newTimePattern() {
         return "newTimePattern";
+    }
+
+    @PutMapping("new-time-pattern")
+    @ResponseBody
+    public IdDto addTimePattern(@Validated @RequestBody TimePatternDto dto) {
+        return timePatternService.addNew(dto);
     }
 
     @PostMapping("time-pattern-selector-data")

@@ -34,6 +34,9 @@ document.addEventListener('DOMContentLoaded', function () {
         onCustomLengthChange();
     });
     onNewDayChange();
+    saveNewTimePatternBtn.click(function () {
+        onSave();
+    });
 });
 
 function getCustomLengthNumber() {
@@ -281,4 +284,32 @@ function constructName() {
         }
     }
     nameEl.val(nameStr);
+}
+
+function onSave() {
+    let obj = {
+        name: 'New pattern',
+        cycleLength: 4,
+        isWeekCycle: false,
+        items: [{time: '14:20', dayOfCycle: 1}]
+    };
+
+    $.ajax({
+        method: "PUT",
+        contentType: "application/json",
+        url: "/doctor/new-time-pattern",
+        data: JSON.stringify({
+            name: 'New pattern',
+            cycleLength: 4,
+            isWeekCycle: false,
+            items: [{time: '14:20', dayOfCycle: 1}]
+        })
+    })
+        .done(function (msg) {
+            window.location.assign('/doctor/time-pattern?id=' + msg.id);
+        })
+        .fail(function (msg) {
+            console.log("fail");
+        });
+
 }

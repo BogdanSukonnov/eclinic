@@ -1,11 +1,9 @@
 package com.bogdansukonnov.eclinic.service;
 
 import com.bogdansukonnov.eclinic.converter.SelectorDataConverter;
+import com.bogdansukonnov.eclinic.converter.TimePatternConverter;
 import com.bogdansukonnov.eclinic.dao.TimePatternDao;
-import com.bogdansukonnov.eclinic.dto.RequestTableDto;
-import com.bogdansukonnov.eclinic.dto.SelectorDataDto;
-import com.bogdansukonnov.eclinic.dto.TableDataDto;
-import com.bogdansukonnov.eclinic.dto.TimePatternDto;
+import com.bogdansukonnov.eclinic.dto.*;
 import com.bogdansukonnov.eclinic.entity.SelectorData;
 import com.bogdansukonnov.eclinic.entity.TimePattern;
 import lombok.AllArgsConstructor;
@@ -23,6 +21,7 @@ public class TimePatternService {
     private TimePatternDao timePatternDao;
     private ModelMapper modelMapper;
     private SelectorDataConverter selectorDataConverter;
+    private TimePatternConverter timePatternConverter;
 
     @Transactional(readOnly = true)
     public List<TimePatternDto> getAll(OrderType orderType) {
@@ -32,9 +31,9 @@ public class TimePatternService {
     }
 
     @Transactional
-    public void addNew() {
-        TimePattern timePattern = new TimePattern();
-        timePatternDao.create(timePattern);
+    public IdDto addNew(TimePatternDto dto) {
+        TimePattern timePattern = timePatternConverter.toEntity(dto);
+        return new IdDto(timePatternDao.create(timePattern).getId());
     }
 
     @Transactional(readOnly = true)

@@ -125,7 +125,7 @@
                 </div>
                 <label class="col-sm-1 col-form-label"> </label>
                 <div class="col">
-                    <button id="saveNewTimePatternBtn" class="btn btn-primary" disabled>Save</button>
+                    <button id="saveNewTimePatternBtn" type="button" class="btn btn-primary" disabled>Save</button>
                 </div>
             </div>
 
