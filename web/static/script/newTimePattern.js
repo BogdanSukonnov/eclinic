@@ -266,12 +266,12 @@ function constructName() {
         }
         let times = calendar.getEvents().length;
         if (times > 1) {
-            nameStr += times + ' times';
+            nameStr += times + ' times ';
         }
         if (periodType === 'Weekly') {
             nameStr += times > 1 ? ' a week:' : '';
         } else {
-            nameStr += ' at';
+            nameStr += 'at';
         }
         for (let i = 0; i < times; ++i) {
             let separator = ', ';
