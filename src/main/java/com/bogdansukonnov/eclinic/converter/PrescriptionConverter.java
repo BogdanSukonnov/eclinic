@@ -1,7 +1,7 @@
 package com.bogdansukonnov.eclinic.converter;
 
-import com.bogdansukonnov.eclinic.dto.RequestPrescriptionDTO;
-import com.bogdansukonnov.eclinic.dto.ResponsePrescriptionDTO;
+import com.bogdansukonnov.eclinic.dto.RequestPrescriptionDto;
+import com.bogdansukonnov.eclinic.dto.ResponsePrescriptionDto;
 import com.bogdansukonnov.eclinic.entity.*;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -16,8 +16,8 @@ public class PrescriptionConverter {
 
     private ModelMapper modelMapper;
 
-    public ResponsePrescriptionDTO toDTO(Prescription prescription) {
-        ResponsePrescriptionDTO dto = modelMapper.map(prescription, ResponsePrescriptionDTO.class);
+    public ResponsePrescriptionDto toDto(Prescription prescription) {
+        ResponsePrescriptionDto dto = modelMapper.map(prescription, ResponsePrescriptionDto.class);
         dto.setStartDateFormatted(prescription.getStartDate().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
         dto.setEndDateFormatted(prescription.getEndDate().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM");
@@ -29,7 +29,7 @@ public class PrescriptionConverter {
         return dto;
     }
 
-    public Prescription toEntity(Prescription prescription, RequestPrescriptionDTO dto,
+    public Prescription toEntity(Prescription prescription, RequestPrescriptionDto dto,
                  Patient patient, Treatment treatment, TimePattern timePattern,
                     LocalDateTime startDate, LocalDateTime endDate) {
         prescription.setDosage(dto.getDosage());

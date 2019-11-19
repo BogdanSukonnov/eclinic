@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @EqualsAndHashCode(callSuper = true)
 @Getter
 @Setter
-public class EventDTO extends AbstractDTO {
+public class EventDto extends AbstractDto {
 
     // only to frontend
     private LocalDateTime dateTime;

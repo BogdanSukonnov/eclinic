@@ -5,10 +5,8 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class SelectorDataElementDTO {
+public class IdDto {
 
     private Long id;
-
-    private String text;
 
 }

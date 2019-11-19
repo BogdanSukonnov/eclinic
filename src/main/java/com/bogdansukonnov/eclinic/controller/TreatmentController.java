@@ -1,8 +1,8 @@
 package com.bogdansukonnov.eclinic.controller;
 
-import com.bogdansukonnov.eclinic.dto.RequestTableDTO;
-import com.bogdansukonnov.eclinic.dto.SelectorDataDTO;
-import com.bogdansukonnov.eclinic.dto.TableDataDTO;
+import com.bogdansukonnov.eclinic.dto.RequestTableDto;
+import com.bogdansukonnov.eclinic.dto.SelectorDataDto;
+import com.bogdansukonnov.eclinic.dto.TableDataDto;
 import com.bogdansukonnov.eclinic.entity.TreatmentType;
 import com.bogdansukonnov.eclinic.service.TreatmentService;
 import lombok.AllArgsConstructor;
@@ -23,7 +23,7 @@ public class TreatmentController {
 
     @PostMapping("treatments-selector-data")
     @ResponseBody
-    public SelectorDataDTO treatmentsSelectorData(@RequestParam("type") String type
+    public SelectorDataDto treatmentsSelectorData(@RequestParam("type") String type
             , @RequestParam(name = "search", required = false) String search) {
         return treatmentService.getAll(type, search);
     }
@@ -35,7 +35,7 @@ public class TreatmentController {
 
     @PostMapping("treatments-table")
     @ResponseBody
-    public TableDataDTO treatmentsTable(@Validated RequestTableDTO data) {
+    public TableDataDto treatmentsTable(@Validated RequestTableDto data) {
         return treatmentService.getTable(data);
     }
 

@@ -5,10 +5,10 @@ import com.bogdansukonnov.eclinic.dao.PatientDAO;
 import com.bogdansukonnov.eclinic.dao.PrescriptionDAO;
 import com.bogdansukonnov.eclinic.dao.TimePatternDAO;
 import com.bogdansukonnov.eclinic.dao.TreatmentDAO;
-import com.bogdansukonnov.eclinic.dto.RequestPrescriptionDTO;
-import com.bogdansukonnov.eclinic.dto.RequestTableDTO;
-import com.bogdansukonnov.eclinic.dto.ResponsePrescriptionDTO;
-import com.bogdansukonnov.eclinic.dto.TableDataDTO;
+import com.bogdansukonnov.eclinic.dto.RequestPrescriptionDto;
+import com.bogdansukonnov.eclinic.dto.RequestTableDto;
+import com.bogdansukonnov.eclinic.dto.ResponsePrescriptionDto;
+import com.bogdansukonnov.eclinic.dto.TableDataDto;
 import com.bogdansukonnov.eclinic.entity.*;
 import com.bogdansukonnov.eclinic.exceptions.PrescriptionCreateException;
 import com.bogdansukonnov.eclinic.exceptions.PrescriptionUpdateException;
@@ -34,14 +34,14 @@ public class PrescriptionService {
     private EventService eventService;
 
     @Transactional(readOnly = true)
-    public List<ResponsePrescriptionDTO> getAll(OrderType orderType) {
+    public List<ResponsePrescriptionDto> getAll(OrderType orderType) {
         return prescriptionDAO.getAll(orderType).stream()
-                .map(prescription -> converter.toDTO(prescription))
+                .map(prescription -> converter.toDto(prescription))
                 .collect(Collectors.toList());
     }
 
     @Transactional
-    public Long save(RequestPrescriptionDTO dto,
+    public Long save(RequestPrescriptionDto dto,
                      LocalDateTime startDate, LocalDateTime endDate)
             throws PrescriptionCreateException, PrescriptionUpdateException {
 
@@ -106,24 +106,24 @@ public class PrescriptionService {
     }
 
     @Transactional(readOnly = true)
-    public ResponsePrescriptionDTO getOne(Long id) {
+    public ResponsePrescriptionDto getOne(Long id) {
         Prescription prescription = prescriptionDAO.findOne(id);
-        return converter.toDTO(prescription);
+        return converter.toDto(prescription);
     }
 
     @Transactional(readOnly = true)
-    public TableDataDTO getTable(RequestTableDTO data) {
+    public TableDataDto getTable(RequestTableDto data) {
 
         List<Prescription> prescriptions = prescriptionDAO.getAll("startDate desc", data.getSearch(),
                 data.getOffset(), data.getLimit(), data.getParentId());
 
         Long totalFiltered = prescriptionDAO.getTotalFiltered(data.getSearch(), data.getParentId());
 
-        List<ResponsePrescriptionDTO> list = prescriptions.stream()
-                .map(prescription -> converter.toDTO(prescription))
+        List<ResponsePrescriptionDto> list = prescriptions.stream()
+                .map(prescription -> converter.toDto(prescription))
                 .collect(Collectors.toList());
 
-        return new TableDataDTO<>(list, data.getDraw(), totalFiltered, totalFiltered);
+        return new TableDataDto<>(list, data.getDraw(), totalFiltered, totalFiltered);
 
     }
 

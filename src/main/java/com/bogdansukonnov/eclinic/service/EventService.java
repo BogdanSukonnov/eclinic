@@ -2,10 +2,10 @@ package com.bogdansukonnov.eclinic.service;
 
 import com.bogdansukonnov.eclinic.converter.EventConverter;
 import com.bogdansukonnov.eclinic.dao.EventDAO;
-import com.bogdansukonnov.eclinic.dto.EventDTO;
-import com.bogdansukonnov.eclinic.dto.EventsInfoDTO;
-import com.bogdansukonnov.eclinic.dto.RequestEventTableDTO;
-import com.bogdansukonnov.eclinic.dto.TableDataDTO;
+import com.bogdansukonnov.eclinic.dto.EventDto;
+import com.bogdansukonnov.eclinic.dto.EventsInfoDto;
+import com.bogdansukonnov.eclinic.dto.RequestEventTableDto;
+import com.bogdansukonnov.eclinic.dto.TableDataDto;
 import com.bogdansukonnov.eclinic.entity.*;
 import com.bogdansukonnov.eclinic.exceptions.EventStatusUpdateException;
 import com.bogdansukonnov.eclinic.message.MessageCounter;
@@ -51,12 +51,12 @@ public class EventService {
     /**
      * <p>finds event by it's id</p>
      * @param id event id
-     * @return EventDTO
+     * @return EventDto
      */
     @Transactional(readOnly = true)
-    public EventDTO getOne(Long id) {
+    public EventDto getOne(Long id) {
         messagingService.send(id.toString());
-        return converter.toDTO(eventDAO.findOne(id));
+        return converter.toDto(eventDAO.findOne(id));
     }
 
     /**
@@ -183,24 +183,24 @@ public class EventService {
      * <p>REST service. Generates data for the table of
      * all events with given filters</p>
      * @param data request parameter
-     * @return TableDataDTO
+     * @return TableDataDto
      */
     @Transactional(readOnly = true)
-    public TableDataDTO getTable(RequestEventTableDTO data, LocalDateTime startDate, LocalDateTime endDate) {
+    public TableDataDto getTable(RequestEventTableDto data, LocalDateTime startDate, LocalDateTime endDate) {
 
         String orderField = "dateTime";
 
         List<Event> events = eventDAO.getAll(data.getSearch(), orderField, data.getOffset(), data.getLimit()
                 , data.getShowCompleted(), startDate, endDate, data.getParentId());
 
-        List<EventDTO> eventDTOS = events.stream()
-                .map(event -> converter.toDTO(event))
+        List<EventDto> eventDtoS = events.stream()
+                .map(event -> converter.toDto(event))
                 .collect(Collectors.toList());
 
         Long totalFiltered = eventDAO.getTotalFiltered(data.getSearch(), data.getShowCompleted(), startDate,
                 endDate, null);
 
-        return new TableDataDTO<>(eventDTOS, data.getDraw(), totalFiltered, totalFiltered);
+        return new TableDataDto<>(eventDtoS, data.getDraw(), totalFiltered, totalFiltered);
     }
 
     /**
@@ -235,26 +235,26 @@ public class EventService {
     }
 
     @Transactional(readOnly = true)
-    public EventsInfoDTO eventsInfo(Long eventId, Long lastMessageId) {
-        EventsInfoDTO eventsDTO = new EventsInfoDTO();
+    public EventsInfoDto eventsInfo(Long eventId, Long lastMessageId) {
+        EventsInfoDto eventsDto = new EventsInfoDto();
         if (eventId > 0 && lastMessageId > 0 && lastMessageId == messageCounter.getCounter()) {
             // one event
             Event event = eventDAO.findOne(eventId);
             boolean show = event.getEventStatus().equals(EventStatus.SCHEDULED) &&
                     event.getDateTime().getDayOfYear() != LocalDateTime.now().getDayOfYear();
-            eventsDTO.getEvents().add(converter.toInfoDTO(event, show));
+            eventsDto.getEvents().add(converter.toInfoDto(event, show));
         } else {
             // full update, all today's events
-            eventsDTO.setFullUpdate(true);
+            eventsDto.setFullUpdate(true);
             List<Event> events = eventDAO.getAll(null, "dateTime", 0, 100, false,
                     LocalDateTime.of(LocalDate.now(), LocalTime.MIN),
                     LocalDateTime.of(LocalDate.now(), LocalTime.MAX), null);
-            eventsDTO.setEvents(events.stream()
-                    .map(event -> converter.toInfoDTO(event, true))
+            eventsDto.setEvents(events.stream()
+                    .map(event -> converter.toInfoDto(event, true))
                     .collect(Collectors.toList()));
         }
-        eventsDTO.setMessageId(messageCounter.incrementAndGet());
-        return eventsDTO;
+        eventsDto.setMessageId(messageCounter.incrementAndGet());
+        return eventsDto;
     }
 
 }

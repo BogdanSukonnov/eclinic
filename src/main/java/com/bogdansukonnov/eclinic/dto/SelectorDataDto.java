@@ -8,8 +8,8 @@ import java.util.List;
 
 @Getter
 @Setter
-public class SelectorDataDTO {
+public class SelectorDataDto {
 
-    List<SelectorDataElementDTO> results;
+    List<SelectorDataElementDto> results;
 
 }

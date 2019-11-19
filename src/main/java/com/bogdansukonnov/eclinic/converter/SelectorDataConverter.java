@@ -1,7 +1,7 @@
 package com.bogdansukonnov.eclinic.converter;
 
-import com.bogdansukonnov.eclinic.dto.SelectorDataDTO;
-import com.bogdansukonnov.eclinic.dto.SelectorDataElementDTO;
+import com.bogdansukonnov.eclinic.dto.SelectorDataDto;
+import com.bogdansukonnov.eclinic.dto.SelectorDataElementDto;
 import com.bogdansukonnov.eclinic.entity.SelectorData;
 import org.springframework.stereotype.Component;
 
@@ -11,11 +11,11 @@ import java.util.stream.Collectors;
 @Component
 public class SelectorDataConverter {
 
-    public SelectorDataDTO toDTO(List<SelectorData> data) {
-        SelectorDataDTO dto = new SelectorDataDTO();
+    public SelectorDataDto toDto(List<SelectorData> data) {
+        SelectorDataDto dto = new SelectorDataDto();
         dto.setResults(data.stream()
                 .map(d -> {
-                    SelectorDataElementDTO element = new SelectorDataElementDTO();
+                    SelectorDataElementDto element = new SelectorDataElementDto();
                     element.setId(d.getId());
                     element.setText(d.getSelectorText());
                     return element;

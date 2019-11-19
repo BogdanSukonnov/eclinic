@@ -9,15 +9,15 @@ import javax.validation.constraints.NotNull;
 @EqualsAndHashCode(callSuper = true)
 @Getter
 @Setter
-public class RequestPrescriptionDTO extends AbstractDTO {
+public class TimePatternDto extends AbstractDto {
 
     @NotNull
-    private String dosage;
+    private String name;
+
     @NotNull
-    private Long patientId;
+    private Short cycleLength;
+
     @NotNull
-    private Long timePatternId;
-    @NotNull
-    private Long treatmentId;
+    private Boolean isWeekCycle;
 
 }

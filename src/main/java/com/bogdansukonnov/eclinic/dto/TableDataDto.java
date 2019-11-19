@@ -9,7 +9,7 @@ import java.util.List;
 @Getter
 @Setter
 @AllArgsConstructor
-public class TableDataDTO<T> {
+public class TableDataDto<T> {
 
     private List<T> data;
     private Integer draw;

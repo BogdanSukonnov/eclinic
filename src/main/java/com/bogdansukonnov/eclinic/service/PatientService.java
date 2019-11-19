@@ -1,9 +1,9 @@
 package com.bogdansukonnov.eclinic.service;
 
 import com.bogdansukonnov.eclinic.dao.PatientDAO;
-import com.bogdansukonnov.eclinic.dto.RequestTableDTO;
-import com.bogdansukonnov.eclinic.dto.ResponsePatientDTO;
-import com.bogdansukonnov.eclinic.dto.TableDataDTO;
+import com.bogdansukonnov.eclinic.dto.RequestTableDto;
+import com.bogdansukonnov.eclinic.dto.ResponsePatientDto;
+import com.bogdansukonnov.eclinic.dto.TableDataDto;
 import com.bogdansukonnov.eclinic.entity.Patient;
 import com.bogdansukonnov.eclinic.entity.PatientStatus;
 import com.bogdansukonnov.eclinic.exceptions.PatientUpdateException;
@@ -26,43 +26,43 @@ public class PatientService {
     private PrescriptionService prescriptionService;
 
     @Transactional(readOnly = true)
-    public List<ResponsePatientDTO> getAll(OrderType orderType) {
+    public List<ResponsePatientDto> getAll(OrderType orderType) {
         return patientDAO.getAll(orderType).stream()
-                .map(patient -> modelMapper.map(patient, ResponsePatientDTO.class))
+                .map(patient -> modelMapper.map(patient, ResponsePatientDto.class))
                 .collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)
-    public ResponsePatientDTO getOne(Long id) {
+    public ResponsePatientDto getOne(Long id) {
         Patient patient = patientDAO.findOne(id);
-        return modelMapper.map(patient, ResponsePatientDTO.class);
+        return modelMapper.map(patient, ResponsePatientDto.class);
     }
 
     @Transactional
-    public Long addNew(ResponsePatientDTO responsePatientDTO) {
-        Patient patient = modelMapper.map(responsePatientDTO, Patient.class);
+    public Long addNew(ResponsePatientDto responsePatientDto) {
+        Patient patient = modelMapper.map(responsePatientDto, Patient.class);
         patient.setPatientStatus(PatientStatus.PATIENT);
         patient = patientDAO.create(patient);
         return patient.getId();
     }
 
     @Transactional(readOnly = true)
-    public TableDataDTO getTable(RequestTableDTO data) {
+    public TableDataDto getTable(RequestTableDto data) {
 
         List<Patient> patients = patientDAO.getAll(data.getOrderField(), data.getSearch(),
                 data.getOffset(), data.getLimit(), null);
 
         Long totalFiltered = patientDAO.getTotalFiltered(data.getSearch(), null);
 
-        List<ResponsePatientDTO> list = patients.stream()
+        List<ResponsePatientDto> list = patients.stream()
                 .map(patient -> {
-                    ResponsePatientDTO dto = modelMapper.map(patient, ResponsePatientDTO.class);
+                    ResponsePatientDto dto = modelMapper.map(patient, ResponsePatientDto.class);
                     dto.setFormattedDate(patient.getCreatedDateTime().format(DateTimeFormatter.ofPattern("dd.MM.yy")));
                     return dto;
                 })
                 .collect(Collectors.toList());
 
-        return new TableDataDTO<>(list, data.getDraw(), totalFiltered, totalFiltered);
+        return new TableDataDto<>(list, data.getDraw(), totalFiltered, totalFiltered);
     }
 
     @Transactional

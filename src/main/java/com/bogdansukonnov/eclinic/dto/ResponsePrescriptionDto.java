@@ -8,12 +8,12 @@ import lombok.Setter;
 @EqualsAndHashCode(callSuper = true)
 @Getter
 @Setter
-public class ResponsePrescriptionDTO extends AbstractDTO {
+public class ResponsePrescriptionDto extends AbstractDto {
 
     private String doctorFullName;
-    private ResponsePatientDTO patient;
-    private TimePatternDTO timePattern;
-    private TreatmentDTO treatment;
+    private ResponsePatientDto patient;
+    private TimePatternDto timePattern;
+    private TreatmentDto treatment;
     private String treatmentWithDosage;
     private PrescriptionStatus status;
     private String startDateFormatted;

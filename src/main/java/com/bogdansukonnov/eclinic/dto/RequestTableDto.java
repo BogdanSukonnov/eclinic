@@ -7,7 +7,7 @@ import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
-public class RequestTableDTO {
+public class RequestTableDto {
 
     @NotNull
     Integer draw;

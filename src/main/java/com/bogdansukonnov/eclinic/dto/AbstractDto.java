@@ -9,7 +9,7 @@ import javax.validation.constraints.NotNull;
 @Getter
 @Setter
 @EqualsAndHashCode
-public abstract class AbstractDTO {
+public abstract class AbstractDto {
 
     @NotNull(groups = Update.class)
     private Long id;

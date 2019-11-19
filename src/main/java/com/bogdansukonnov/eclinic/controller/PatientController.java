@@ -1,8 +1,8 @@
 package com.bogdansukonnov.eclinic.controller;
 
-import com.bogdansukonnov.eclinic.dto.RequestTableDTO;
-import com.bogdansukonnov.eclinic.dto.ResponsePatientDTO;
-import com.bogdansukonnov.eclinic.dto.TableDataDTO;
+import com.bogdansukonnov.eclinic.dto.RequestTableDto;
+import com.bogdansukonnov.eclinic.dto.ResponsePatientDto;
+import com.bogdansukonnov.eclinic.dto.TableDataDto;
 import com.bogdansukonnov.eclinic.exceptions.PatientUpdateException;
 import com.bogdansukonnov.eclinic.service.PatientService;
 import lombok.AllArgsConstructor;
@@ -34,14 +34,14 @@ public class PatientController {
     }
 
     @PostMapping("newPatient")
-    public String newPatient(ResponsePatientDTO responsePatientDTO) {
-        Long id = patientService.addNew(responsePatientDTO);
+    public String newPatient(ResponsePatientDto responsePatientDto) {
+        Long id = patientService.addNew(responsePatientDto);
         return "redirect:/doctor/patient?id=" + id;
     }
 
     @PostMapping("patients-table")
     @ResponseBody
-    public TableDataDTO patientsTable(@Validated RequestTableDTO data) {
+    public TableDataDto patientsTable(@Validated RequestTableDto data) {
         return patientService.getTable(data);
     }
 

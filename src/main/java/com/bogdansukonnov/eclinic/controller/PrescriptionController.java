@@ -26,7 +26,7 @@ public class PrescriptionController {
 
     @RequestMapping("prescriptions")
     public ModelAndView prescriptions() {
-        List<ResponsePrescriptionDTO> prescriptions = prescriptionService.getAll(OrderType.CREATION);
+        List<ResponsePrescriptionDto> prescriptions = prescriptionService.getAll(OrderType.CREATION);
         ModelAndView model = new ModelAndView("prescriptions");
         model.addObject("prescriptions", prescriptions);
         return model;
@@ -35,7 +35,7 @@ public class PrescriptionController {
     @RequestMapping("prescription")
     public ModelAndView prescription(@RequestParam("id") Long id) {
         ModelAndView model = new ModelAndView("prescription");
-        ResponsePrescriptionDTO prescription = prescriptionService.getOne(id);
+        ResponsePrescriptionDto prescription = prescriptionService.getOne(id);
         model.addObject("isNew", false);
         model.addObject("prescription", prescription);
         model.addObject("patientId", prescription.getPatient().getId());
@@ -54,7 +54,7 @@ public class PrescriptionController {
     }
 
     @PostMapping("saveNewPrescription")
-    public String newPrescription(@Validated RequestPrescriptionDTO dto,
+    public String newPrescription(@Validated RequestPrescriptionDto dto,
                   @RequestParam("startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
                           LocalDateTime startDate,
                   @RequestParam("endDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
@@ -66,7 +66,7 @@ public class PrescriptionController {
     }
 
     @PostMapping("updatePrescription")
-    public String updatePrescription(@Validated(Update.class) RequestPrescriptionDTO dto,
+    public String updatePrescription(@Validated(Update.class) RequestPrescriptionDto dto,
                  @RequestParam("startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
                          LocalDateTime startDate,
                  @RequestParam("endDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
@@ -78,7 +78,7 @@ public class PrescriptionController {
 
     @PostMapping("prescriptions-table")
     @ResponseBody
-    public TableDataDTO prescriptionsTable(@Validated RequestTableDTO data) {
+    public TableDataDto prescriptionsTable(@Validated RequestTableDto data) {
         return prescriptionService.getTable(data);
     }
 

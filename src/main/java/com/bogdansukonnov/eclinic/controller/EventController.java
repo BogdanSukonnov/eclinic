@@ -1,8 +1,8 @@
 package com.bogdansukonnov.eclinic.controller;
 
-import com.bogdansukonnov.eclinic.dto.EventsInfoDTO;
-import com.bogdansukonnov.eclinic.dto.RequestEventTableDTO;
-import com.bogdansukonnov.eclinic.dto.TableDataDTO;
+import com.bogdansukonnov.eclinic.dto.EventsInfoDto;
+import com.bogdansukonnov.eclinic.dto.RequestEventTableDto;
+import com.bogdansukonnov.eclinic.dto.TableDataDto;
 import com.bogdansukonnov.eclinic.entity.EventStatus;
 import com.bogdansukonnov.eclinic.exceptions.EventStatusUpdateException;
 import com.bogdansukonnov.eclinic.service.EventService;
@@ -36,7 +36,7 @@ public class EventController {
 
     @PostMapping("/nurse/events-table")
     @ResponseBody
-    public TableDataDTO eventsTable(@Validated RequestEventTableDTO data,
+    public TableDataDto eventsTable(@Validated RequestEventTableDto data,
         @RequestParam("startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
                 LocalDateTime startDate,
         @RequestParam("endDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
@@ -46,7 +46,7 @@ public class EventController {
 
     @PostMapping("/doctor/prescription-events-table")
     @ResponseBody
-    public TableDataDTO eventsTable(@Validated RequestEventTableDTO data) {
+    public TableDataDto eventsTable(@Validated RequestEventTableDto data) {
         return eventService.getTable(data, null, null);
     }
 
@@ -69,7 +69,7 @@ public class EventController {
 
     @GetMapping("/info/events")
     @ResponseBody
-    public EventsInfoDTO eventsInfo(@RequestParam("eventId") Long eventId,
+    public EventsInfoDto eventsInfo(@RequestParam("eventId") Long eventId,
                                     @RequestParam("lastMessageId") Long lastMessageId) {
         return eventService.eventsInfo(eventId, lastMessageId);
     }

@@ -1,8 +1,8 @@
 package com.bogdansukonnov.eclinic.controller;
 
-import com.bogdansukonnov.eclinic.dto.RequestTableDTO;
-import com.bogdansukonnov.eclinic.dto.SelectorDataDTO;
-import com.bogdansukonnov.eclinic.dto.TableDataDTO;
+import com.bogdansukonnov.eclinic.dto.RequestTableDto;
+import com.bogdansukonnov.eclinic.dto.SelectorDataDto;
+import com.bogdansukonnov.eclinic.dto.TableDataDto;
 import com.bogdansukonnov.eclinic.service.TimePatternService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -24,7 +24,7 @@ public class TimePatternController {
 
     @PostMapping("time-pattern-selector-data")
     @ResponseBody
-    public SelectorDataDTO timePatternSelectorData(
+    public SelectorDataDto timePatternSelectorData(
             @RequestParam(name = "search", required = false) String search) {
         return timePatternService.getAll(search);
     }
@@ -36,7 +36,7 @@ public class TimePatternController {
 
     @PostMapping("time-patterns-table")
     @ResponseBody
-    public TableDataDTO timePatternsTable(@Validated RequestTableDTO data) {
+    public TableDataDto timePatternsTable(@Validated RequestTableDto data) {
         return timePatternService.getTable(data);
     }
 

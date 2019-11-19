@@ -8,15 +8,15 @@ import java.util.List;
 
 @Getter
 @Setter
-public class EventsInfoDTO {
+public class EventsInfoDto {
 
     private Long messageId;
     private boolean fullUpdate;
-    private List<EventInfoDTO> events = new ArrayList<>();
+    private List<EventInfoDto> events = new ArrayList<>();
 
     @Getter
     @Setter
-    public static class EventInfoDTO {
+    public static class EventInfoDto {
         private Long eventId;
         private boolean show;
         private String time;

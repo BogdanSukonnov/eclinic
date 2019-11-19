@@ -7,7 +7,7 @@ import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
-public class RequestEventTableDTO extends RequestTableDTO {
+public class RequestEventTableDto extends RequestTableDto {
 
     @NotNull
     Boolean showCompleted;
