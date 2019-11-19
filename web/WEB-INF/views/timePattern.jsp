@@ -7,42 +7,56 @@
 <jsp:attribute name="content">
 <%--Common part end--%>
 
+
     <div>
         <h1>Time pattern</h1>
         <input type="hidden" id="id" value="${timePattern.id}">
         <input type="hidden" id="version" value="${timePattern.version}">
+
         <div class="prop-list">
             <div class="prop-row">
                 <div class="field-label">Name:</div>
-                <div class="field">${timePattern.name}</div>
+                <h3 class="field">${timePattern.name}</h3>
             </div>
             <div class="prop-row">
-                <div class="field-label">Cycle Length:</div>
-                <div class="field">${timePattern.cycleLength}</div>
+                <div class="field-label">Cycle (days):</div>
+                <div class="field">${timePattern.isWeekCycle ? "Week" : timePattern.cycleLength}</div>
             </div>
+            <c:if test="${!timePattern.isWeekCycle}">
+                    <div class="prop-row">
+                        <div class="field-label">Is week cycle:</div>
+                        <div class="field">${timePattern.isWeekCycle}</div>
+                    </div>
+                </c:if>
+
             <div class="prop-row">
-                <div class="field-label">Is week cycle:</div>
-                <div class="field">${timePattern.isWeekCycle}</div>
+                <div class="field-label"></div>
+                <div class="field"></div>
             </div>
+
+            <table id="timePatternItemsTable" class="col-sm-3 table table-hover table-striped">
+                <thead>
+                <tr>
+                    <th>dayOfCycle</th>
+                    <th>time</th>
+                </tr>
+                </thead>
+                <tbody>
+                <c:forEach var="item" items="${timePattern.items}">
+                    <tr>
+                        <td>${!timePattern.isWeekCycle ? item.dayOfCycle : item.dayOfCycle == 0
+                                ? "Sun" : item.dayOfCycle == 1 ? "Mon" : item.dayOfCycle == 2
+                                ? "Tue" : item.dayOfCycle == 3 ? "Wed" : item.dayOfCycle == 4
+                                ? "Thu" : item.dayOfCycle == 5 ? "Fri" : item.dayOfCycle == 6
+                                ? "Sat" : item.dayOfCycle}</td>
+                        <td>${item.time}</td>
+                    </tr>
+                </c:forEach>
+                </tbody>
+            </table>
+
         </div>
     </div>
-
-    <table id="timePatternItemsTable" class="table table-hover">
-        <thead>
-            <tr>
-                <th>dayOfCycle</th>
-                <th>time</th>
-            </tr>
-        </thead>
-        <tbody>
-            <c:forEach var="item" items="${timePattern.items}">
-                <tr>
-                    <td>${item.dayOfCycle}</td>
-                    <td>${item.time}</td>
-                </tr>
-            </c:forEach>
-        </tbody>
-    </table>
 
     <%--Common part start--%>
 </jsp:attribute>
