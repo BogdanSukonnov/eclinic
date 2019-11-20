@@ -232,6 +232,11 @@ public class EventService {
         eventDao.update(event);
     }
 
+    /**
+     * return all today's scheduled events
+     *
+     * @return EventInfoListDto
+     */
     @Transactional(readOnly = true)
     public EventInfoListDto eventsInfo() {
         // request all scheduled today's events
