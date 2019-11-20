@@ -53,7 +53,6 @@ public class EventService {
      */
     @Transactional(readOnly = true)
     public EventDto getOne(Long id) {
-        messagingService.send(id.toString());
         return converter.toDto(eventDao.findOne(id));
     }
 
@@ -71,6 +70,8 @@ public class EventService {
                     event.setCancelReason(reason);
                     eventDao.update(event);
                 });
+        // send message about data update
+        messagingService.send("update");
     }
 
     /**
@@ -82,6 +83,8 @@ public class EventService {
         eventDao.getAll(prescription).stream()
                 .filter(event -> event.getEventStatus().equals(EventStatus.SCHEDULED))
                 .forEach(event -> eventDao.delete(event));
+        // send message about data update
+        messagingService.send("update");
     }
 
     /**
@@ -132,6 +135,8 @@ public class EventService {
             event.setDoctor(userGetter.getCurrentUser());
             eventDao.create(event);
         }
+        // send message about data update
+        messagingService.send("update");
     }
 
     /**
@@ -230,6 +235,8 @@ public class EventService {
         // save current user
         event.setNurse(userGetter.getCurrentUser());
         eventDao.update(event);
+        // send message about data update
+        messagingService.send("update");
     }
 
     /**
