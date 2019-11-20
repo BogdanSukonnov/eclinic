@@ -3,12 +3,11 @@ package com.bogdansukonnov.eclinic.service;
 import com.bogdansukonnov.eclinic.converter.EventConverter;
 import com.bogdansukonnov.eclinic.dao.EventDao;
 import com.bogdansukonnov.eclinic.dto.EventDto;
-import com.bogdansukonnov.eclinic.dto.EventsInfoDto;
+import com.bogdansukonnov.eclinic.dto.EventInfoListDto;
 import com.bogdansukonnov.eclinic.dto.RequestEventTableDto;
 import com.bogdansukonnov.eclinic.dto.TableDataDto;
 import com.bogdansukonnov.eclinic.entity.*;
 import com.bogdansukonnov.eclinic.exceptions.EventStatusUpdateException;
-import com.bogdansukonnov.eclinic.message.MessageCounter;
 import com.bogdansukonnov.eclinic.security.UserGetter;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -36,7 +35,6 @@ public class EventService {
     private EventConverter converter;
     private UserGetter userGetter;
     private MessagingService messagingService;
-    private MessageCounter messageCounter;
 
     /**
      * <p>Cross-service communication.Checks if prescription has events</p>
@@ -235,25 +233,14 @@ public class EventService {
     }
 
     @Transactional(readOnly = true)
-    public EventsInfoDto eventsInfo(Long eventId, Long lastMessageId) {
-        EventsInfoDto eventsDto = new EventsInfoDto();
-        if (eventId > 0 && lastMessageId > 0 && lastMessageId == messageCounter.getCounter()) {
-            // one event
-            Event event = eventDao.findOne(eventId);
-            boolean show = event.getEventStatus().equals(EventStatus.SCHEDULED) &&
-                    event.getDateTime().getDayOfYear() != LocalDateTime.now().getDayOfYear();
-            eventsDto.getEvents().add(converter.toInfoDto(event, show));
-        } else {
-            // full update, all today's events
-            eventsDto.setFullUpdate(true);
-            List<Event> events = eventDao.getAll(null, "dateTime", 0, 100, false,
-                    LocalDateTime.of(LocalDate.now(), LocalTime.MIN),
-                    LocalDateTime.of(LocalDate.now(), LocalTime.MAX), null);
-            eventsDto.setEvents(events.stream()
-                    .map(event -> converter.toInfoDto(event, true))
-                    .collect(Collectors.toList()));
-        }
-        eventsDto.setMessageId(messageCounter.incrementAndGet());
+    public EventInfoListDto eventsInfo() {
+        List<Event> events = eventDao.getAll(null, "dateTime", 0, 100, false,
+                LocalDateTime.of(LocalDate.now(), LocalTime.MIN),
+                LocalDateTime.of(LocalDate.now(), LocalTime.MAX), null);
+        EventInfoListDto eventsDto = new EventInfoListDto();
+        eventsDto.setEvents(events.stream()
+                .map(event -> converter.toInfoDto(event))
+                .collect(Collectors.toList()));
         return eventsDto;
     }
 
