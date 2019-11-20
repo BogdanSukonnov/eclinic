@@ -234,9 +234,11 @@ public class EventService {
 
     @Transactional(readOnly = true)
     public EventInfoListDto eventsInfo() {
+        // request all scheduled today's events
         List<Event> events = eventDao.getAll(null, "dateTime", 0, 100, false,
                 LocalDateTime.of(LocalDate.now(), LocalTime.MIN),
                 LocalDateTime.of(LocalDate.now(), LocalTime.MAX), null);
+        // convert to DTO
         EventInfoListDto eventsDto = new EventInfoListDto();
         eventsDto.setEvents(events.stream()
                 .map(event -> converter.toInfoDto(event))
