@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -44,8 +45,11 @@ public class PrescriptionServiceImpl implements PrescriptionService {
     @Override
     @Transactional
     public Long save(RequestPrescriptionDto dto,
-                     LocalDateTime startDate, LocalDateTime endDate)
+                     LocalDateTime startDate, LocalDateTime inEndDate)
             throws PrescriptionCreateException, PrescriptionUpdateException {
+
+        // set time to the end of the day
+        LocalDateTime endDate = LocalDateTime.of(inEndDate.toLocalDate(), LocalTime.MAX);
 
         boolean isNew = dto.getId() == null;
 
