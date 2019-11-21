@@ -8,9 +8,12 @@ import org.junit.jupiter.api.Test;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
-class EventServiceTest {
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+class EventServiceImplPatternDatesTest {
 
     private EventService service;
 
@@ -33,8 +36,12 @@ class EventServiceTest {
 
         List<LocalDateTime> dates = service.patternDates(items, periodStart, endDate, (short) 1, false, notSooner);
 
-        assert dates.toString().equals("[2019-10-02T18:00, 2019-10-03T09:00, 2019-10-03T18:00]");
+        List<LocalDateTime> rightDates = Arrays.asList(
+                LocalDateTime.parse("2019-10-02T18:00"),
+                LocalDateTime.parse("2019-10-03T09:00"),
+                LocalDateTime.parse("2019-10-03T18:00"));
 
+        assertEquals(dates, rightDates);
     }
 
     @Test
@@ -51,7 +58,13 @@ class EventServiceTest {
 
         List<LocalDateTime> dates = service.patternDates(items, periodStart, endDate, (short) 7, true, notSooner);
 
-        assert dates.toString().equals("[2019-10-08T15:00, 2019-10-10T15:00, 2019-10-15T15:00, 2019-10-17T15:00]");
+        List<LocalDateTime> rightDates = Arrays.asList(
+                LocalDateTime.parse("2019-10-08T15:00"),
+                LocalDateTime.parse("2019-10-10T15:00"),
+                LocalDateTime.parse("2019-10-15T15:00"),
+                LocalDateTime.parse("2019-10-17T15:00"));
+
+        assertEquals(dates, rightDates);
 
     }
 

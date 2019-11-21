@@ -101,7 +101,7 @@ public class EventServiceImpl implements EventService {
 
         List<Event> events = eventDao.getAll(prescription);
 
-        // event should not be created sooner than the last completed event and now
+        // event should not be created sooner than the last completed event
         // find last completed event
         ArrayList<Event> reversedEvents = new ArrayList<>();
         Collections.copy(events, reversedEvents);
@@ -110,11 +110,10 @@ public class EventServiceImpl implements EventService {
                 .filter(event -> event.getEventStatus().equals(EventStatus.COMPLETED))
                 .findAny();
 
-        LocalDateTime notSooner = lastCompleted.isPresent()
-                ? lastCompleted.get().getDateTime().isBefore(prescription.getStartDate())
-                ? prescription.getStartDate()
-                : lastCompleted.get().getDateTime()
-                : prescription.getStartDate();
+        LocalDateTime notSooner = lastCompleted.filter(value ->
+                !value.getDateTime().isBefore(prescription.getStartDate()))
+                .map(Event::getDateTime)
+                .orElseGet(prescription::getStartDate);
 
         // find all dates when to create events
         List<LocalDateTime> dates = patternDates(items, prescription.getStartDate(), prescription.getEndDate()
