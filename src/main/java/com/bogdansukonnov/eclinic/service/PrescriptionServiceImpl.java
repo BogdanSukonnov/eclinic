@@ -12,7 +12,7 @@ import com.bogdansukonnov.eclinic.dto.TableDataDto;
 import com.bogdansukonnov.eclinic.entity.*;
 import com.bogdansukonnov.eclinic.exceptions.PrescriptionCreateException;
 import com.bogdansukonnov.eclinic.exceptions.PrescriptionUpdateException;
-import com.bogdansukonnov.eclinic.security.UserGetter;
+import com.bogdansukonnov.eclinic.security.SecurityContextAdapter;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,7 +30,7 @@ public class PrescriptionServiceImpl implements PrescriptionService {
     private TreatmentDao treatmentDao;
     private TimePatternDao timePatternDao;
     private PatientDao patientDao;
-    private UserGetter userGetter;
+    private SecurityContextAdapter securityContextAdapter;
     private EventService eventService;
 
     @Override
@@ -78,7 +78,7 @@ public class PrescriptionServiceImpl implements PrescriptionService {
         prescription = converter.toEntity(prescription, dto, patient, treatment, timePattern, startDate, endDate);
 
         // set current user as doctor
-        prescription.setDoctor(userGetter.getCurrentUser());
+        prescription.setDoctor(securityContextAdapter.getCurrentUser());
 
         // only medicine could have a dosage
         if (prescription.getTreatment().getType() != TreatmentType.MEDICINE) {

@@ -8,7 +8,7 @@ import com.bogdansukonnov.eclinic.dto.RequestEventTableDto;
 import com.bogdansukonnov.eclinic.dto.TableDataDto;
 import com.bogdansukonnov.eclinic.entity.*;
 import com.bogdansukonnov.eclinic.exceptions.EventStatusUpdateException;
-import com.bogdansukonnov.eclinic.security.UserGetter;
+import com.bogdansukonnov.eclinic.security.SecurityContextAdapter;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
@@ -33,7 +33,7 @@ public class EventServiceImpl implements EventService {
 
     private EventDao eventDao;
     private EventConverter converter;
-    private UserGetter userGetter;
+    private SecurityContextAdapter securityContextAdapter;
     private MessagingService messagingService;
 
     /**
@@ -142,7 +142,7 @@ public class EventServiceImpl implements EventService {
             event.setDosage(prescription.getDosage());
             event.setTimePattern(prescription.getTimePattern());
             event.setTreatment(prescription.getTreatment());
-            event.setDoctor(userGetter.getCurrentUser());
+            event.setDoctor(securityContextAdapter.getCurrentUser());
             eventDao.create(event);
         }
         // send message about data update
@@ -248,7 +248,7 @@ public class EventServiceImpl implements EventService {
         event.setEventStatus(status);
         event.setCancelReason(status.equals(EventStatus.CANCELED) ? cancelReason : "");
         // save current user
-        event.setNurse(userGetter.getCurrentUser());
+        event.setNurse(securityContextAdapter.getCurrentUser());
         eventDao.update(event);
         // send message about data update
         messagingService.send("update");
