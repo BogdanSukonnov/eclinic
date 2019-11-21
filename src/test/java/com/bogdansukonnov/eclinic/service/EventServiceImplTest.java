@@ -36,35 +36,40 @@ class EventServiceImplTest {
     MessagingService messagingService;
 
     private EventService eventService;
+    private Event scheduledEvent;
+    private Event secondScheduledEvent;
+    private Event cancelledEvent;
+    private Event completedEvent;
 
     @BeforeEach
     void setUp() {
-        eventService = new EventServiceImpl(eventDao, converter, securityContextAdapter, messagingService);
-    }
 
-    @Test
-    public void cancelAllScheduledTest() {
+        eventService = new EventServiceImpl(eventDao, converter, securityContextAdapter, messagingService);
 
         List<Event> eventList = new ArrayList<>();
 
-        Event scheduledEvent = spy(new Event());
+        scheduledEvent = spy(new Event());
         scheduledEvent.setEventStatus(EventStatus.SCHEDULED);
         eventList.add(scheduledEvent);
 
-        Event secondScheduledEvent = spy(new Event());
+        secondScheduledEvent = spy(new Event());
         secondScheduledEvent.setEventStatus(EventStatus.SCHEDULED);
         eventList.add(secondScheduledEvent);
 
         Event event = new Event();
         event.setEventStatus(EventStatus.CANCELED);
-        Event cancelledEvent = spy(event);
+        cancelledEvent = spy(event);
         eventList.add(cancelledEvent);
 
-        Event completedEvent = spy(new Event());
+        completedEvent = spy(new Event());
         completedEvent.setEventStatus(EventStatus.COMPLETED);
         eventList.add(completedEvent);
 
         when(eventDao.getAll(any(Prescription.class))).thenReturn(eventList);
+    }
+
+    @Test
+    public void cancelAllScheduledTest() {
 
         String reason = "meaningful reason";
 
@@ -88,6 +93,15 @@ class EventServiceImplTest {
 
     @Test
     void deleteAllScheduled() {
+
+        eventService.deleteAllScheduled(new Prescription());
+
+        verify(eventDao, times(1)).delete(scheduledEvent);
+        verify(eventDao, times(1)).delete(secondScheduledEvent);
+        verify(eventDao, times(0)).delete(cancelledEvent);
+        verify(eventDao, times(0)).delete(completedEvent);
+        // send message to queue
+        verify(messagingService, times(1)).send(any());
     }
 
     @Test
