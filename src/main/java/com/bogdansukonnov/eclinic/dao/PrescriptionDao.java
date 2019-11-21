@@ -6,6 +6,7 @@ import com.bogdansukonnov.eclinic.entity.Prescription;
 import java.util.List;
 
 public interface PrescriptionDao extends TableDao<Prescription> {
+
     @Override
     String getQueryConditions(String search, Long parentId);
 

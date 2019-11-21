@@ -5,6 +5,7 @@ import com.bogdansukonnov.eclinic.entity.TimePattern;
 import java.util.List;
 
 public interface TimePatternDao extends TableDao<TimePattern> {
+
     List<TimePattern> getAll(String search);
 
     @Override

@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public interface EventDao extends TableDao<Event> {
+
     @Override
     String getQueryConditions(String search, Long parentId);
 

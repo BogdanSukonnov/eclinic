@@ -6,6 +6,7 @@ import com.bogdansukonnov.eclinic.entity.TreatmentType;
 import java.util.List;
 
 public interface TreatmentDao extends TableDao<Treatment> {
+
     List<Treatment> getAll(TreatmentType treatmentType, String search);
 
     @Override
