@@ -1,5 +1,6 @@
 package com.bogdansukonnov.eclinic.converter;
 
+import com.bogdansukonnov.eclinic.config.EClinicConstants;
 import com.bogdansukonnov.eclinic.dto.RequestPrescriptionDto;
 import com.bogdansukonnov.eclinic.dto.ResponsePrescriptionDto;
 import com.bogdansukonnov.eclinic.entity.*;
@@ -20,7 +21,7 @@ public class PrescriptionConverter {
         ResponsePrescriptionDto dto = modelMapper.map(prescription, ResponsePrescriptionDto.class);
         dto.setStartDateFormatted(prescription.getStartDate().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
         dto.setEndDateFormatted(prescription.getEndDate().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM");
+        DateTimeFormatter formatter = EClinicConstants.dateNoYearFormatter;
         dto.setPeriod(prescription.getStartDate().format(formatter) + "-"
             + prescription.getEndDate().format(formatter));
         dto.setTreatmentWithDosage(prescription.getTreatment().getName()

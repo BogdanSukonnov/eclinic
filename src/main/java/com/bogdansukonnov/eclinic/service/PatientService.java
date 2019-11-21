@@ -1,5 +1,6 @@
 package com.bogdansukonnov.eclinic.service;
 
+import com.bogdansukonnov.eclinic.config.EClinicConstants;
 import com.bogdansukonnov.eclinic.dao.PatientDao;
 import com.bogdansukonnov.eclinic.dto.RequestTableDto;
 import com.bogdansukonnov.eclinic.dto.ResponsePatientDto;
@@ -12,7 +13,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -57,7 +57,7 @@ public class PatientService {
         List<ResponsePatientDto> list = patients.stream()
                 .map(patient -> {
                     ResponsePatientDto dto = modelMapper.map(patient, ResponsePatientDto.class);
-                    dto.setFormattedDate(patient.getCreatedDateTime().format(DateTimeFormatter.ofPattern("dd.MM.yy")));
+                    dto.setFormattedDate(patient.getCreatedDateTime().format(EClinicConstants.dateFormatter));
                     return dto;
                 })
                 .collect(Collectors.toList());
