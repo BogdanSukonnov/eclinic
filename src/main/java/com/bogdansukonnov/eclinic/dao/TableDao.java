@@ -2,7 +2,7 @@ package com.bogdansukonnov.eclinic.dao;
 
 import java.util.List;
 
-public interface ITableDao<T> extends IDao<T> {
+public interface TableDao<T> extends Dao<T> {
 
     String getQueryConditions(String search, Long parentId);
 

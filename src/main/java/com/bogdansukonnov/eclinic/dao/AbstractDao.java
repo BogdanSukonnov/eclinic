@@ -4,6 +4,7 @@ import com.bogdansukonnov.eclinic.service.OrderType;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -22,11 +23,12 @@ public abstract class AbstractDao<T> {
         return clazz;
     }
 
+    @Transactional(readOnly = true)
     public T findOne(long id){
         return (T) getCurrentSession().get(clazz, id);
     }
 
-    @SuppressWarnings("unchecked")
+    @Transactional(readOnly = true)
     public List<T> getAll(OrderType orderType) {
         String orderField;
         if (orderType == OrderType.NAME) {
@@ -39,20 +41,23 @@ public abstract class AbstractDao<T> {
         return getCurrentSession().createQuery(queryStr).list();
     }
 
+    @Transactional
     public T create(T entity) {
         getCurrentSession().saveOrUpdate(entity);
         return entity;
     }
 
-    @SuppressWarnings("unchecked")
+    @Transactional
     public T update(T entity) {
         return (T) getCurrentSession().merge(entity);
     }
 
+    @Transactional
     public void delete(T entity) {
         getCurrentSession().delete(entity);
     }
 
+    @Transactional
     public void deleteById(long entityId) {
         T entity = findOne(entityId);
         delete(entity);

@@ -2,6 +2,7 @@ package com.bogdansukonnov.eclinic.dao;
 
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.query.Query;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -9,6 +10,7 @@ public abstract class AbstractTableDao<T> extends AbstractDao<T> {
 
     abstract String getQueryConditions(String search, Long parentId);
 
+    @Transactional(readOnly = true)
     public List<T> getAll(String orderField, String search, int offset, int limit, Long parentId) {
         String queryStr = "from " + getClazz().getName() + " t";
         queryStr += getQueryConditions(search, parentId);
@@ -25,6 +27,7 @@ public abstract class AbstractTableDao<T> extends AbstractDao<T> {
         return query.list();
     }
 
+    @Transactional(readOnly = true)
     public Long getTotalFiltered(String search, Long parentId) {
         String queryStr = "Select count(t.id) from " + getClazz().getName() + " t";
         queryStr += getQueryConditions(search, parentId);

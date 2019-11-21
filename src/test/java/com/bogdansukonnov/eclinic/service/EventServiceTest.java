@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -17,7 +16,7 @@ class EventServiceTest {
 
     @BeforeEach
     void init() {
-        service = new EventService();
+        service = new EventServiceImpl();
     }
 
     @Test
