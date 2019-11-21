@@ -37,18 +37,6 @@ public class EventServiceImpl implements EventService {
     private MessagingService messagingService;
 
     /**
-     * <p>Cross-service communication.Checks if prescription has events</p>
-     *
-     * @param prescription prescription of events
-     * @return boolean
-     */
-    @Override
-    @Transactional(readOnly = true)
-    public boolean hasEvents(Prescription prescription) {
-        return !eventDao.getAll(prescription).isEmpty();
-    }
-
-    /**
      * <p>finds event by it's id</p>
      *
      * @param id event id

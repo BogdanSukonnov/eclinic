@@ -8,6 +8,7 @@ import com.bogdansukonnov.eclinic.exceptions.PatientUpdateException;
 import java.util.List;
 
 public interface PatientService {
+
     List<ResponsePatientDto> getAll(OrderType orderType);
 
     ResponsePatientDto getOne(Long id);

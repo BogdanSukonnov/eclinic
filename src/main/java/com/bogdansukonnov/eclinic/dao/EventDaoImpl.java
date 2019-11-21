@@ -11,7 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 public class EventDaoImpl extends AbstractTableDao<Event> implements EventDao {
@@ -37,17 +36,6 @@ public class EventDaoImpl extends AbstractTableDao<Event> implements EventDao {
         Query query = getCurrentSession().createQuery(queryStr);
         query.setParameter("prescription", prescription);
         return query.list();
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public Optional<Event> getFirstCompleted(Prescription prescription) {
-        String queryStr = "from Event e where e.prescription=:prescription" +
-                " and e.eventStatus=:eventStatus order by " + getOrderField();
-        Query query = getCurrentSession().createQuery(queryStr);
-        query.setParameter("prescription", prescription);
-        query.setParameter("eventStatus", EventStatus.COMPLETED);
-        return query.uniqueResultOptional();
     }
 
     @Override
@@ -82,7 +70,7 @@ public class EventDaoImpl extends AbstractTableDao<Event> implements EventDao {
                                       LocalDateTime startDate, LocalDateTime endDate) {
         List<String> conditionsList = new ArrayList<>();
         if (startDate != null && endDate != null) {
-            conditionsList.add(" (t.dateTime >= :startDate and t.dateTime <= :endDate)");
+            conditionsList.add(" (t.dateTime >= :startDate and t.dateTime < :endDate)");
         }
         if (!StringUtils.isBlank(search)) {
             conditionsList.add(" (lower(t.patient.fullName) like lower(:search))");
