@@ -189,7 +189,7 @@ public class EventService {
      * @return TableDataDto
      */
     @Transactional(readOnly = true)
-    public TableDataDto getTable(RequestEventTableDto data, LocalDateTime startDate, LocalDateTime endDate) {
+    public TableDataDto getEventTable(RequestEventTableDto data, LocalDateTime startDate, LocalDateTime endDate) {
 
         String orderField = "dateTime";
 

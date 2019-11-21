@@ -53,7 +53,7 @@ public class TreatmentService {
     }
 
     @Transactional(readOnly = true)
-    public TableDataDto getTable(RequestTableDto data) {
+    public TableDataDto getTreatmentTable(RequestTableDto data) {
 
         List<Treatment> treatments = treatmentDao.getAll("name", data.getSearch(),
                 data.getOffset(), data.getLimit(), null);

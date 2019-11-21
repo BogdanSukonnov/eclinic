@@ -42,7 +42,7 @@ public class PatientController {
     @PostMapping("patients-table")
     @ResponseBody
     public TableDataDto patientsTable(@Validated RequestTableDto data) {
-        return patientService.getTable(data);
+        return patientService.getPatientTable(data);
     }
 
     @PostMapping("discharge-patient")

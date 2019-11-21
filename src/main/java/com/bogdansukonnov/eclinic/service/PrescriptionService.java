@@ -112,7 +112,7 @@ public class PrescriptionService {
     }
 
     @Transactional(readOnly = true)
-    public TableDataDto getTable(RequestTableDto data) {
+    public TableDataDto getPrescriptionTable(RequestTableDto data) {
 
         List<Prescription> prescriptions = prescriptionDao.getAll("startDate desc", data.getSearch(),
                 data.getOffset(), data.getLimit(), data.getParentId());

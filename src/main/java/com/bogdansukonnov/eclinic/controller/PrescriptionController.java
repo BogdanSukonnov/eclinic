@@ -79,7 +79,7 @@ public class PrescriptionController {
     @PostMapping("prescriptions-table")
     @ResponseBody
     public TableDataDto prescriptionsTable(@Validated RequestTableDto data) {
-        return prescriptionService.getTable(data);
+        return prescriptionService.getPrescriptionTable(data);
     }
 
     @PostMapping("cancel-prescription")

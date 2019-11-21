@@ -43,7 +43,7 @@ public class TimePatternController {
     @PostMapping("time-patterns-table")
     @ResponseBody
     public TableDataDto timePatternsTable(@Validated RequestTableDto data) {
-        return timePatternService.getTable(data);
+        return timePatternService.getTimePatternTable(data);
     }
 
     @RequestMapping("time-pattern")

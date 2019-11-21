@@ -36,7 +36,7 @@ public class TreatmentController {
     @PostMapping("treatments-table")
     @ResponseBody
     public TableDataDto treatmentsTable(@Validated RequestTableDto data) {
-        return treatmentService.getTable(data);
+        return treatmentService.getTreatmentTable(data);
     }
 
     @PostMapping("new-treatment")

@@ -47,7 +47,7 @@ public class PatientService {
     }
 
     @Transactional(readOnly = true)
-    public TableDataDto getTable(RequestTableDto data) {
+    public TableDataDto getPatientTable(RequestTableDto data) {
 
         List<Patient> patients = patientDao.getAll(data.getOrderField(), data.getSearch(),
                 data.getOffset(), data.getLimit(), null);

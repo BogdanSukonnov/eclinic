@@ -49,7 +49,7 @@ public class TimePatternService {
     }
 
     @Transactional(readOnly = true)
-    public TableDataDto getTable(RequestTableDto data) {
+    public TableDataDto getTimePatternTable(RequestTableDto data) {
 
         List<TimePattern> patterns = timePatternDao.getAll("name", data.getSearch(),
                 data.getOffset(), data.getLimit(), null);

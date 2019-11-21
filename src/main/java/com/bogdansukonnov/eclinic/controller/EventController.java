@@ -41,13 +41,13 @@ public class EventController {
                 LocalDateTime startDate,
         @RequestParam("endDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
                 LocalDateTime endDate) {
-        return eventService.getTable(data, startDate, endDate);
+        return eventService.getEventTable(data, startDate, endDate);
     }
 
     @PostMapping("/doctor/prescription-events-table")
     @ResponseBody
     public TableDataDto eventsTable(@Validated RequestEventTableDto data) {
-        return eventService.getTable(data, null, null);
+        return eventService.getEventTable(data, null, null);
     }
 
     @PostMapping("/nurse/complete-event")
