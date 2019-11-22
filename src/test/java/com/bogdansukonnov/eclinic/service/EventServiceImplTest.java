@@ -2,46 +2,41 @@ package com.bogdansukonnov.eclinic.service;
 
 import com.bogdansukonnov.eclinic.converter.EventConverter;
 import com.bogdansukonnov.eclinic.dao.EventDao;
-import com.bogdansukonnov.eclinic.entity.*;
+import com.bogdansukonnov.eclinic.dto.RequestEventTableDto;
+import com.bogdansukonnov.eclinic.dto.TableDataDto;
+import com.bogdansukonnov.eclinic.entity.AppUser;
+import com.bogdansukonnov.eclinic.entity.Event;
+import com.bogdansukonnov.eclinic.entity.EventStatus;
+import com.bogdansukonnov.eclinic.exceptions.EventStatusUpdateException;
 import com.bogdansukonnov.eclinic.security.SecurityContextAdapter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.platform.runner.JUnitPlatform;
-import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.Collections;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-@RunWith(JUnitPlatform.class)
-class EventServiceImplTest {
+public class EventServiceImplTest {
 
     @Mock
     EventDao eventDao;
+
     @Mock
     EventConverter converter;
+
     @Mock
     SecurityContextAdapter securityContextAdapter;
+
     @Mock
     MessagingService messagingService;
-    @Mock
-    Prescription prescription;
-    @Mock
-    Patient patient;
-    @Mock
-    TimePattern timePattern;
-    @Mock
-    Treatment treatment;
-    @Mock
-    AppUser appUser;
+
     private EventService eventService;
 
     @BeforeEach
@@ -51,54 +46,99 @@ class EventServiceImplTest {
 
     }
 
-    private void addEvent(List<Event> eventList, EventStatus status, LocalDateTime dateTime) {
-        Event event = new Event();
-        event.setDateTime(dateTime);
-        event.setEventStatus(status);
-        eventList.add(event);
-    }
+    @Test
+    void getEventTableTest() {
 
-    private void addItem(List<TimePatternItem> itemList, Short dayOfCycle, LocalTime time) {
-        TimePatternItem item = new TimePatternItem();
-        item.setId(new Random().nextLong());
-        item.setTime(time);
-        item.setDayOfCycle(dayOfCycle);
-        itemList.add(item);
+        int draw = 3;
+
+        RequestEventTableDto data = new RequestEventTableDto();
+        data.setDraw(draw);
+        data.setShowCompleted(false);
+        data.setLimit(0);
+        data.setOffset(0);
+        data.setOrderDirection("");
+        data.setOrderField("");
+        data.setParentId(0L);
+        data.setSearch("");
+
+        LocalDateTime startDate = LocalDateTime.parse("2020-01-01T10:00");
+        LocalDateTime endDate = LocalDateTime.parse("2020-01-02T10:00");
+
+        Event event = new Event();
+        event.setId(7L);
+
+        when(eventDao.getAll("", "dateTime", 0, 0, false, startDate, endDate, 0L))
+                .thenReturn(Collections.singletonList(event));
+
+
+        TableDataDto tableDataDto = eventService.getEventTable(data, startDate, endDate);
+
+        verify(eventDao).getAll("", "dateTime", 0, 0, false, startDate, endDate, 0L);
+        verify(converter).toDto(event);
+        assertEquals(tableDataDto.getDraw(), draw);
+
     }
 
     @Test
-    void createEventsTest() {
+    void updateStatusTest() throws EventStatusUpdateException {
 
-        List<Event> eventList = new ArrayList<>();
-        addEvent(eventList, EventStatus.COMPLETED, LocalDateTime.parse("2020-01-01T10:00"));
-        addEvent(eventList, EventStatus.SCHEDULED, LocalDateTime.parse("2020-01-01T18:00"));
-        addEvent(eventList, EventStatus.COMPLETED, LocalDateTime.parse("2020-01-04T10:00"));
-        addEvent(eventList, EventStatus.SCHEDULED, LocalDateTime.parse("2020-01-04T18:00"));
+        long id = 7L;
+        int version = 9;
 
-        List<TimePatternItem> itemList = new ArrayList<>();
-        addItem(itemList, (short) 0, LocalTime.parse("10:00"));
-        addItem(itemList, (short) 0, LocalTime.parse("18:00"));
+        assertThrows(EventStatusUpdateException.class, () -> {
+            eventService.updateStatus(id, EventStatus.CANCELED, null, null);
+        });
 
-        String dosage = "dosage";
+        assertThrows(EventStatusUpdateException.class, () -> {
+            eventService.updateStatus(id, EventStatus.CANCELED, "", null);
+        });
 
-        when(prescription.getTimePattern()).thenReturn(timePattern);
-        when(prescription.getPatient()).thenReturn(patient);
-        when(prescription.getDosage()).thenReturn(dosage);
-        when(prescription.getTreatment()).thenReturn(treatment);
+        Event event = new Event();
+        event.setVersion(version);
+        event.setEventStatus(EventStatus.COMPLETED);
+
+        when(eventDao.findOne(id)).thenReturn(event);
+
+        assertThrows(EventStatusUpdateException.class, () -> {
+            eventService.updateStatus(id, EventStatus.COMPLETED, null, null);
+        });
+
+        event.setEventStatus(EventStatus.CANCELED);
+
+        assertThrows(EventStatusUpdateException.class, () -> {
+            eventService.updateStatus(id, EventStatus.COMPLETED, null, null);
+        });
+
+        assertThrows(EventStatusUpdateException.class, () -> {
+            eventService.updateStatus(id, EventStatus.COMPLETED, null, (int) id);
+        });
+
+        event.setEventStatus(EventStatus.SCHEDULED);
+
+        Event spyEvent = spy(event);
+        when(eventDao.findOne(id)).thenReturn(spyEvent);
+
+        eventService.updateStatus(id, EventStatus.COMPLETED, null, version);
+
+        verify(spyEvent).setEventStatus(EventStatus.COMPLETED);
+
+        event.setEventStatus(EventStatus.SCHEDULED);
+
+        AppUser appUser = new AppUser();
         when(securityContextAdapter.getCurrentUser()).thenReturn(appUser);
-        when(timePattern.getItems()).thenReturn(itemList);
-        when(eventDao.getAll(prescription)).thenReturn(eventList);
-        when(prescription.getStartDate()).thenReturn(LocalDateTime.parse("2020-01-01T00:00"));
-        when(prescription.getEndDate()).thenReturn(LocalDateTime.parse("2020-01-08T23:59"));
-        when(timePattern.getCycleLength()).thenReturn((short) 3);
-        when(timePattern.getIsWeekCycle()).thenReturn(false);
 
-        eventService.createEvents(prescription);
+        Event spyEvent1 = spy(event);
+        when(eventDao.findOne(id)).thenReturn(spyEvent1);
 
-        // create events
-        verify(eventDao, times(3)).create(any());
+        String reason = "The reason";
+        eventService.updateStatus(id, EventStatus.CANCELED, reason, version);
 
-        // send message to queue
-        verify(messagingService, times(1)).send(any());
+        verify(spyEvent).setEventStatus(EventStatus.CANCELED);
+        verify(spyEvent).setCancelReason(reason);
+        verify(spyEvent).setNurse(appUser);
+        verify(eventDao).update(event);
+        verify(messagingService).send(anyString());
+
     }
+
 }
