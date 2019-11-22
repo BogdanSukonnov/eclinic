@@ -99,16 +99,14 @@ public class EventServiceImpl implements EventService {
         // sorted from the database, but its critical, so sort again
         Collections.sort(items);
 
-        List<Event> events = eventDao.getAll(prescription);
-
         // event should not be created sooner than the last completed event
         // find last completed event
-        ArrayList<Event> reversedEvents = new ArrayList<>();
-        Collections.copy(events, reversedEvents);
+        List<Event> reversedEvents = eventDao.getAll(prescription);
+        ;
         Collections.reverse(reversedEvents);
         Optional<Event> lastCompleted = reversedEvents.stream()
                 .filter(event -> event.getEventStatus().equals(EventStatus.COMPLETED))
-                .findAny();
+                .findFirst();
 
         LocalDateTime notSooner = lastCompleted.filter(value ->
                 !value.getDateTime().isBefore(prescription.getStartDate()))
@@ -166,8 +164,9 @@ public class EventServiceImpl implements EventService {
             // loop thru the pattern
             for (TimePatternItem item : items) {
                 itemDate = cycleStart.plusDays(item.getDayOfCycle()).atTime(item.getTime());
-                if (itemDate.isBefore(LocalDateTime.of(cycleStart, LocalTime.of(0, 0)))
-                        || itemDate.isBefore(notSooner)) {
+                LocalDateTime cycleStartDateTime = LocalDateTime.of(cycleStart, LocalTime.of(0, 0));
+                if (itemDate.isBefore(cycleStartDateTime) || itemDate.isEqual(cycleStartDateTime)
+                        || itemDate.isBefore(notSooner) || itemDate.isEqual(notSooner)) {
                     continue;
                 }
                 if (itemDate.isAfter(endDate) || itemDate.isEqual(endDate)) {

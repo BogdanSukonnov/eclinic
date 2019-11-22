@@ -296,7 +296,7 @@ function onSave() {
         isWeekCycle = customLengthEl.val() === 'Week';
         table.rows().every(function (rowIdx, tableLoop, rowLoop) {
             let rowData = this.data();
-            items.push({dayOfCycle: rowData.dayNumber, time: rowData.time});
+            items.push({dayOfCycle: rowData.dayNumber - 1, time: rowData.time});
         });
     } else {
         if (getPeriodType() === 'Every') {

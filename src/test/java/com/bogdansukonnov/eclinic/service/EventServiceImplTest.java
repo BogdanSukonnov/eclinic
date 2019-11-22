@@ -2,9 +2,7 @@ package com.bogdansukonnov.eclinic.service;
 
 import com.bogdansukonnov.eclinic.converter.EventConverter;
 import com.bogdansukonnov.eclinic.dao.EventDao;
-import com.bogdansukonnov.eclinic.entity.Event;
-import com.bogdansukonnov.eclinic.entity.EventStatus;
-import com.bogdansukonnov.eclinic.entity.Prescription;
+import com.bogdansukonnov.eclinic.entity.*;
 import com.bogdansukonnov.eclinic.security.SecurityContextAdapter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -14,8 +12,11 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import static org.mockito.Mockito.*;
 
@@ -25,98 +26,79 @@ class EventServiceImplTest {
 
     @Mock
     EventDao eventDao;
-
     @Mock
     EventConverter converter;
-
     @Mock
     SecurityContextAdapter securityContextAdapter;
-
     @Mock
     MessagingService messagingService;
-
+    @Mock
+    Prescription prescription;
+    @Mock
+    Patient patient;
+    @Mock
+    TimePattern timePattern;
+    @Mock
+    Treatment treatment;
+    @Mock
+    AppUser appUser;
     private EventService eventService;
-    private Event scheduledEvent;
-    private Event secondScheduledEvent;
-    private Event cancelledEvent;
-    private Event completedEvent;
 
     @BeforeEach
     void setUp() {
 
         eventService = new EventServiceImpl(eventDao, converter, securityContextAdapter, messagingService);
 
-        List<Event> eventList = new ArrayList<>();
+    }
 
-        scheduledEvent = spy(new Event());
-        scheduledEvent.setEventStatus(EventStatus.SCHEDULED);
-        eventList.add(scheduledEvent);
-
-        secondScheduledEvent = spy(new Event());
-        secondScheduledEvent.setEventStatus(EventStatus.SCHEDULED);
-        eventList.add(secondScheduledEvent);
-
+    private void addEvent(List<Event> eventList, EventStatus status, LocalDateTime dateTime) {
         Event event = new Event();
-        event.setEventStatus(EventStatus.CANCELED);
-        cancelledEvent = spy(event);
-        eventList.add(cancelledEvent);
+        event.setDateTime(dateTime);
+        event.setEventStatus(status);
+        eventList.add(event);
+    }
 
-        completedEvent = spy(new Event());
-        completedEvent.setEventStatus(EventStatus.COMPLETED);
-        eventList.add(completedEvent);
-
-        when(eventDao.getAll(any(Prescription.class))).thenReturn(eventList);
+    private void addItem(List<TimePatternItem> itemList, Short dayOfCycle, LocalTime time) {
+        TimePatternItem item = new TimePatternItem();
+        item.setId(new Random().nextLong());
+        item.setTime(time);
+        item.setDayOfCycle(dayOfCycle);
+        itemList.add(item);
     }
 
     @Test
-    public void cancelAllScheduledTest() {
+    void createEventsTest() {
 
-        String reason = "meaningful reason";
+        List<Event> eventList = new ArrayList<>();
+        addEvent(eventList, EventStatus.COMPLETED, LocalDateTime.parse("2020-01-01T10:00"));
+        addEvent(eventList, EventStatus.SCHEDULED, LocalDateTime.parse("2020-01-01T18:00"));
+        addEvent(eventList, EventStatus.COMPLETED, LocalDateTime.parse("2020-01-04T10:00"));
+        addEvent(eventList, EventStatus.SCHEDULED, LocalDateTime.parse("2020-01-04T18:00"));
 
-        eventService.cancelAllScheduled(new Prescription(), reason);
+        List<TimePatternItem> itemList = new ArrayList<>();
+        addItem(itemList, (short) 0, LocalTime.parse("10:00"));
+        addItem(itemList, (short) 0, LocalTime.parse("18:00"));
 
-        // set cancelled status to scheduled events
-        verify(scheduledEvent, times(1)).setEventStatus(EventStatus.CANCELED);
-        verify(secondScheduledEvent, times(1)).setEventStatus(EventStatus.CANCELED);
-        // do not set cancelled status to events in other statuses
-        verify(cancelledEvent, times(0)).setEventStatus(EventStatus.CANCELED);
-        verify(cancelledEvent, times(0)).setEventStatus(EventStatus.CANCELED);
-        // set cancel reason
-        verify(scheduledEvent, times(1)).setCancelReason(reason);
-        verify(secondScheduledEvent, times(1)).setCancelReason(reason);
-        // update events in database
-        verify(eventDao, times(1)).update(scheduledEvent);
-        verify(eventDao, times(1)).update(secondScheduledEvent);
+        String dosage = "dosage";
+
+        when(prescription.getTimePattern()).thenReturn(timePattern);
+        when(prescription.getPatient()).thenReturn(patient);
+        when(prescription.getDosage()).thenReturn(dosage);
+        when(prescription.getTreatment()).thenReturn(treatment);
+        when(securityContextAdapter.getCurrentUser()).thenReturn(appUser);
+        when(timePattern.getItems()).thenReturn(itemList);
+        when(eventDao.getAll(prescription)).thenReturn(eventList);
+        when(prescription.getStartDate()).thenReturn(LocalDateTime.parse("2020-01-01T00:00"));
+        when(prescription.getEndDate()).thenReturn(LocalDateTime.parse("2020-01-08T23:59"));
+        when(timePattern.getCycleLength()).thenReturn((short) 3);
+        when(timePattern.getIsWeekCycle()).thenReturn(false);
+
+        eventService.createEvents(prescription);
+
+        // create events
+        verify(eventDao, times(3)).create(any());
+
         // send message to queue
         verify(messagingService, times(1)).send(any());
-    }
-
-    @Test
-    void deleteAllScheduled() {
-
-        eventService.deleteAllScheduled(new Prescription());
-
-        verify(eventDao, times(1)).delete(scheduledEvent);
-        verify(eventDao, times(1)).delete(secondScheduledEvent);
-        verify(eventDao, times(0)).delete(cancelledEvent);
-        verify(eventDao, times(0)).delete(completedEvent);
-        // send message to queue
-        verify(messagingService, times(1)).send(any());
-    }
-
-    @Test
-    void createEvents() {
-    }
-
-    @Test
-    void getEventTable() {
-    }
-
-    @Test
-    void updateStatus() {
-    }
-
-    @Test
-    void eventsInfo() {
     }
 }
