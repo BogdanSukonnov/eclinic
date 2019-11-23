@@ -38,11 +38,28 @@ public class EventServiceImplTest {
     MessagingService messagingService;
 
     private EventService eventService;
+    private long id = 7L;
+    private int version = 9;
+    private Event scheduledEvent;
+    private Event canceledEvent;
+    private Event completedEvent;
 
     @BeforeEach
     void setUp() {
 
         eventService = new EventServiceImpl(eventDao, converter, securityContextAdapter, messagingService);
+
+        scheduledEvent = new Event();
+        scheduledEvent.setVersion(version);
+        scheduledEvent.setEventStatus(EventStatus.SCHEDULED);
+
+        canceledEvent = new Event();
+        canceledEvent.setVersion(version);
+        canceledEvent.setEventStatus(EventStatus.CANCELED);
+
+        completedEvent = new Event();
+        completedEvent.setVersion(version);
+        completedEvent.setEventStatus(EventStatus.COMPLETED);
 
     }
 
@@ -64,26 +81,19 @@ public class EventServiceImplTest {
         LocalDateTime startDate = LocalDateTime.parse("2020-01-01T10:00");
         LocalDateTime endDate = LocalDateTime.parse("2020-01-02T10:00");
 
-        Event event = new Event();
-        event.setId(7L);
-
         when(eventDao.getAll("", "dateTime", 0, 0, false, startDate, endDate, 0L))
-                .thenReturn(Collections.singletonList(event));
-
+                .thenReturn(Collections.singletonList(scheduledEvent));
 
         TableDataDto tableDataDto = eventService.getEventTable(data, startDate, endDate);
 
         verify(eventDao).getAll("", "dateTime", 0, 0, false, startDate, endDate, 0L);
-        verify(converter).toDto(event);
+        verify(converter).toDto(scheduledEvent);
         assertEquals(tableDataDto.getDraw(), draw);
 
     }
 
     @Test
-    void updateStatusTest() throws EventStatusUpdateException {
-
-        long id = 7L;
-        int version = 9;
+    void updateStatusEmptyReasonCancelTest() {
 
         assertThrows(EventStatusUpdateException.class, () -> {
             eventService.updateStatus(id, EventStatus.CANCELED, null, null);
@@ -92,53 +102,65 @@ public class EventServiceImplTest {
         assertThrows(EventStatusUpdateException.class, () -> {
             eventService.updateStatus(id, EventStatus.CANCELED, "", null);
         });
+    }
 
-        Event event = new Event();
-        event.setVersion(version);
-        event.setEventStatus(EventStatus.COMPLETED);
+    @Test
+    void updateStatusCompletedStatusTest() {
 
-        when(eventDao.findOne(id)).thenReturn(event);
-
-        assertThrows(EventStatusUpdateException.class, () -> {
-            eventService.updateStatus(id, EventStatus.COMPLETED, null, null);
-        });
-
-        event.setEventStatus(EventStatus.CANCELED);
+        when(eventDao.findOne(id)).thenReturn(completedEvent);
 
         assertThrows(EventStatusUpdateException.class, () -> {
             eventService.updateStatus(id, EventStatus.COMPLETED, null, null);
         });
 
+        when(eventDao.findOne(id)).thenReturn(canceledEvent);
+
+        assertThrows(EventStatusUpdateException.class, () -> {
+            eventService.updateStatus(id, EventStatus.COMPLETED, null, null);
+        });
+    }
+
+    @Test
+    void updateStatusWrongVersionTest() {
+
+        when(eventDao.findOne(id)).thenReturn(scheduledEvent);
+
+        // wrong version test
         assertThrows(EventStatusUpdateException.class, () -> {
             eventService.updateStatus(id, EventStatus.COMPLETED, null, (int) id);
         });
 
-        event.setEventStatus(EventStatus.SCHEDULED);
+    }
 
-        Event spyEvent = spy(event);
-        when(eventDao.findOne(id)).thenReturn(spyEvent);
+    @Test
+    void updateStatusCompleteScheduledTest() throws EventStatusUpdateException {
+
+        Event scheduledEventSpy = spy(scheduledEvent);
+        when(eventDao.findOne(id)).thenReturn(scheduledEventSpy);
 
         eventService.updateStatus(id, EventStatus.COMPLETED, null, version);
 
-        verify(spyEvent).setEventStatus(EventStatus.COMPLETED);
+        verify(scheduledEventSpy).setEventStatus(EventStatus.COMPLETED);
 
-        event.setEventStatus(EventStatus.SCHEDULED);
+    }
+
+    @Test
+    void updateStatusCancelScheduledTest() throws EventStatusUpdateException {
+
+        Event scheduledEventSpy = spy(scheduledEvent);
+        when(eventDao.findOne(id)).thenReturn(scheduledEventSpy);
 
         AppUser appUser = new AppUser();
         when(securityContextAdapter.getCurrentUser()).thenReturn(appUser);
 
-        Event spyEvent1 = spy(event);
-        when(eventDao.findOne(id)).thenReturn(spyEvent1);
-
         String reason = "The reason";
         eventService.updateStatus(id, EventStatus.CANCELED, reason, version);
 
-        verify(spyEvent).setEventStatus(EventStatus.CANCELED);
-        verify(spyEvent).setCancelReason(reason);
-        verify(spyEvent).setNurse(appUser);
-        verify(eventDao).update(event);
+        verify(scheduledEventSpy).setEventStatus(EventStatus.CANCELED);
+        verify(scheduledEventSpy).setCancelReason(reason);
+        verify(scheduledEventSpy).setNurse(appUser);
+        verify(eventDao).update(scheduledEventSpy);
         verify(messagingService).send(anyString());
 
     }
-
 }
