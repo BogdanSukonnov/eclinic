@@ -2,6 +2,7 @@ package com.bogdansukonnov.eclinic.service;
 
 import com.bogdansukonnov.eclinic.converter.EventConverter;
 import com.bogdansukonnov.eclinic.dao.EventDao;
+import com.bogdansukonnov.eclinic.dto.EventInfoListDto;
 import com.bogdansukonnov.eclinic.dto.RequestEventTableDto;
 import com.bogdansukonnov.eclinic.dto.TableDataDto;
 import com.bogdansukonnov.eclinic.entity.AppUser;
@@ -15,7 +16,9 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Collections;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -163,4 +166,25 @@ public class EventServiceImplTest {
         verify(messagingService).send(anyString());
 
     }
+
+    @Test
+    void eventsInfoTest() {
+
+        when(eventDao.getAll(null, "dateTime", 0, 100, false,
+                LocalDateTime.of(LocalDate.now(), LocalTime.MIN),
+                LocalDateTime.of(LocalDate.now(), LocalTime.MAX), null))
+                .thenReturn(Collections.singletonList(scheduledEvent));
+
+        EventInfoListDto eventsDto = eventService.eventsInfo();
+
+        verify(eventDao).getAll(null, "dateTime", 0, 100, false,
+                LocalDateTime.of(LocalDate.now(), LocalTime.MIN),
+                LocalDateTime.of(LocalDate.now(), LocalTime.MAX), null);
+
+        verify(converter).toInfoDto(scheduledEvent);
+
+        assertEquals(1, eventsDto.getEvents().size());
+
+    }
+
 }
