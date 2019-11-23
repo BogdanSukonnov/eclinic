@@ -4,6 +4,8 @@ import com.bogdansukonnov.eclinic.dao.UserDao;
 import com.bogdansukonnov.eclinic.entity.AppUser;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.platform.runner.JUnitPlatform;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -14,6 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
+@RunWith(JUnitPlatform.class)
 class AppUserDetailsServiceImplTest {
 
     @Mock

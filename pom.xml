@@ -194,13 +194,6 @@
             <scope>test</scope>
         </dependency>
 
-        <dependency>
-            <groupId>org.junit.vintage</groupId>
-            <artifactId>junit-vintage-engine</artifactId>
-            <version>5.5.2</version>
-            <scope>test</scope>
-        </dependency>
-
     </dependencies>
 
     <packaging>war</packaging>
@@ -241,17 +234,6 @@
                         <schema>clinic</schema>
                     </schemas>
                 </configuration>
-            </plugin>
-            <plugin>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.22.2</version>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.junit.platform</groupId>
-                        <artifactId>junit-platform-surefire-provider</artifactId>
-                        <version>1.0.1</version>
-                    </dependency>
-                </dependencies>
             </plugin>
 
         </plugins>
