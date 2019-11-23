@@ -4,6 +4,7 @@ import com.bogdansukonnov.eclinic.dao.PatientDao;
 import com.bogdansukonnov.eclinic.dto.ResponsePatientDto;
 import com.bogdansukonnov.eclinic.entity.Patient;
 import com.bogdansukonnov.eclinic.entity.PatientStatus;
+import com.bogdansukonnov.eclinic.exceptions.PatientUpdateException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -11,6 +12,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -22,8 +24,11 @@ class PatientServiceImplTest {
     private ModelMapper modelMapper;
     @Mock
     private PrescriptionService prescriptionService;
+    @Mock
+    Patient patient;
 
     private PatientServiceImpl patientService;
+    private long id = 7L;
 
     @BeforeEach
     void setUp() {
@@ -44,14 +49,35 @@ class PatientServiceImplTest {
     }
 
     @Test
-    void getPatientTable() {
+    void dischargePatientWrongStatusFailTest() {
+        when(patientDao.findOne(id)).thenReturn(patient);
+        when(patient.getPatientStatus()).thenReturn(PatientStatus.DISCHARGED);
+        assertThrows(PatientUpdateException.class, () -> patientService.dischargePatient(id, 0));
     }
 
     @Test
-    void dischargePatient() {
+    void dischargePatientWrongVersionFailTest() {
+        int incomingVersion = 7;
+        int savedVersion = 3;
+        when(patientDao.findOne(id)).thenReturn(patient);
+        when(patient.getPatientStatus()).thenReturn(PatientStatus.PATIENT);
+        when(patient.getVersion()).thenReturn(savedVersion);
+        assertThrows(PatientUpdateException.class, () -> patientService.dischargePatient(id, incomingVersion));
     }
 
     @Test
-    void patientNameIsBusy() {
+    void dischargePatientTest() throws PatientUpdateException {
+        int version = 21;
+        when(patientDao.findOne(id)).thenReturn(patient);
+        when(patientDao.update(patient)).thenReturn(patient);
+        when(patient.getPatientStatus()).thenReturn(PatientStatus.PATIENT);
+        when(patient.getVersion()).thenReturn(version);
+
+        patientService.dischargePatient(id, version);
+
+        verify(patient).setPatientStatus(PatientStatus.DISCHARGED);
+        verify(patientDao).update(patient);
+        verify(prescriptionService).completeAllActive(patient);
     }
+
 }
