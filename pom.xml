@@ -240,7 +240,15 @@
                 <artifactId>jacoco-maven-plugin</artifactId>
                 <version>0.8.5</version>
                 <configuration>
-                    <excludes>**/*Controller.*</excludes>
+                    <excludes>**/config/**/*</excludes>
+                    <excludes>com/bogdansukonnov/eclinic/controller/**/*</excludes>
+                    <excludes>**/converter/**/*</excludes>
+                    <excludes>**/dao/**/*</excludes>
+                    <excludes>**/dto/**/*</excludes>
+                    <excludes>**/exceptions/**/*</excludes>
+                    <excludes>**/message/**/*</excludes>
+                    <excludes>**/security/**/*</excludes>
+                    <excludes>**/*Service.*</excludes>
                 </configuration>
                 <executions>
                     <execution>
