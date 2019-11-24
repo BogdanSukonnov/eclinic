@@ -1,0 +1,48 @@
+version: '3'
+services:
+  backend:
+    build: .
+    ports:
+      - "18080:8080"
+    depends_on:
+      - queue
+      - database
+    networks:
+      - eclinic
+  info:
+    build: ../eclinic-info/
+    ports:
+      - "28080:8080"
+      - "29990:9990"
+    depends_on:
+      - backend
+    networks:
+      - eclinic
+  database:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: EclinicPosctres9)
+      POSTGRES_DB: eclinic
+    ports:
+      - "15432:5432"
+    volumes:
+      - eclinicdb:/var/lib/postgresql/data
+    networks:
+      - eclinic
+  queue:
+    image: vromero/activemq-artemis
+    restart: always
+    ports:
+      - "18161:8161"
+      - "61616:61616"
+    environment:
+      ARTEMIS_USERNAME: admin
+      ARTEMIS_PASSWORD: admin
+    networks:
+      - eclinic
+networks:
+  eclinic:
+volumes:
+  eclinicdb:

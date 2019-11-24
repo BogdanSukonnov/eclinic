@@ -14,8 +14,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
         <!-- favicon       -->
-        <c:import url="${pageContext.request.contextPath}/WEB-INF/views/common/favicon.jsp" />
+        <c:import url="/WEB-INF/views/common/favicon.jsp"/>
 
+        <link rel="stylesheet" href="<c:url value="/static/lib/bootstrap/bootstrap.min.css" />">
         <!-- app css       -->
         <link rel="stylesheet" href="<c:url value="/static/css/eclinic.css" />">
         <!-- inject page's CSS       -->
@@ -28,13 +29,13 @@
 
     <body>
         <div class="main-wrapper" id="${mainWrapperId}">
-            <c:import url="${pageContext.request.contextPath}/WEB-INF/views/common/header.jsp" />
-            <c:import url="${pageContext.request.contextPath}/WEB-INF/views/common/nav.jsp" />
+            <c:import url="/WEB-INF/views/common/header.jsp"/>
+            <c:import url="/WEB-INF/views/common/nav.jsp"/>
             <div id="main-content">
                 <jsp:invoke fragment="content"/>
             </div>
         </div>
-        <c:import url="${pageContext.request.contextPath}/WEB-INF/views/common/scripts.jsp" />
+        <c:import url="/WEB-INF/views/common/scripts.jsp"/>
         <%--    inject scripts    --%>
         <jsp:invoke fragment="pageScripts"/>
     </body>

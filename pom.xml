@@ -223,9 +223,9 @@
                 <artifactId>flyway-maven-plugin</artifactId>
                 <version>6.0.7</version>
                 <configuration>
-                    <url>jdbc:postgresql://localhost:5432/eclinic</url>
+                    <url>jdbc:postgresql://localhost:15432/eclinic</url>
                     <user>postgres</user>
-                    <password>PostgreSQL9)</password>
+                    <password>EclinicPosctres9)</password>
                     <locations>
                         <location>filesystem:db/migration</location>
                     </locations>

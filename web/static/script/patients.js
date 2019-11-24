@@ -13,7 +13,7 @@ $(document).ready(function() {
 } );
 
 function onNewPatientFullNameChange() {
-    $.post("/doctor/patient-name-is-unique",
+    $.post("patient-name-is-unique",
         {
             fullName: newPatientFullNameInput.val()
         },
@@ -55,7 +55,7 @@ function patientsTableInit() {
         lengthMenu: [length, 20, 50, 100],
         stateSave: true,
         ajax: {
-            url: '/doctor/patients-table',
+            url: 'patients-table',
             type: 'POST',
             data: function(data) {return buildAjaxObject(data)}
         },
@@ -91,5 +91,5 @@ function newPatientBtnInit() {
 }
 
 function openPatient(id) {
-    window.location.assign('/doctor/patient?id=' + id);
+    window.location.assign('patient?id=' + id);
 }
