@@ -13,7 +13,9 @@
         <maven.compiler.target>1.8</maven.compiler.target>
         <spring.version>5.2.0.RELEASE</spring.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <sonar.exclusions>/web/static/css/lib/*,/web/static/script/lib/*</sonar.exclusions>
+        <sonar.exclusions>
+            /web/static/css/lib/*,**/config/**/*,**/controller/**/*,**/converter/**/*,**/dao/**/*,**/dto/**/*,**/exceptions/**/*,**/message/**/*,**/security/**/*
+        </sonar.exclusions>
     </properties>
 
     <dependencies>
@@ -249,7 +251,6 @@
                         <exclude>**/exceptions/**/*</exclude>
                         <exclude>**/message/**/*</exclude>
                         <exclude>**/security/**/*</exclude>
-                        <exclude>**/*Service.*</exclude>
                     </excludes>
                 </configuration>
                 <executions>
