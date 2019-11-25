@@ -27,6 +27,7 @@ import static org.mockito.Mockito.*;
 @RunWith(JUnitPlatform.class)
 public class EventServiceImplOtherTest extends EventServiceImplTest {
 
+    private final String orderField = "dateTime";
     private long id = 7L;
     private int version = 9;
     private Event scheduledEvent;
@@ -70,12 +71,12 @@ public class EventServiceImplOtherTest extends EventServiceImplTest {
         LocalDateTime startDate = LocalDateTime.parse("2020-01-01T10:00");
         LocalDateTime endDate = LocalDateTime.parse("2020-01-02T10:00");
 
-        when(eventDao.getAll("", "dateTime", 0, 0, false, startDate, endDate, 0L))
+        when(eventDao.getAll("", orderField, 0, 0, false, startDate, endDate, 0L))
                 .thenReturn(Collections.singletonList(scheduledEvent));
 
         TableDataDto tableDataDto = eventService.getEventTable(data, startDate, endDate);
 
-        verify(eventDao).getAll("", "dateTime", 0, 0, false, startDate, endDate, 0L);
+        verify(eventDao).getAll("", orderField, 0, 0, false, startDate, endDate, 0L);
         verify(converter).toDto(scheduledEvent);
         assertEquals(tableDataDto.getDraw(), draw);
 
@@ -156,14 +157,14 @@ public class EventServiceImplOtherTest extends EventServiceImplTest {
     @Test
     void eventsInfoTest() {
 
-        when(eventDao.getAll(null, "dateTime", 0, 100, false,
+        when(eventDao.getAll(null, orderField, 0, 100, false,
                 LocalDateTime.of(LocalDate.now(), LocalTime.MIN),
                 LocalDateTime.of(LocalDate.now(), LocalTime.MAX), null))
                 .thenReturn(Collections.singletonList(scheduledEvent));
 
         EventInfoListDto eventsDto = eventService.eventsInfo();
 
-        verify(eventDao).getAll(null, "dateTime", 0, 100, false,
+        verify(eventDao).getAll(null, orderField, 0, 100, false,
                 LocalDateTime.of(LocalDate.now(), LocalTime.MIN),
                 LocalDateTime.of(LocalDate.now(), LocalTime.MAX), null);
 

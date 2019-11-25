@@ -23,6 +23,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private UserDao userDao;
 
     @Bean
+    @Override
     public UserDetailsService userDetailsService() {
         return new AppUserDetailsServiceImpl(userDao);
     }
@@ -45,6 +46,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         auth.authenticationProvider(authenticationProvider());
     }
 
+    @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .csrf().disable()

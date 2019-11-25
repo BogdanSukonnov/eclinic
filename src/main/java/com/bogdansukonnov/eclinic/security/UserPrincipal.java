@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 @Getter
 public class UserPrincipal implements UserDetails {
 
-    private AppUser appUser;
+    private transient AppUser appUser;
 
     public String getFullName() {
         return appUser.getFullName();

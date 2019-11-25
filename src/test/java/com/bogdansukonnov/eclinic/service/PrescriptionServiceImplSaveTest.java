@@ -169,7 +169,6 @@ class PrescriptionServiceImplSaveTest extends PrescriptionServiceImplTest {
     @Test
     void saveFailToWrongPatientStatusTest() throws PrescriptionCreateException, PrescriptionUpdateException {
 
-        Patient patient = new Patient();
         patient.setPatientStatus(PatientStatus.DISCHARGED);
 
         when(patientDao.findOne(anyLong())).thenReturn(patient);

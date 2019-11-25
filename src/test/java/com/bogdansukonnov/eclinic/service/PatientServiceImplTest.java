@@ -15,7 +15,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 @RunWith(JUnitPlatform.class)
@@ -40,7 +41,6 @@ class PatientServiceImplTest {
 
     @Test
     void addNewTest() {
-        Patient patient = mock(Patient.class);
         ResponsePatientDto responsePatientDto = new ResponsePatientDto();
         when(modelMapper.map(responsePatientDto, Patient.class)).thenReturn(patient);
         when(patientDao.create(patient)).thenReturn(patient);
