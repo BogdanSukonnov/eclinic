@@ -3,6 +3,7 @@ package com.bogdansukonnov.eclinic.controller;
 import com.bogdansukonnov.eclinic.security.UserPrincipal;
 import com.bogdansukonnov.eclinic.service.UserService;
 import lombok.AllArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -16,6 +17,7 @@ import javax.servlet.http.HttpSession;
 @Controller
 @AllArgsConstructor
 @RequestMapping("login")
+@Log4j2
 public class LoginController {
 
     private UserService userService;
@@ -33,7 +35,7 @@ public class LoginController {
 
     @RequestMapping("loginFailed")
     public String loginError(Model model) {
-        // ToDo: log.info("Login attempt failed");
+        log.debug("Login attempt failed");
         model.addAttribute("error", "true");
         return loginPage;
     }

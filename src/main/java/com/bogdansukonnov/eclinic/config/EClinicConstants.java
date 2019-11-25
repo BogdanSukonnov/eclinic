@@ -8,4 +8,7 @@ public class EClinicConstants {
     public static final DateTimeFormatter dateNoYearFormatter = DateTimeFormatter.ofPattern("dd.MM");
     public static final DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
 
+    private EClinicConstants() {
+    }
+
 }
