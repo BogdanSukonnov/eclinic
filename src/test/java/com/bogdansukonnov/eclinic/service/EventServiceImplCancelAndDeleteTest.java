@@ -1,17 +1,13 @@
 package com.bogdansukonnov.eclinic.service;
 
-import com.bogdansukonnov.eclinic.converter.EventConverter;
-import com.bogdansukonnov.eclinic.dao.EventDao;
 import com.bogdansukonnov.eclinic.entity.Event;
 import com.bogdansukonnov.eclinic.entity.EventStatus;
 import com.bogdansukonnov.eclinic.entity.Prescription;
-import com.bogdansukonnov.eclinic.security.SecurityContextAdapter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.platform.runner.JUnitPlatform;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
@@ -21,21 +17,8 @@ import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 @RunWith(JUnitPlatform.class)
-class EventServiceImplCancelAndDeleteTest {
+class EventServiceImplCancelAndDeleteTest extends EventServiceImplTest {
 
-    @Mock
-    EventDao eventDao;
-
-    @Mock
-    EventConverter converter;
-
-    @Mock
-    SecurityContextAdapter securityContextAdapter;
-
-    @Mock
-    MessagingService messagingService;
-
-    private EventService eventService;
     private Event scheduledEvent;
     private Event secondScheduledEvent;
     private Event cancelledEvent;
@@ -44,7 +27,7 @@ class EventServiceImplCancelAndDeleteTest {
     @BeforeEach
     void setUp() {
 
-        eventService = new EventServiceImpl(eventDao, converter, securityContextAdapter, messagingService);
+        super.initEventService();
 
         List<Event> eventList = new ArrayList<>();
 

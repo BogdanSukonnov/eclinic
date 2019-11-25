@@ -9,7 +9,7 @@ import com.bogdansukonnov.eclinic.dto.RequestTableDto;
 import com.bogdansukonnov.eclinic.security.SecurityContextAdapter;
 import org.mockito.Mock;
 
-public class PrescriptionServiceImplTest {
+public abstract class PrescriptionServiceImplTest {
     protected PrescriptionServiceImpl prescriptionService;
     @Mock
     protected PrescriptionDao prescriptionDao;

@@ -1,9 +1,6 @@
 package com.bogdansukonnov.eclinic.service;
 
-import com.bogdansukonnov.eclinic.converter.EventConverter;
-import com.bogdansukonnov.eclinic.dao.EventDao;
 import com.bogdansukonnov.eclinic.entity.*;
-import com.bogdansukonnov.eclinic.security.SecurityContextAdapter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -22,16 +19,8 @@ import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 @RunWith(JUnitPlatform.class)
-class EventServiceImplCreateEventsTest {
+class EventServiceImplCreateEventsTest extends EventServiceImplTest {
 
-    @Mock
-    EventDao eventDao;
-    @Mock
-    EventConverter converter;
-    @Mock
-    SecurityContextAdapter securityContextAdapter;
-    @Mock
-    MessagingService messagingService;
     @Mock
     Prescription prescription;
     @Mock
@@ -42,12 +31,11 @@ class EventServiceImplCreateEventsTest {
     Treatment treatment;
     @Mock
     AppUser appUser;
-    private EventService eventService;
 
     @BeforeEach
     void setUp() {
 
-        eventService = new EventServiceImpl(eventDao, converter, securityContextAdapter, messagingService);
+        super.initEventService();
 
     }
 
