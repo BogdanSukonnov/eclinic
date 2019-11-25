@@ -23,7 +23,8 @@
             **/entity/**/*,
             **/exceptions/**/*,
             **/message/**/*,
-            **/security/**/*
+            **/security/**/*,
+            **/*Test.*
         </sonar.exclusions>
     </properties>
 
