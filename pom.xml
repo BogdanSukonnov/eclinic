@@ -20,6 +20,7 @@
             **/converter/**/*,
             **/dao/**/*,
             **/dto/**/*,
+            **/entity/**/*,
             **/exceptions/**/*,
             **/message/**/*,
             **/security/**/*
