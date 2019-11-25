@@ -1,15 +1,9 @@
 package com.bogdansukonnov.eclinic.service;
 
-import com.bogdansukonnov.eclinic.converter.PrescriptionConverter;
-import com.bogdansukonnov.eclinic.dao.PatientDao;
-import com.bogdansukonnov.eclinic.dao.PrescriptionDao;
-import com.bogdansukonnov.eclinic.dao.TimePatternDao;
-import com.bogdansukonnov.eclinic.dao.TreatmentDao;
 import com.bogdansukonnov.eclinic.dto.RequestPrescriptionDto;
 import com.bogdansukonnov.eclinic.entity.*;
 import com.bogdansukonnov.eclinic.exceptions.PrescriptionCreateException;
 import com.bogdansukonnov.eclinic.exceptions.PrescriptionUpdateException;
-import com.bogdansukonnov.eclinic.security.SecurityContextAdapter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -27,27 +21,13 @@ import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 @RunWith(JUnitPlatform.class)
-class PrescriptionServiceImplSaveTest {
+class PrescriptionServiceImplSaveTest extends PrescriptionServiceImplTest {
 
     @Mock
-    RequestPrescriptionDto dto;
-    @Mock
-    private PrescriptionDao prescriptionDao;
-    @Mock
-    private PrescriptionConverter converter;
-    @Mock
-    private TreatmentDao treatmentDao;
-    @Mock
-    private TimePatternDao timePatternDao;
-    @Mock
-    private PatientDao patientDao;
-    @Mock
-    private SecurityContextAdapter securityContextAdapter;
-    @Mock
-    private EventService eventService;
+    private RequestPrescriptionDto dto;
     @Mock
     private Prescription prescription;
-    private PrescriptionServiceImpl prescriptionService;
+
     private LocalDateTime startDate;
     private LocalDateTime inEndDate;
     private LocalDateTime endDate;
@@ -58,10 +38,9 @@ class PrescriptionServiceImplSaveTest {
     private long id;
 
     @BeforeEach
-    void setUp() {
+    protected void setUp() {
 
-        prescriptionService = new PrescriptionServiceImpl(prescriptionDao, converter, treatmentDao, timePatternDao
-                , patientDao, securityContextAdapter, eventService);
+        super.prescriptionServiceInit();
 
         startDate = LocalDateTime.parse("2020-01-01T10:00");
         inEndDate = LocalDateTime.parse("2020-01-07T10:00");
