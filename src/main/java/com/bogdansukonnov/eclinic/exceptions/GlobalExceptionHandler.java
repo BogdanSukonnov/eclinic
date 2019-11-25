@@ -18,7 +18,7 @@ public class GlobalExceptionHandler {
     public String error404(Model model, HttpServletRequest request, Exception ex, HttpServletResponse response) {
         model.addAttribute("headerText", "Page not found");
         model.addAttribute("exceptionObj", "");
-        log.error("Page not found " + ex);
+        log.debug("Page not found " + ex);
         response.setStatus(HttpServletResponse.SC_NOT_FOUND);
         return "errorPage";
     }

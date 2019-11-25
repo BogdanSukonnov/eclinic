@@ -4,7 +4,7 @@ Configutation:
   Properties:
     Property:
       name: log-path
-      value: "D:/Idea-Projects/JavaSchool/eclinic/logs"
+      value: "/var/log/eclinic"
 
   Appenders:
     Console:

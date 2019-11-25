@@ -9,6 +9,8 @@ services:
       - database
     networks:
       - eclinic
+    volumes:
+      - log_eclinic:/var/log/eclinic
   info:
     build: ../eclinic-info/
     ports:
@@ -18,6 +20,8 @@ services:
       - backend
     networks:
       - eclinic
+    volumes:
+      - log_eclinic_info:/opt/jboss/eclinic_info_logs
   database:
     image: postgres
     restart: always
@@ -46,3 +50,6 @@ networks:
   eclinic:
 volumes:
   eclinicdb:
+  log_eclinic:
+  log_eclinic_info:
+#    --opt o=username=Testuser,password=Testpassword,file_mode=0777,dir_mode=0777,uid=2000,gid=2000 \

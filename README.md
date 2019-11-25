@@ -1,4 +1,4 @@
 # eClinic
 
-#####T-Systems Java School project with  CI
+##### T-Systems Java School project with CI
 
