@@ -23,7 +23,7 @@ import java.util.List;
 public class PrescriptionController {
 
     private PrescriptionService prescriptionService;
-    private final String prescriptionPage = "prescriptions";
+    private final static String prescriptionPage = "prescriptions";
 
     @RequestMapping("prescriptions")
     public ModelAndView prescriptions() {

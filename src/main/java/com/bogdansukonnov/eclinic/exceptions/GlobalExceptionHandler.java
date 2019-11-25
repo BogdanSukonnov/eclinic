@@ -14,9 +14,9 @@ import javax.servlet.http.HttpServletResponse;
 @Log4j2
 public class GlobalExceptionHandler {
 
-    private final String headerText = "headerText";
-    private final String exceptionObjText = "exceptionObj";
-    private final String errorPage = "errorPage";
+    private final static String headerText = "headerText";
+    private final static String exceptionObjText = "exceptionObj";
+    private final static String errorPage = "errorPage";
 
     @ExceptionHandler(NoHandlerFoundException.class)
     public String error404(Model model, HttpServletRequest request, Exception ex, HttpServletResponse response) {

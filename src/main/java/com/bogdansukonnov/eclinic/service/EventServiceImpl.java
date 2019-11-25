@@ -31,12 +31,12 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 public class EventServiceImpl implements EventService {
 
-    private final String updateMsg = "update";
+    private final static String updateMsg = "update";
     private EventDao eventDao;
     private EventConverter converter;
     private SecurityContextAdapter securityContextAdapter;
     private MessagingService messagingService;
-    private final String orderField = "dateTime";
+    private final static String orderField = "dateTime";
 
     /**
      * <p>finds event by it's id</p>

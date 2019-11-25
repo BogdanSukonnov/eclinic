@@ -21,7 +21,7 @@ import javax.servlet.http.HttpSession;
 public class LoginController {
 
     private UserService userService;
-    private final String loginPage = "login";
+    private final static String loginPage = "login";
 
     @RequestMapping("sign-in")
     public String loginPage() {
