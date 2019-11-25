@@ -261,6 +261,7 @@
                         <exclude>**/exceptions/**/*</exclude>
                         <exclude>**/message/**/*</exclude>
                         <exclude>**/security/**/*</exclude>
+                        <exclude>**/*Test.*</exclude>
                     </excludes>
                 </configuration>
                 <executions>
