@@ -19,22 +19,23 @@ import javax.servlet.http.HttpSession;
 public class LoginController {
 
     private UserService userService;
+    private final String loginPage = "login";
 
     @RequestMapping("sign-in")
     public String loginPage() {
-        return "login";
+        return loginPage;
     }
 
     @RequestMapping("sign-out")
     public String logoutPage() {
-        return "login";
+        return loginPage;
     }
 
     @RequestMapping("loginFailed")
     public String loginError(Model model) {
         // ToDo: log.info("Login attempt failed");
         model.addAttribute("error", "true");
-        return "login";
+        return loginPage;
     }
 
     @RequestMapping("logout")

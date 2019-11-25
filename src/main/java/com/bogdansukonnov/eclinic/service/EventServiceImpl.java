@@ -31,10 +31,12 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 public class EventServiceImpl implements EventService {
 
+    private final String updateMsg = "update";
     private EventDao eventDao;
     private EventConverter converter;
     private SecurityContextAdapter securityContextAdapter;
     private MessagingService messagingService;
+    private final String orderField = "dateTime";
 
     /**
      * <p>finds event by it's id</p>
@@ -65,7 +67,7 @@ public class EventServiceImpl implements EventService {
                     eventDao.update(event);
                 });
         // send message about data update
-        messagingService.send("update");
+        messagingService.send(updateMsg);
     }
 
     /**
@@ -80,7 +82,7 @@ public class EventServiceImpl implements EventService {
                 .filter(event -> event.getEventStatus().equals(EventStatus.SCHEDULED))
                 .forEach(event -> eventDao.delete(event));
         // send message about data update
-        messagingService.send("update");
+        messagingService.send(updateMsg);
     }
 
     /**
@@ -131,7 +133,7 @@ public class EventServiceImpl implements EventService {
             eventDao.create(event);
         }
         // send message about data update
-        messagingService.send("update");
+        messagingService.send(updateMsg);
     }
 
     /**
@@ -191,8 +193,6 @@ public class EventServiceImpl implements EventService {
     @Transactional(readOnly = true)
     public TableDataDto getEventTable(RequestEventTableDto data, LocalDateTime startDate, LocalDateTime endDate) {
 
-        String orderField = "dateTime";
-
         List<Event> events = eventDao.getAll(data.getSearch(), orderField, data.getOffset(), data.getLimit()
                 , data.getShowCompleted(), startDate, endDate, data.getParentId());
 
@@ -237,7 +237,7 @@ public class EventServiceImpl implements EventService {
         event.setNurse(securityContextAdapter.getCurrentUser());
         eventDao.update(event);
         // send message about data update
-        messagingService.send("update");
+        messagingService.send(updateMsg);
     }
 
     /**
@@ -249,7 +249,7 @@ public class EventServiceImpl implements EventService {
     @Transactional(readOnly = true)
     public EventInfoListDto eventsInfo() {
         // request all scheduled today's events
-        List<Event> events = eventDao.getAll(null, "dateTime", 0, 100, false,
+        List<Event> events = eventDao.getAll(null, orderField, 0, 100, false,
                 LocalDateTime.of(LocalDate.now(), LocalTime.MIN),
                 LocalDateTime.of(LocalDate.now(), LocalTime.MAX), null);
         // convert to DTO

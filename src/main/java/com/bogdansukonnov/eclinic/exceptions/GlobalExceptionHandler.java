@@ -14,32 +14,36 @@ import javax.servlet.http.HttpServletResponse;
 @Log4j2
 public class GlobalExceptionHandler {
 
+    private final String headerText = "headerText";
+    private final String exceptionObjText = "exceptionObj";
+    private final String errorPage = "errorPage";
+
     @ExceptionHandler(NoHandlerFoundException.class)
     public String error404(Model model, HttpServletRequest request, Exception ex, HttpServletResponse response) {
-        model.addAttribute("headerText", "Page not found");
-        model.addAttribute("exceptionObj", "");
+        model.addAttribute(headerText, "Page not found");
+        model.addAttribute(exceptionObjText, "");
         log.debug("Page not found " + ex);
         response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-        return "errorPage";
+        return errorPage;
     }
 
     @ExceptionHandler({PrescriptionUpdateException.class,
                     PrescriptionCreateException.class})
     public String customExceptions(Model model, Exception ex, HttpServletResponse response) {
-        model.addAttribute("headerText", ex.getMessage());
-        model.addAttribute("exceptionObj", "");
+        model.addAttribute(headerText, ex.getMessage());
+        model.addAttribute(exceptionObjText, "");
         log.debug(ex.getMessage());
         response.setStatus(HttpServletResponse.SC_CONFLICT);
-        return "errorPage";
+        return errorPage;
     }
 
     @ExceptionHandler(Exception.class)
     public String allErrors(Exception ex, Model model, HttpServletRequest request, HttpServletResponse response) {
-        model.addAttribute("headerText", "Something went wrong");
-        model.addAttribute("exceptionObj", ex);
+        model.addAttribute(headerText, "Something went wrong");
+        model.addAttribute(exceptionObjText, ex);
         log.error(ExceptionUtils.getStackTrace(ex));
         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-        return "errorPage";
+        return errorPage;
     }
 
 }
