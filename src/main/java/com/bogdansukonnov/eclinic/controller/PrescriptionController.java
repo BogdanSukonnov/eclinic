@@ -25,7 +25,7 @@ public class PrescriptionController {
     private PrescriptionService prescriptionService;
     private static final String PRESCRIPTION_PAGE = "prescriptions";
 
-    @RequestMapping("prescriptions")
+    @GetMapping("prescriptions")
     public ModelAndView prescriptions() {
         List<ResponsePrescriptionDto> prescriptions = prescriptionService.getAll(OrderType.CREATION);
         ModelAndView model = new ModelAndView(PRESCRIPTION_PAGE);
@@ -33,7 +33,7 @@ public class PrescriptionController {
         return model;
     }
 
-    @RequestMapping("prescription")
+    @GetMapping("prescription")
     public ModelAndView prescription(@RequestParam("id") Long id) {
         ModelAndView model = new ModelAndView("prescription");
         ResponsePrescriptionDto prescription = prescriptionService.getOne(id);
@@ -44,7 +44,7 @@ public class PrescriptionController {
         return model;
     }
 
-    @RequestMapping("newPrescription")
+    @GetMapping("newPrescription")
     public ModelAndView newPrescription(@RequestParam("patient_id") Long patientId,
                                         @RequestParam("patient_fullName") String patientFullName) {
         ModelAndView model = new ModelAndView(PRESCRIPTION_PAGE);

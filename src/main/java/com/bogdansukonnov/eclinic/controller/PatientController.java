@@ -21,12 +21,12 @@ public class PatientController {
 
     private PatientService patientService;
 
-    @RequestMapping("patients")
+    @GetMapping("patients")
     public String patients() {
         return "patients";
     }
 
-    @RequestMapping("patient")
+    @GetMapping("patient")
     public ModelAndView patient(@RequestParam("id") Long id) {
         ModelAndView model = new ModelAndView("patient");
         model.addObject("patient", patientService.getOne(id));

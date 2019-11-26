@@ -22,12 +22,12 @@ public class EventController {
 
     private EventService eventService;
 
-    @RequestMapping("/nurse/events")
+    @GetMapping("/nurse/events")
     public String events() {
         return "events";
     }
 
-    @RequestMapping("/nurse/event")
+    @GetMapping("/nurse/event")
     public ModelAndView event(@RequestParam("id") Long id) {
         ModelAndView mv = new ModelAndView("event");
         mv.addObject("event", eventService.getOne(id));
