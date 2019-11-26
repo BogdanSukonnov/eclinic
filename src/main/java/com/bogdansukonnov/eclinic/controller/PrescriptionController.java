@@ -29,7 +29,7 @@ public class PrescriptionController {
     public ModelAndView prescriptions() {
         List<ResponsePrescriptionDto> prescriptions = prescriptionService.getAll(OrderType.CREATION);
         ModelAndView model = new ModelAndView(PRESCRIPTION_PAGE);
-        model.addObject("prescriptions", prescriptions);
+        model.addObject(PRESCRIPTION_PAGE, prescriptions);
         return model;
     }
 
