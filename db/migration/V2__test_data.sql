@@ -41,7 +41,7 @@ VALUES ('levothyroxine', 'MEDICINE', 1),
        ('laser or therapy', 'PROCEDURE', 1),
        ('hydrotherapy', 'PROCEDURE', 1);
 
---  all passwords is 123
+--  all passwords are 123
 INSERT INTO app_user (username, full_name, password, version)
 VALUES ('perry', 'Cox Percival', '$2y$12$vsU2ML4xStW9aeNKKIdL..kJ46D2eLqdGaB8Dtv3ZqA2ktftfazAe', 1),
        ('jd', 'Dorian John', '$2y$12$vsU2ML4xStW9aeNKKIdL..kJ46D2eLqdGaB8Dtv3ZqA2ktftfazAe', 1),
