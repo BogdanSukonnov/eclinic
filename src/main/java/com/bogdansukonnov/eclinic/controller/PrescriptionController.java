@@ -23,22 +23,23 @@ import java.util.List;
 public class PrescriptionController {
 
     private PrescriptionService prescriptionService;
-    private static final String PRESCRIPTION_PAGE = "prescriptions";
+    private static final String PRESCRIPTION = "prescription";
+    private static final String PRESCRIPTION_LIST = "prescriptions";
 
     @GetMapping("prescriptions")
     public ModelAndView prescriptions() {
         List<ResponsePrescriptionDto> prescriptions = prescriptionService.getAll(OrderType.CREATION);
-        ModelAndView model = new ModelAndView(PRESCRIPTION_PAGE);
-        model.addObject(PRESCRIPTION_PAGE, prescriptions);
+        ModelAndView model = new ModelAndView(PRESCRIPTION_LIST);
+        model.addObject(PRESCRIPTION_LIST, prescriptions);
         return model;
     }
 
     @GetMapping("prescription")
     public ModelAndView prescription(@RequestParam("id") Long id) {
-        ModelAndView model = new ModelAndView("prescription");
+        ModelAndView model = new ModelAndView(PRESCRIPTION);
         ResponsePrescriptionDto prescription = prescriptionService.getOne(id);
         model.addObject("isNew", false);
-        model.addObject(PRESCRIPTION_PAGE, prescription);
+        model.addObject(PRESCRIPTION, prescription);
         model.addObject("patientId", prescription.getPatient().getId());
         model.addObject("patientFullName", prescription.getPatient().getFullName());
         return model;
@@ -47,7 +48,7 @@ public class PrescriptionController {
     @GetMapping("newPrescription")
     public ModelAndView newPrescription(@RequestParam("patient_id") Long patientId,
                                         @RequestParam("patient_fullName") String patientFullName) {
-        ModelAndView model = new ModelAndView(PRESCRIPTION_PAGE);
+        ModelAndView model = new ModelAndView(PRESCRIPTION);
         model.addObject("isNew", true);
         model.addObject("patientId", patientId);
         model.addObject("patientFullName", patientFullName);

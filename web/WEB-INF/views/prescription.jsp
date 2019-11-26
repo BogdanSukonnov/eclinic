@@ -13,7 +13,7 @@
             <c:if test="${isNew}">
                 action="${pageContext.request.contextPath}/doctor/saveNewPrescription"
               </c:if>
-                    <c:if test="${!isNew}">
+                <c:if test="${!isNew}">
                 action="${pageContext.request.contextPath}/doctor/updatePrescription"
               </c:if> >
 
