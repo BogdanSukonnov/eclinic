@@ -34,11 +34,6 @@ public class TreatmentDaoImpl extends AbstractTableDao<Treatment> implements Tre
     }
 
     @Override
-    protected String getOrderField() {
-        return "name";
-    }
-
-    @Override
     public String getQueryConditions(String search, Long parentId) {
         String conditions = "";
         if (!StringUtils.isBlank(search)) {

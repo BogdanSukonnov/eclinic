@@ -32,17 +32,12 @@ public class TimePatternDaoImpl extends AbstractTableDao<TimePattern> implements
     }
 
     @Override
-    protected String getOrderField() {
-        return "name";
-    }
-
-    @Override
     public String getQueryConditions(String search, Long parentId) {
-        String conditions = "";
+        String queryConditions = "";
         if (!StringUtils.isBlank(search)) {
-            conditions = " where lower(t.name) like lower(:search)";
+            queryConditions = " where lower(t.name) like lower(:search)";
         }
-        return conditions;
+        return queryConditions;
     }
 
 }

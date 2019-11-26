@@ -45,4 +45,9 @@ public abstract class AbstractTableDao<T> extends AbstractDao<T> {
         }
     }
 
+    @Override
+    protected String getOrderField() {
+        return "name";
+    }
+
 }
