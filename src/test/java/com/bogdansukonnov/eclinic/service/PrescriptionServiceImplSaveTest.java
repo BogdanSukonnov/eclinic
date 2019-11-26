@@ -33,6 +33,7 @@ class PrescriptionServiceImplSaveTest extends PrescriptionServiceImplTest {
     private LocalDateTime endDate;
     private Patient patient;
     private Treatment treatment;
+    @Mock
     private TimePattern timePattern;
     private AppUser appUser;
     private long id;
@@ -56,7 +57,6 @@ class PrescriptionServiceImplSaveTest extends PrescriptionServiceImplTest {
         treatment = new Treatment();
         when(treatmentDao.findOne(anyLong())).thenReturn(treatment);
 
-        timePattern = new TimePattern();
         when(timePatternDao.findOne(anyLong())).thenReturn(timePattern);
 
     }
