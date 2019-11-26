@@ -173,9 +173,9 @@ class PrescriptionServiceImplSaveTest extends PrescriptionServiceImplTest {
 
         when(patientDao.findOne(anyLong())).thenReturn(patient);
 
-        assertThrows(PrescriptionCreateException.class, () -> {
-            prescriptionService.save(dto, startDate, endDate);
-        });
+        assertThrows(PrescriptionCreateException.class, () ->
+                prescriptionService.save(dto, startDate, endDate)
+        );
 
     }
 

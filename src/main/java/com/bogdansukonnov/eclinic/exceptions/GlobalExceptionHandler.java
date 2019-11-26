@@ -14,36 +14,36 @@ import javax.servlet.http.HttpServletResponse;
 @Log4j2
 public class GlobalExceptionHandler {
 
-    private final static String headerText = "headerText";
-    private final static String exceptionObjText = "exceptionObj";
-    private final static String errorPage = "errorPage";
+    private static final String HEADER_TEXT = "headerText";
+    private static final String EXCEPTION_OBJ_TEXT = "exceptionObj";
+    private static final String ERROR_PAGE = "errorPage";
 
     @ExceptionHandler(NoHandlerFoundException.class)
     public String error404(Model model, HttpServletRequest request, Exception ex, HttpServletResponse response) {
-        model.addAttribute(headerText, "Page not found");
-        model.addAttribute(exceptionObjText, "");
+        model.addAttribute(HEADER_TEXT, "Page not found");
+        model.addAttribute(EXCEPTION_OBJ_TEXT, "");
         log.debug("Page not found " + ex);
         response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-        return errorPage;
+        return ERROR_PAGE;
     }
 
     @ExceptionHandler({PrescriptionUpdateException.class,
                     PrescriptionCreateException.class})
     public String customExceptions(Model model, Exception ex, HttpServletResponse response) {
-        model.addAttribute(headerText, ex.getMessage());
-        model.addAttribute(exceptionObjText, "");
+        model.addAttribute(HEADER_TEXT, ex.getMessage());
+        model.addAttribute(EXCEPTION_OBJ_TEXT, "");
         log.debug(ex.getMessage());
         response.setStatus(HttpServletResponse.SC_CONFLICT);
-        return errorPage;
+        return ERROR_PAGE;
     }
 
     @ExceptionHandler(Exception.class)
     public String allErrors(Exception ex, Model model, HttpServletRequest request, HttpServletResponse response) {
-        model.addAttribute(headerText, "Something went wrong");
-        model.addAttribute(exceptionObjText, ex);
+        model.addAttribute(HEADER_TEXT, "Something went wrong");
+        model.addAttribute(EXCEPTION_OBJ_TEXT, ex);
         log.error(ExceptionUtils.getStackTrace(ex));
         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-        return errorPage;
+        return ERROR_PAGE;
     }
 
 }

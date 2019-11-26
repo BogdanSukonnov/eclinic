@@ -31,12 +31,12 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 public class EventServiceImpl implements EventService {
 
-    private final static String updateMsg = "update";
+    private static final String UPDATE_MSG = "update";
     private EventDao eventDao;
     private EventConverter converter;
     private SecurityContextAdapter securityContextAdapter;
     private MessagingService messagingService;
-    private final static String orderField = "dateTime";
+    private static final String ORDER_FIELD = "dateTime";
 
     /**
      * <p>finds event by it's id</p>
@@ -67,7 +67,7 @@ public class EventServiceImpl implements EventService {
                     eventDao.update(event);
                 });
         // send message about data update
-        messagingService.send(updateMsg);
+        messagingService.send(UPDATE_MSG);
     }
 
     /**
@@ -82,7 +82,7 @@ public class EventServiceImpl implements EventService {
                 .filter(event -> event.getEventStatus().equals(EventStatus.SCHEDULED))
                 .forEach(event -> eventDao.delete(event));
         // send message about data update
-        messagingService.send(updateMsg);
+        messagingService.send(UPDATE_MSG);
     }
 
     /**
@@ -133,7 +133,7 @@ public class EventServiceImpl implements EventService {
             eventDao.create(event);
         }
         // send message about data update
-        messagingService.send(updateMsg);
+        messagingService.send(UPDATE_MSG);
     }
 
     /**
@@ -162,7 +162,7 @@ public class EventServiceImpl implements EventService {
         // return value
         List<LocalDateTime> dates = new ArrayList<>();
         // repeat the pattern till the endDate
-        while (items.size() > 0 && itemDate.isBefore(endDate)) {
+        while (!items.isEmpty() && itemDate.isBefore(endDate)) {
             // loop thru the pattern
             for (TimePatternItem item : items) {
                 itemDate = cycleStart.plusDays(item.getDayOfCycle()).atTime(item.getTime());
@@ -193,7 +193,7 @@ public class EventServiceImpl implements EventService {
     @Transactional(readOnly = true)
     public TableDataDto getEventTable(RequestEventTableDto data, LocalDateTime startDate, LocalDateTime endDate) {
 
-        List<Event> events = eventDao.getAll(data.getSearch(), orderField, data.getOffset(), data.getLimit()
+        List<Event> events = eventDao.getAll(data.getSearch(), ORDER_FIELD, data.getOffset(), data.getLimit()
                 , data.getShowCompleted(), startDate, endDate, data.getParentId());
 
         List<EventDto> eventDtoS = events.stream()
@@ -237,7 +237,7 @@ public class EventServiceImpl implements EventService {
         event.setNurse(securityContextAdapter.getCurrentUser());
         eventDao.update(event);
         // send message about data update
-        messagingService.send(updateMsg);
+        messagingService.send(UPDATE_MSG);
     }
 
     /**
@@ -249,7 +249,7 @@ public class EventServiceImpl implements EventService {
     @Transactional(readOnly = true)
     public EventInfoListDto eventsInfo() {
         // request all scheduled today's events
-        List<Event> events = eventDao.getAll(null, orderField, 0, 100, false,
+        List<Event> events = eventDao.getAll(null, ORDER_FIELD, 0, 100, false,
                 LocalDateTime.of(LocalDate.now(), LocalTime.MIN),
                 LocalDateTime.of(LocalDate.now(), LocalTime.MAX), null);
         // convert to DTO

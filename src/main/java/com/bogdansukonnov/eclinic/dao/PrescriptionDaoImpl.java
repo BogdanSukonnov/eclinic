@@ -27,7 +27,7 @@ public class PrescriptionDaoImpl extends AbstractTableDao<Prescription> implemen
             conditionsList.add(" (t.patient.id=:parentId)");
         }
         String conditionsStr = "";
-        if (conditionsList.size() > 0) {
+        if (!conditionsList.isEmpty()) {
             conditionsStr = " where" + String.join(" and ", conditionsList);
         }
         return conditionsStr;

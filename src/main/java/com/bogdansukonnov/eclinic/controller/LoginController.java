@@ -21,23 +21,23 @@ import javax.servlet.http.HttpSession;
 public class LoginController {
 
     private UserService userService;
-    private final static String loginPage = "login";
+    private static final String LOGIN_PAGE = "login";
 
     @RequestMapping("sign-in")
     public String loginPage() {
-        return loginPage;
+        return LOGIN_PAGE;
     }
 
     @RequestMapping("sign-out")
     public String logoutPage() {
-        return loginPage;
+        return LOGIN_PAGE;
     }
 
     @RequestMapping("loginFailed")
     public String loginError(Model model) {
         log.debug("Login attempt failed");
         model.addAttribute("error", "true");
-        return loginPage;
+        return LOGIN_PAGE;
     }
 
     @RequestMapping("logout")

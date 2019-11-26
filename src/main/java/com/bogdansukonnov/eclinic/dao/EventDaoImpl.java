@@ -82,7 +82,7 @@ public class EventDaoImpl extends AbstractTableDao<Event> implements EventDao {
             conditionsList.add(" (t.prescription.id=:prescriptionId)");
         }
         String conditionsStr = "";
-        if (conditionsList.size() > 0) {
+        if (!conditionsList.isEmpty()) {
             conditionsStr = " where" + String.join(" and ", conditionsList);
         }
         return conditionsStr;

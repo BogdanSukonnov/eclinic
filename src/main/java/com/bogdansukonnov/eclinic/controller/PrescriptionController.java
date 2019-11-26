@@ -23,12 +23,12 @@ import java.util.List;
 public class PrescriptionController {
 
     private PrescriptionService prescriptionService;
-    private final static String prescriptionPage = "prescriptions";
+    private static final String PRESCRIPTION_PAGE = "prescriptions";
 
     @RequestMapping("prescriptions")
     public ModelAndView prescriptions() {
         List<ResponsePrescriptionDto> prescriptions = prescriptionService.getAll(OrderType.CREATION);
-        ModelAndView model = new ModelAndView(prescriptionPage);
+        ModelAndView model = new ModelAndView(PRESCRIPTION_PAGE);
         model.addObject("prescriptions", prescriptions);
         return model;
     }
@@ -38,7 +38,7 @@ public class PrescriptionController {
         ModelAndView model = new ModelAndView("prescription");
         ResponsePrescriptionDto prescription = prescriptionService.getOne(id);
         model.addObject("isNew", false);
-        model.addObject(prescriptionPage, prescription);
+        model.addObject(PRESCRIPTION_PAGE, prescription);
         model.addObject("patientId", prescription.getPatient().getId());
         model.addObject("patientFullName", prescription.getPatient().getFullName());
         return model;
@@ -47,7 +47,7 @@ public class PrescriptionController {
     @RequestMapping("newPrescription")
     public ModelAndView newPrescription(@RequestParam("patient_id") Long patientId,
                                         @RequestParam("patient_fullName") String patientFullName) {
-        ModelAndView model = new ModelAndView(prescriptionPage);
+        ModelAndView model = new ModelAndView(PRESCRIPTION_PAGE);
         model.addObject("isNew", true);
         model.addObject("patientId", patientId);
         model.addObject("patientFullName", patientFullName);

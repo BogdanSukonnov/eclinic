@@ -85,13 +85,13 @@ public class EventServiceImplOtherTest extends EventServiceImplTest {
     @Test
     void updateStatusEmptyReasonCancelTest() {
 
-        assertThrows(EventStatusUpdateException.class, () -> {
-            eventService.updateStatus(id, EventStatus.CANCELED, null, null);
-        });
+        assertThrows(EventStatusUpdateException.class, () ->
+                eventService.updateStatus(id, EventStatus.CANCELED, null, null)
+        );
 
-        assertThrows(EventStatusUpdateException.class, () -> {
-            eventService.updateStatus(id, EventStatus.CANCELED, "", null);
-        });
+        assertThrows(EventStatusUpdateException.class, () ->
+                eventService.updateStatus(id, EventStatus.CANCELED, "", null)
+        );
     }
 
     @Test
@@ -99,15 +99,15 @@ public class EventServiceImplOtherTest extends EventServiceImplTest {
 
         when(eventDao.findOne(id)).thenReturn(completedEvent);
 
-        assertThrows(EventStatusUpdateException.class, () -> {
-            eventService.updateStatus(id, EventStatus.COMPLETED, null, null);
-        });
+        assertThrows(EventStatusUpdateException.class, () ->
+                eventService.updateStatus(id, EventStatus.COMPLETED, null, null)
+        );
 
         when(eventDao.findOne(id)).thenReturn(canceledEvent);
 
-        assertThrows(EventStatusUpdateException.class, () -> {
-            eventService.updateStatus(id, EventStatus.COMPLETED, null, null);
-        });
+        assertThrows(EventStatusUpdateException.class, () ->
+                eventService.updateStatus(id, EventStatus.COMPLETED, null, null)
+        );
     }
 
     @Test
@@ -116,9 +116,9 @@ public class EventServiceImplOtherTest extends EventServiceImplTest {
         when(eventDao.findOne(id)).thenReturn(scheduledEvent);
 
         // wrong version test
-        assertThrows(EventStatusUpdateException.class, () -> {
-            eventService.updateStatus(id, EventStatus.COMPLETED, null, (int) id);
-        });
+        assertThrows(EventStatusUpdateException.class, () ->
+                eventService.updateStatus(id, EventStatus.COMPLETED, null, (int) id)
+        );
 
     }
 
