@@ -1,6 +1,5 @@
 package com.bogdansukonnov.eclinic.config;
 
-import com.bogdansukonnov.eclinic.controller.CustomRequestLoggingInterceptor;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
