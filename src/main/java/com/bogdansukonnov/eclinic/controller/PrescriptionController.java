@@ -56,15 +56,15 @@ public class PrescriptionController {
     }
 
     @PostMapping("new-prescription")
-    @ResponseStatus(HttpStatus.OK)
-    public void newPrescription(@Validated RequestPrescriptionDto dto,
+    @ResponseBody
+    public IdDto newPrescription(@Validated RequestPrescriptionDto dto,
                   @RequestParam("startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
                           LocalDateTime startDate,
                   @RequestParam("endDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
                           LocalDateTime endDate
     )
             throws PrescriptionCreateException, VersionConflictException {
-        Long id = prescriptionService.save(dto, startDate, endDate);
+        return prescriptionService.save(dto, startDate, endDate);
     }
 
     @PostMapping("prescription")

@@ -84,7 +84,7 @@ class PrescriptionServiceImplSaveTest extends PrescriptionServiceImplTest {
 
         setupSuccessUpdate();
 
-        assertEquals(id, prescriptionService.save(dto, startDate, endDate));
+        assertEquals(id, prescriptionService.save(dto, startDate, endDate).getId());
 
         verify(treatmentDao).findOne(anyLong());
         verify(timePatternDao).findOne(anyLong());

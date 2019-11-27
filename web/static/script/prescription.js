@@ -316,11 +316,8 @@ function savePrescription(event) {
             }
         }
     })
-        .done(function () {
-            if (isNew()) {
-                window.location.assign('/doctor/patient?id=' + getPatientId());
-            } else {
-                window.location.assign('/doctor/prescription?id=' + getId());
-            }
+        .done(function (msg) {
+            let id = isNew() ? msg.id : getId();
+            window.location.assign('/doctor/prescription?id=' + id);
         });
 }

@@ -5,10 +5,7 @@ import com.bogdansukonnov.eclinic.dao.PatientDao;
 import com.bogdansukonnov.eclinic.dao.PrescriptionDao;
 import com.bogdansukonnov.eclinic.dao.TimePatternDao;
 import com.bogdansukonnov.eclinic.dao.TreatmentDao;
-import com.bogdansukonnov.eclinic.dto.RequestPrescriptionDto;
-import com.bogdansukonnov.eclinic.dto.RequestTableDto;
-import com.bogdansukonnov.eclinic.dto.ResponsePrescriptionDto;
-import com.bogdansukonnov.eclinic.dto.TableDataDto;
+import com.bogdansukonnov.eclinic.dto.*;
 import com.bogdansukonnov.eclinic.entity.*;
 import com.bogdansukonnov.eclinic.exceptions.PrescriptionCreateException;
 import com.bogdansukonnov.eclinic.exceptions.PrescriptionUpdateException;
@@ -45,8 +42,8 @@ public class PrescriptionServiceImpl implements PrescriptionService {
 
     @Override
     @Transactional
-    public Long save(RequestPrescriptionDto dto,
-                     LocalDateTime startDate, LocalDateTime inEndDate)
+    public IdDto save(RequestPrescriptionDto dto,
+                      LocalDateTime startDate, LocalDateTime inEndDate)
             throws PrescriptionCreateException, VersionConflictException {
 
         // set time to the end of the day
@@ -103,7 +100,7 @@ public class PrescriptionServiceImpl implements PrescriptionService {
             updateEvents(prescription);
         }
 
-        return prescription.getId();
+        return new IdDto(prescription.getId());
     }
 
     private void updateEvents(Prescription prescription) {

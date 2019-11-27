@@ -29,10 +29,18 @@ public class EventConverter {
         dto.setUpdatedDateFormatted(event.getUpdatedDateTime() != null
                 ? event.getUpdatedDateTime().format(EClinicConstants.dateFormatter)
                 : null);
-        dto.setDosage(event.getTreatment().getType().equals(TreatmentType.MEDICINE)
-                ? fmt(event.getDosage()) + (event.getDosageInfo() == null ? "" : " " + event.getDosageInfo())
-                : "");
+        dto.setDosage(formatDosage(event));
         return dto;
+    }
+
+    private String formatDosage(Event event) {
+        String dosageStr;
+        if (event.getTreatment().getType().equals(TreatmentType.MEDICINE)) {
+            dosageStr = fmt(event.getDosage()) + (event.getDosageInfo() == null ? "" : " " + event.getDosageInfo());
+        } else {
+            dosageStr = "";
+        }
+        return dosageStr;
     }
 
     public EventInfoDto toInfoDto(Event event) {
