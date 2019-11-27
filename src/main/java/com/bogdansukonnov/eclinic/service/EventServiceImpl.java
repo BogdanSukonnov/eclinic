@@ -104,7 +104,7 @@ public class EventServiceImpl implements EventService {
         // event should not be created sooner than the last completed event
         // find last completed event
         List<Event> reversedEvents = eventDao.getAll(prescription);
-        ;
+
         Collections.reverse(reversedEvents);
         Optional<Event> lastCompleted = reversedEvents.stream()
                 .filter(event -> event.getEventStatus().equals(EventStatus.COMPLETED))
@@ -127,6 +127,7 @@ public class EventServiceImpl implements EventService {
             event.setPatient(prescription.getPatient());
             event.setPrescription(prescription);
             event.setDosage(prescription.getDosage());
+            event.setDosageInfo(prescription.getDosageInfo());
             event.setTimePattern(prescription.getTimePattern());
             event.setTreatment(prescription.getTreatment());
             event.setDoctor(securityContextAdapter.getCurrentUser());

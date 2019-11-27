@@ -4,6 +4,7 @@ import com.bogdansukonnov.eclinic.config.EClinicConstants;
 import com.bogdansukonnov.eclinic.dto.EventDto;
 import com.bogdansukonnov.eclinic.dto.EventInfoDto;
 import com.bogdansukonnov.eclinic.entity.Event;
+import com.bogdansukonnov.eclinic.entity.TreatmentType;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
@@ -14,6 +15,13 @@ public class EventConverter {
 
     private ModelMapper modelMapper;
 
+    public static String fmt(float f) {
+        if (f == (long) f)
+            return String.format("%d", (long) f);
+        else
+            return String.format("%s", f);
+    }
+
     public EventDto toDto(Event event) {
         EventDto dto = modelMapper.map(event, EventDto.class);
         dto.setDateFormatted(event.getDateTime().format(EClinicConstants.dateFormatter));
@@ -21,6 +29,9 @@ public class EventConverter {
         dto.setUpdatedDateFormatted(event.getUpdatedDateTime() != null
                 ? event.getUpdatedDateTime().format(EClinicConstants.dateFormatter)
                 : null);
+        dto.setDosage(event.getTreatment().getType().equals(TreatmentType.MEDICINE)
+                ? fmt(event.getDosage()) + (event.getDosageInfo() == null ? "" : " " + event.getDosageInfo())
+                : "");
         return dto;
     }
 

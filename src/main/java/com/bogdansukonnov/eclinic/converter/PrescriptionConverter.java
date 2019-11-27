@@ -17,6 +17,13 @@ public class PrescriptionConverter {
 
     private ModelMapper modelMapper;
 
+    public static String fmt(float f) {
+        if (f == (long) f)
+            return String.format("%d", (long) f);
+        else
+            return String.format("%s", f);
+    }
+
     public ResponsePrescriptionDto toDto(Prescription prescription) {
         ResponsePrescriptionDto dto = modelMapper.map(prescription, ResponsePrescriptionDto.class);
         dto.setStartDateFormatted(prescription.getStartDate().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
@@ -26,13 +33,14 @@ public class PrescriptionConverter {
             + prescription.getEndDate().format(formatter));
         dto.setTreatmentWithDosage(prescription.getTreatment().getName()
             + (prescription.getTreatment().getType() == TreatmentType.MEDICINE
-            ? (" " + prescription.getDosage()) : ""));
+                ? (" " + fmt(prescription.getDosage()) + " " + prescription.getDosageInfo()) : ""));
         return dto;
     }
 
     public Prescription toEntity(Prescription prescription, RequestPrescriptionDto dto,
                  Patient patient, Treatment treatment, TimePattern timePattern,
                     LocalDateTime startDate, LocalDateTime endDate) {
+        prescription.setDosageInfo(dto.getDosageInfo());
         prescription.setDosage(dto.getDosage());
         prescription.setStartDate(startDate);
         prescription.setEndDate(endDate);

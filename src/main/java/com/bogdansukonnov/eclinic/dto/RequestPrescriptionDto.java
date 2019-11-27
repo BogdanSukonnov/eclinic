@@ -12,7 +12,8 @@ import javax.validation.constraints.NotNull;
 public class RequestPrescriptionDto extends AbstractDto {
 
     @NotNull
-    private String dosage;
+    private Float dosage;
+    private String dosageInfo;
     @NotNull
     private Long patientId;
     @NotNull

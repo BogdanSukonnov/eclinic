@@ -9,7 +9,7 @@
 
     <div class="container-fluid">
 
-        <form id="prescriptionForm">
+        <form id="prescriptionForm" method="post" href="/">
 
             <div class="form-group">
                 <h1>${isNew ? "New" : prescription.status == "PRESCRIBED" ? "Edit": prescription.status} prescription</h1>
@@ -71,14 +71,19 @@
                 <%--      dosage      --%>
             <div id="dosageGroup" class="form-group row">
                 <label for="dosage" class="col-sm-2 col-form-label">Dosage</label>
-                <div class="col-sm-3">
-                    <input type="text" id="dosage" class="form-control" placeholder="Dosage"
-                           name="dosage" value="${prescription.dosage}">
+                <div class="col-sm-1">
+                    <input type="number" id="dosage" class="form-control" placeholder="Dosage"
+                           name="dosage" value="${isNew ? 0 : prescription.dosage}" step="any" min="0" required>
+                </div>
+                <label for="dosageInfo" class="col-sm-1 col-form-label">info</label>
+                <div class="col-sm-6">
+                    <input type="text" id="dosageInfo" class="form-control" placeholder="Dosage info"
+                           name="dosageInfo" value="${prescription.dosageInfo}">
                 </div>
             </div>
 
                 <%--      pattern      --%>
-            <div id="dosageGroup" class="form-group row">
+            <div id="patternGroup" class="form-group row">
                 <label for="pattern" class="col-sm-2 col-form-label">Pattern</label>
                 <div class="col-sm-7">
                     <select name="timePatternId" id="pattern">
@@ -104,7 +109,7 @@
                     <div class="col-auto my-1">
                         <span id="savePrescriptionPopoverSpan" class="d-inline-block" data-toggle="popover"
                               data-content="Please fill all fields">
-                            <button id="savePrescriptionBtn" type="button" class="btn btn-primary edit-button"
+                            <button id="savePrescriptionBtn" type="submit" class="btn btn-primary edit-button"
                                     style="pointer-events: none;" disabled>
                                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Save&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                             </button>

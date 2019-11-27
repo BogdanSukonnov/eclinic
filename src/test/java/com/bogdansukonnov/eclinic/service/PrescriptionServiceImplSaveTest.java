@@ -164,7 +164,8 @@ class PrescriptionServiceImplSaveTest extends PrescriptionServiceImplTest {
 
         prescriptionService.save(dto, startDate, inEndDate);
 
-        verify(prescription).setDosage("");
+        verify(prescription).setDosage(0f);
+        verify(prescription).setDosageInfo("");
     }
 
     @Test

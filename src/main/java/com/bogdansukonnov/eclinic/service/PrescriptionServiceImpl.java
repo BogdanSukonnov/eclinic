@@ -87,7 +87,8 @@ public class PrescriptionServiceImpl implements PrescriptionService {
 
         // only medicine could have a dosage
         if (prescription.getTreatment().getType() != TreatmentType.MEDICINE) {
-            prescription.setDosage("");
+            prescription.setDosage(0f);
+            prescription.setDosageInfo("");
         }
 
         // save prescription

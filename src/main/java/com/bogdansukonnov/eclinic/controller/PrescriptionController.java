@@ -55,7 +55,8 @@ public class PrescriptionController {
         return model;
     }
 
-    @PutMapping("prescription")
+    @PostMapping("new-prescription")
+    @ResponseStatus(HttpStatus.OK)
     public void newPrescription(@Validated RequestPrescriptionDto dto,
                   @RequestParam("startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
                           LocalDateTime startDate,

@@ -45,10 +45,14 @@ public class Prescription extends AbstractEntity {
     @NonNull
     private Treatment treatment;
 
-    // only for drugs, any text
+    // only for drugs
     @Column(name = "dosage")
     @NonNull
-    String dosage;
+    Float dosage;
+
+    // only for drugs
+    @Column(name = "dosage_info")
+    String dosageInfo;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "prescription_status")

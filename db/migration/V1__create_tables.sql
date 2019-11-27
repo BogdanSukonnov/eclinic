@@ -105,26 +105,27 @@ CREATE TABLE treatment
 
 CREATE TABLE prescription
 (
-    id              BIGSERIAL NOT NULL
+    id                  BIGSERIAL NOT NULL
         CONSTRAINT prescription_pkey
         PRIMARY KEY,
-    created_datetime TIMESTAMP,
-    updated_datetime TIMESTAMP,
-    version         INTEGER,
-    dosage          VARCHAR(255),
+    created_datetime    TIMESTAMP,
+    updated_datetime    TIMESTAMP,
+    version             INTEGER,
+    dosage              REAL,
+    dosage_info         VARCHAR(255),
     prescription_status VARCHAR(255) NOT NULL,
-    start_date        TIMESTAMP NOT NULL,
-    end_date        TIMESTAMP NOT NULL,
-    doctor_id       BIGINT NOT NULL
+    start_date          TIMESTAMP NOT NULL,
+    end_date            TIMESTAMP NOT NULL,
+    doctor_id           BIGINT NOT NULL
         CONSTRAINT prescription_doctor_fkey
         REFERENCES app_user,
-    patient_id      BIGINT NOT NULL
+    patient_id          BIGINT NOT NULL
         CONSTRAINT prescription_patient_fkey
         REFERENCES patient,
-    time_pattern_id  BIGINT NOT NULL
+    time_pattern_id     BIGINT NOT NULL
         CONSTRAINT prescription_time_pattern_fkey
         REFERENCES time_pattern,
-    treatment_id    BIGINT NOT NULL
+    treatment_id        BIGINT NOT NULL
         CONSTRAINT prescription_treatment_fkey
         REFERENCES treatment
 );
@@ -136,27 +137,28 @@ CREATE TABLE event
         PRIMARY KEY,
     created_datetime TIMESTAMP,
     updated_datetime TIMESTAMP,
-    version         INTEGER,
-    datetime        TIMESTAMP,
+    version          INTEGER,
+    datetime         TIMESTAMP,
     event_status     VARCHAR(255) NOT NULL,
-    cancel_reason     VARCHAR(255),
-    nurse_id      BIGINT
+    cancel_reason    VARCHAR(255),
+    nurse_id         BIGINT
         CONSTRAINT event_app_user_fkey
             REFERENCES app_user,
-    patient_id      BIGINT NOT NULL
+    patient_id       BIGINT       NOT NULL
         CONSTRAINT event_patient_fkey
         REFERENCES patient,
-    prescription_id BIGINT NOT NULL
+    prescription_id  BIGINT       NOT NULL
         CONSTRAINT event_prescription_fkey
         REFERENCES prescription,
-    dosage          VARCHAR(255) NOT NULL,
-    doctor_id       BIGINT NOT NULL
+    dosage           REAL         NOT NULL,
+    dosage_info      VARCHAR(255),
+    doctor_id        BIGINT       NOT NULL
         CONSTRAINT event_doctor_fkey
             REFERENCES app_user,
-    time_pattern_id  BIGINT NOT NULL
+    time_pattern_id  BIGINT       NOT NULL
         CONSTRAINT event_time_pattern_fkey
             REFERENCES time_pattern,
-    treatment_id    BIGINT NOT NULL
+    treatment_id     BIGINT       NOT NULL
         CONSTRAINT event_treatment_fkey
             REFERENCES treatment
 );

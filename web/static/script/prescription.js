@@ -28,8 +28,8 @@ $(document).ready(function() {
         $('#cancelPrescriptionBtn').click(function () {
             cancelPrescription()
         });
-        savePrescriptionBtn.click(function () {
-            savePrescription();
+        savePrescriptionBtn.click(function (event) {
+            savePrescription(event);
         });
     }
     else {
@@ -84,7 +84,12 @@ function dosageVisibility() {
 
 function onTreatmentTypeChange() {
     if (treatmentType() !== 'MEDICINE') {
-        $("#dosage").val('');
+        $("#dosage")
+            .val(0)
+            .attr('min', 0);
+        $("#dosageInfo").val('');
+    } else {
+        $("#dosage").attr('min', 0.0001);
     }
     dosageVisibility();
     treatmentSelect.empty();
@@ -258,7 +263,7 @@ function periodDates() {
 
 function onInputChange() {
     let hasEmpty = isNaN($('#treatment').val()) || isNaN($('#pattern').val()) ||
-        $("input[name='treatmentType']:checked").val() === 'MEDICINE' && isEmpty($('#dosage').val());
+        $("input[name='treatmentType']:checked").val() === 'MEDICINE' && $('#dosage').val() < 0.01;
     if (hasEmpty) {
         savePrescriptionBtn.prop('disabled', true);
         savePrescriptionBtn.css('pointer-events', 'none');
@@ -269,19 +274,7 @@ function onInputChange() {
         savePrescriptionBtn.css('pointer-events', 'auto');
         savePrescriptionPopoverSpan.popover('disable');
     }
-}
 
-function dto() {
-    return {
-        id: $('#prescriptionId').val(),
-        version: $('#version').val(),
-        dosage: $('#dosage').val(),
-        patientId: $('#patientId').val(),
-        timePatternId: $('#pattern').val(),
-        treatmentId: $('#treatment').val(),
-        startDate: periodDates().start.format(),
-        endDate: periodDates().end.format()
-    }
 }
 
 function getId() {
@@ -292,11 +285,22 @@ function getPatientId() {
     return $('#patientId').val()
 }
 
-function savePrescription() {
+function savePrescription(event) {
+    event.preventDefault();
     $.ajax({
-        url: '/doctor/prescription',
-        type: isNew() ? 'PUT' : 'POST',
-        data: dto(),
+        url: isNew() ? '/doctor/new-prescription' : '/doctor/prescription',
+        type: 'POST',
+        data: {
+            id: $('#prescriptionId').val(),
+            version: $('#version').val(),
+            dosage: $('#dosage').val(),
+            dosageInfo: $('#dosageInfo').val(),
+            patientId: $('#patientId').val(),
+            timePatternId: $('#pattern').val(),
+            treatmentId: $('#treatment').val(),
+            startDate: periodDates().start.format(),
+            endDate: periodDates().end.format()
+        },
         statusCode: {
             409: function () {
                 versionConflictModal.modal('show');
@@ -314,9 +318,9 @@ function savePrescription() {
     })
         .done(function () {
             if (isNew()) {
-                window.location.assign('/doctor/prescription?id=' + getId());
-            } else {
                 window.location.assign('/doctor/patient?id=' + getPatientId());
+            } else {
+                window.location.assign('/doctor/prescription?id=' + getId());
             }
         });
 }

@@ -48,7 +48,10 @@ public class Event extends AbstractEntity {
 
     @Column(name = "dosage")
     @NonNull
-    String dosage;
+    Float dosage;
+
+    @Column(name = "dosage_info")
+    String dosageInfo;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "nurse_id")

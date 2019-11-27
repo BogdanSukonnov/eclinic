@@ -19,6 +19,7 @@ public class ResponsePrescriptionDto extends AbstractDto {
     private String startDateFormatted;
     private String endDateFormatted;
     private String period;
-    private String dosage;
+    private Float dosage;
+    private String dosageInfo;
 
 }

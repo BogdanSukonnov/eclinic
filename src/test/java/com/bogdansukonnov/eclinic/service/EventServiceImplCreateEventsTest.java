@@ -67,7 +67,8 @@ class EventServiceImplCreateEventsTest extends EventServiceImplTest {
         addItem(itemList, (short) 0, LocalTime.parse("10:00"));
         addItem(itemList, (short) 0, LocalTime.parse("18:00"));
 
-        String dosage = "dosage";
+        Float dosage = 100f;
+        String dosageInfo = "ml";
 
         when(prescription.getTimePattern()).thenReturn(timePattern);
         when(prescription.getPatient()).thenReturn(patient);
