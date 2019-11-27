@@ -35,11 +35,11 @@ class UserServiceImplTest {
     @Test
     void addUser() {
         String username = "Sara Connor";
-        String password = "pass";
-        String encodedPassword = "abracadabra";
-        when(encoder.encode(password)).thenReturn(encodedPassword);
+        String magicWord = "pass";
+        String encodedMagicWord = "abracadabra";
+        when(encoder.encode(magicWord)).thenReturn(encodedMagicWord);
 
-        userService.addUser(username, password);
+        userService.addUser(username, magicWord);
 
         verify(userDao).create(any());
     }
