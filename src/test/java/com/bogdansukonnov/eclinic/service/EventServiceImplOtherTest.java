@@ -17,6 +17,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.ZoneOffset;
 import java.util.Collections;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -172,6 +173,21 @@ public class EventServiceImplOtherTest extends EventServiceImplTest {
 
         assertEquals(1, eventsDto.getEvents().size());
 
+    }
+
+    @Test
+    void patientEventsTest() {
+        Long patientId = 97L;
+        LocalDateTime startDate = LocalDateTime.now();
+        LocalDateTime endDate = LocalDateTime.ofEpochSecond(LocalDateTime.now().toEpochSecond(ZoneOffset.UTC) + 500,
+                1,
+                ZoneOffset.MAX);
+        when(eventDao.getAllScheduledByPatient(patientId, startDate, endDate)).thenReturn(Collections.singletonList(scheduledEvent));
+
+        eventService.patientEvents(patientId, startDate, endDate);
+
+        verify(eventDao).getAllScheduledByPatient(patientId, startDate, endDate);
+        verify(converter).toEventDateDto(scheduledEvent);
     }
 
 }
