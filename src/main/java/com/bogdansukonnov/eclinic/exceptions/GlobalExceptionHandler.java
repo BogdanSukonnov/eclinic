@@ -2,6 +2,7 @@ package com.bogdansukonnov.eclinic.exceptions;
 
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang3.exception.ExceptionUtils;
+import org.springframework.http.HttpStatus;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -25,6 +26,12 @@ public class GlobalExceptionHandler {
         log.debug("Page not found " + ex);
         response.setStatus(HttpServletResponse.SC_NOT_FOUND);
         return ERROR_PAGE;
+    }
+
+    @ExceptionHandler(VersionConflictException.class)
+    public void customExceptions(Exception ex, HttpServletResponse response) {
+        log.debug(ex.getMessage());
+        response.setStatus(HttpStatus.CONFLICT.value());
     }
 
     @ExceptionHandler({PrescriptionUpdateException.class,

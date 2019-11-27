@@ -9,13 +9,7 @@
 
     <div class="container-fluid">
 
-        <form id="prescriptionForm" method="post"
-            <c:if test="${isNew}">
-                action="${pageContext.request.contextPath}/doctor/saveNewPrescription"
-              </c:if>
-                <c:if test="${!isNew}">
-                action="${pageContext.request.contextPath}/doctor/updatePrescription"
-              </c:if> >
+        <form id="prescriptionForm">
 
             <div class="form-group">
                 <h1>${isNew ? "New" : prescription.status == "PRESCRIBED" ? "Edit": prescription.status} prescription</h1>
@@ -110,7 +104,7 @@
                     <div class="col-auto my-1">
                         <span id="savePrescriptionPopoverSpan" class="d-inline-block" data-toggle="popover"
                               data-content="Please fill all fields">
-                            <button id="savePrescriptionBtn" type="submit" class="btn btn-primary edit-button"
+                            <button id="savePrescriptionBtn" type="button" class="btn btn-primary edit-button"
                                     style="pointer-events: none;" disabled>
                                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Save&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                             </button>
@@ -129,8 +123,8 @@
             <div hidden>
                 <input id="prescriptionId" type="hidden" name="id" value=${isNew ? null : prescription.id}>
                 <input id="status" type="hidden" name="status" value=${isNew ? null : prescription.status}>
-                <input type="hidden" name="patientId" id="patientId" value=${patientId}>
-                <input type="hidden" name="version" value=${prescription.version}>
+                <input id="patientId" type="hidden" name="patientId" id="patientId" value=${patientId}>
+                <input id="version" type="hidden" name="version" value=${prescription.version}>
             </div>
 
             <div class="form-group">
@@ -152,7 +146,7 @@
 
     </div>
 
-    <!-- Modal -->
+    <!-- Cancel modal -->
 <div class="modal fade" id="cancelModal" tabindex="-1" role="dialog" aria-labelledby="cancelModalTitle"
      aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -170,6 +164,50 @@
                 <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
                 <button id="cancelPrescriptionBtn" type="button" class="btn btn-outline-danger">Cancel prescription
                 </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <!-- version conflict modal -->
+<div class="modal fade" id="versionConflictModal" tabindex="-1" role="dialog"
+     aria-labelledby="versionConflictModalTitle"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="versionConflictTitle">Version conflict</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Operation could not be performed because data is already changed.
+                    Please update data and repeat operation if it is still necessary.</p>
+            </div>
+            <div class="modal-footer">
+                <button id="updateDataBtn" type="button" class="btn btn-outline-secondary">Update data</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <!-- server error modal -->
+<div class="modal fade" id="serverErrorModal" tabindex="-1" role="dialog" aria-labelledby="serverErrorModalTitle"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="serverErrorTitle">Server error</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Oops! Something went wrong</p>
+            </div>
+            <div class="modal-footer">
+                <button id="closeServerErrorModalBtn" type="button" class="btn btn-outline-secondary">Close</button>
             </div>
         </div>
     </div>

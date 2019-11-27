@@ -2,6 +2,7 @@
 :root {
     --nav-color: #222e3a; /* #222e3a 394d5c */
     --header-color: #bdc4c0; /* #888f8b bdc4c0 */
+    --nav-text-color: white;
 }
 
 body {
@@ -112,6 +113,7 @@ body {
 
 #UserDropdown, #NotAuthorized {
     text-align: center;
+    color: var(--nav-text-color);
 }
 
 #logout {
@@ -121,6 +123,7 @@ body {
 
 #main-nav .nav-item {
     padding-left: 16px;
+    color: var(--nav-text-color);
 }
 
 .main-login-content {

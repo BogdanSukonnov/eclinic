@@ -4,6 +4,10 @@ const statusIsPrescribed = $('#status').val() === 'PRESCRIBED';
 const periodInput = $('#period');
 const savePrescriptionBtn = $('#savePrescriptionBtn');
 const savePrescriptionPopoverSpan = $('#savePrescriptionPopoverSpan');
+const versionConflictModal = $('#versionConflictModal');
+const updateDataBtn = $('#updateDataBtn');
+const serverErrorModal = $('#serverErrorModal');
+const closeServerErrorModalBtn = $('#closeServerErrorModalBtn');
 
 $(document).ready(function() {
     if (isNew()) {
@@ -24,6 +28,9 @@ $(document).ready(function() {
         $('#cancelPrescriptionBtn').click(function () {
             cancelPrescription()
         });
+        savePrescriptionBtn.click(function () {
+            savePrescription();
+        });
     }
     else {
         disableInputs();
@@ -36,6 +43,8 @@ $(document).ready(function() {
     $('select').on('change', function () {
         onInputChange();
     });
+    versionConflictModal.modal({show: false});
+    serverErrorModal.modal({show: false});
 });
 
 function changeNewHistory() {
@@ -260,4 +269,54 @@ function onInputChange() {
         savePrescriptionBtn.css('pointer-events', 'auto');
         savePrescriptionPopoverSpan.popover('disable');
     }
+}
+
+function dto() {
+    return {
+        id: $('#prescriptionId').val(),
+        version: $('#version').val(),
+        dosage: $('#dosage').val(),
+        patientId: $('#patientId').val(),
+        timePatternId: $('#pattern').val(),
+        treatmentId: $('#treatment').val(),
+        startDate: periodDates().start.format(),
+        endDate: periodDates().end.format()
+    }
+}
+
+function getId() {
+    return $('#prescriptionId').val()
+}
+
+function getPatientId() {
+    return $('#patientId').val()
+}
+
+function savePrescription() {
+    $.ajax({
+        url: '/doctor/prescription',
+        type: isNew() ? 'PUT' : 'POST',
+        data: dto(),
+        statusCode: {
+            409: function () {
+                versionConflictModal.modal('show');
+                updateDataBtn.click(function () {
+                    window.location.reload();
+                });
+            },
+            500: function () {
+                serverErrorModal.modal('show');
+                closeServerErrorModalBtn.click(function () {
+                    window.location.reload();
+                });
+            }
+        }
+    })
+        .done(function () {
+            if (isNew()) {
+                window.location.assign('/doctor/prescription?id=' + getId());
+            } else {
+                window.location.assign('/doctor/patient?id=' + getPatientId());
+            }
+        });
 }

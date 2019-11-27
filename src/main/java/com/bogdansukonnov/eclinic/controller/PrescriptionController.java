@@ -3,6 +3,7 @@ package com.bogdansukonnov.eclinic.controller;
 import com.bogdansukonnov.eclinic.dto.*;
 import com.bogdansukonnov.eclinic.exceptions.PrescriptionCreateException;
 import com.bogdansukonnov.eclinic.exceptions.PrescriptionUpdateException;
+import com.bogdansukonnov.eclinic.exceptions.VersionConflictException;
 import com.bogdansukonnov.eclinic.service.OrderType;
 import com.bogdansukonnov.eclinic.service.PrescriptionService;
 import lombok.AllArgsConstructor;
@@ -13,7 +14,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletResponse;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -55,27 +55,26 @@ public class PrescriptionController {
         return model;
     }
 
-    @PostMapping("saveNewPrescription")
-    public String newPrescription(@Validated RequestPrescriptionDto dto,
+    @PutMapping("prescription")
+    public void newPrescription(@Validated RequestPrescriptionDto dto,
                   @RequestParam("startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
                           LocalDateTime startDate,
                   @RequestParam("endDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
                           LocalDateTime endDate
     )
-            throws PrescriptionCreateException, PrescriptionUpdateException {
+            throws PrescriptionCreateException, VersionConflictException {
         Long id = prescriptionService.save(dto, startDate, endDate);
-        return "redirect:/doctor/prescription?id=" + id;
     }
 
-    @PostMapping("updatePrescription")
-    public String updatePrescription(@Validated(Update.class) RequestPrescriptionDto dto,
+    @PostMapping("prescription")
+    @ResponseStatus(HttpStatus.OK)
+    public void updatePrescription(@Validated(Update.class) RequestPrescriptionDto dto,
                  @RequestParam("startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
                          LocalDateTime startDate,
                  @RequestParam("endDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
                              LocalDateTime endDate)
-            throws PrescriptionCreateException, PrescriptionUpdateException {
+            throws PrescriptionCreateException, VersionConflictException {
         prescriptionService.save(dto, startDate, endDate);
-        return "redirect:/doctor/patient?id=" + dto.getPatientId();
     }
 
     @PostMapping("prescriptions-table")
@@ -86,9 +85,9 @@ public class PrescriptionController {
 
     @PostMapping("cancel-prescription")
     @ResponseStatus(HttpStatus.OK)
-    public void cancelPrescription(@RequestParam("id") Long id, HttpServletResponse response)
-            throws PrescriptionUpdateException {
-        prescriptionService.cancelPrescription(id);
+    public void cancelPrescription(@RequestParam("id") Long id, @RequestParam("version") Integer version)
+            throws PrescriptionUpdateException, VersionConflictException {
+        prescriptionService.cancelPrescription(id, version);
     }
 
 }

@@ -12,6 +12,7 @@ import com.bogdansukonnov.eclinic.dto.TableDataDto;
 import com.bogdansukonnov.eclinic.entity.*;
 import com.bogdansukonnov.eclinic.exceptions.PrescriptionCreateException;
 import com.bogdansukonnov.eclinic.exceptions.PrescriptionUpdateException;
+import com.bogdansukonnov.eclinic.exceptions.VersionConflictException;
 import com.bogdansukonnov.eclinic.security.SecurityContextAdapter;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -46,7 +47,7 @@ public class PrescriptionServiceImpl implements PrescriptionService {
     @Transactional
     public Long save(RequestPrescriptionDto dto,
                      LocalDateTime startDate, LocalDateTime inEndDate)
-            throws PrescriptionCreateException, PrescriptionUpdateException {
+            throws PrescriptionCreateException, VersionConflictException {
 
         // set time to the end of the day
         LocalDateTime endDate = LocalDateTime.of(inEndDate.toLocalDate(), LocalTime.MAX);
@@ -72,7 +73,7 @@ public class PrescriptionServiceImpl implements PrescriptionService {
         } else {
             prescription = prescriptionDao.findOne(dto.getId());
             if (!dto.getVersion().equals(prescription.getVersion())) {
-                throw new PrescriptionUpdateException("Can't update prescription. Version conflict.");
+                throw new VersionConflictException("Can't update prescription. Version conflict.");
             }
             isEventsAffected = !prescription.getStartDate().equals(startDate)
                     || !prescription.getEndDate().equals(endDate)
@@ -142,10 +143,14 @@ public class PrescriptionServiceImpl implements PrescriptionService {
      */
     @Override
     @Transactional
-    public void cancelPrescription(Long id) throws PrescriptionUpdateException {
+    public void cancelPrescription(Long id, Integer version)
+            throws PrescriptionUpdateException, VersionConflictException {
         Prescription prescription = prescriptionDao.findOne(id);
         if (!prescription.getStatus().equals(PrescriptionStatus.PRESCRIBED)) {
             throw new PrescriptionUpdateException("Only active prescriptions can be canceled.");
+        }
+        if (!version.equals(prescription.getVersion())) {
+            throw new VersionConflictException("Can't cancel prescription. Version conflict.");
         }
         eventService.cancelAllScheduled(prescription, "Prescription cancelled");
         prescription.setStatus(PrescriptionStatus.CANCELED);

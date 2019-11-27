@@ -5,6 +5,7 @@ import com.bogdansukonnov.eclinic.entity.Patient;
 import com.bogdansukonnov.eclinic.entity.Prescription;
 import com.bogdansukonnov.eclinic.entity.PrescriptionStatus;
 import com.bogdansukonnov.eclinic.exceptions.PrescriptionUpdateException;
+import com.bogdansukonnov.eclinic.exceptions.VersionConflictException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -50,18 +51,20 @@ class PrescriptionServiceImplOtherTest extends PrescriptionServiceImplTest {
     }
 
     @Test
-    void cancelPrescriptionTest() throws PrescriptionUpdateException {
+    void cancelPrescriptionTest() throws PrescriptionUpdateException, VersionConflictException {
 
         long id = 7L;
+        int version = 0;
         Prescription prescription = new Prescription();
+        prescription.setVersion(version);
         when(prescriptionDao.findOne(id)).thenReturn(prescription);
 
         prescription.setStatus(PrescriptionStatus.CANCELED);
         // should fail on cancelled prescription
-        assertThrows(PrescriptionUpdateException.class, () -> prescriptionService.cancelPrescription(id));
+        assertThrows(PrescriptionUpdateException.class, () -> prescriptionService.cancelPrescription(id, version));
 
         prescription.setStatus(PrescriptionStatus.PRESCRIBED);
-        prescriptionService.cancelPrescription(id);
+        prescriptionService.cancelPrescription(id, version);
 
         verify(eventService).cancelAllScheduled(prescription, "Prescription cancelled");
         assertEquals(PrescriptionStatus.CANCELED, prescription.getStatus());

@@ -4,6 +4,7 @@ import com.bogdansukonnov.eclinic.dto.RequestPrescriptionDto;
 import com.bogdansukonnov.eclinic.entity.*;
 import com.bogdansukonnov.eclinic.exceptions.PrescriptionCreateException;
 import com.bogdansukonnov.eclinic.exceptions.PrescriptionUpdateException;
+import com.bogdansukonnov.eclinic.exceptions.VersionConflictException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -79,7 +80,7 @@ class PrescriptionServiceImplSaveTest extends PrescriptionServiceImplTest {
     }
 
     @Test
-    void saveExistingTest() throws PrescriptionCreateException, PrescriptionUpdateException {
+    void saveExistingTest() throws PrescriptionCreateException, VersionConflictException {
 
         setupSuccessUpdate();
 
@@ -98,7 +99,7 @@ class PrescriptionServiceImplSaveTest extends PrescriptionServiceImplTest {
     }
 
     @Test
-    void saveExistingChangedTimePatternTest() throws PrescriptionCreateException, PrescriptionUpdateException {
+    void saveExistingChangedTimePatternTest() throws PrescriptionCreateException, VersionConflictException {
 
         setupSuccessUpdate();
         when(prescription.getTimePattern()).thenReturn(new TimePattern());
@@ -111,7 +112,7 @@ class PrescriptionServiceImplSaveTest extends PrescriptionServiceImplTest {
     }
 
     @Test
-    void saveExistingChangedStartDateTest() throws PrescriptionCreateException, PrescriptionUpdateException {
+    void saveExistingChangedStartDateTest() throws PrescriptionCreateException, VersionConflictException {
 
         setupSuccessUpdate();
 
@@ -123,7 +124,7 @@ class PrescriptionServiceImplSaveTest extends PrescriptionServiceImplTest {
     }
 
     @Test
-    void saveExistingChangedEndDateTest() throws PrescriptionCreateException, PrescriptionUpdateException {
+    void saveExistingChangedEndDateTest() throws PrescriptionCreateException, VersionConflictException {
 
         setupSuccessUpdate();
 
@@ -135,7 +136,7 @@ class PrescriptionServiceImplSaveTest extends PrescriptionServiceImplTest {
     }
 
     @Test
-    void saveNewTest() throws PrescriptionCreateException, PrescriptionUpdateException {
+    void saveNewTest() throws PrescriptionCreateException, VersionConflictException {
 
         setupSuccess();
 
@@ -153,7 +154,7 @@ class PrescriptionServiceImplSaveTest extends PrescriptionServiceImplTest {
     }
 
     @Test
-    void saveNewClearProcedureDosageTest() throws PrescriptionCreateException, PrescriptionUpdateException {
+    void saveNewClearProcedureDosageTest() throws PrescriptionCreateException, VersionConflictException {
 
         setupSuccess();
 
