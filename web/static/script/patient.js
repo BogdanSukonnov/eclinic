@@ -4,10 +4,13 @@ let newPrescriptionBtnClass = 'newPrescriptionBtn';
 let backBtnClass = 'backBtn';
 let dischargeBtnClass = 'dischargeBtn';
 let dischargeConfirmedBtnId = 'dischargeConfirmedBtn';
+var calendar = null;
+var calendarEl = document.getElementById('calendar');
 
 $(document).ready(function() {
     length = lengthCalculate();
     prescriptionsTableInit();
+    calendarInit();
 });
 
 function buildAjaxObject(data) {
@@ -129,3 +132,75 @@ function backBtnInit() {
         history.back();
     });
 }
+
+function calendarInit(defaultViewName, showColumnHeader) {
+
+    calendar = new FullCalendar.Calendar(calendarEl, {
+        plugins: ['dayGrid', 'bootstrap', 'interaction'],
+        defaultView: 'dayGridMonth',
+        height: 650,
+        eventTimeFormat: { // like '14:30'
+            hour: '2-digit',
+            minute: '2-digit',
+            hour12: false
+        },
+        events: {
+            url: '/doctor/patient-events',
+            method: 'GET',
+            extraParams: {
+                patientId: $('#patient_id').val()
+            },
+            failure: function () {
+                console.log('events fetch failure');
+            }
+            // color: 'yellow',   // a non-ajax option
+            // textColor: 'black' // a non-ajax option
+        }
+    });
+
+    calendar.render();
+
+    // if (calendar !== null) {
+    //     calendar.destroy();
+    // }
+    //
+    // calendar = new FullCalendar.Calendar(calendarEl, {
+    //     plugins: ['timeGrid', 'bootstrap', 'interaction'],
+    //     defaultView: 'timeGridWeek',
+    //     allDaySlot: false,
+    //     minTime: "09:00:00",
+    //     maxTime: "22:00:00",
+    //     eventOverlap: false,
+    //     columnHeader: true,
+    //     // columnHeaderFormat: {weekday: 'short'},
+    //     themeSystem: 'bootstrap',
+    //     slotEventOverlap: false,
+    //     scrollTime: "09:00:00",
+    //     height: "auto",
+    //     weekends: true,
+    //     slotLabelFormat: {
+    //         hour: '2-digit',
+    //         minute: '2-digit',
+    //         omitZeroMinute: false,
+    //         hour12: false
+    //     },
+    //     header: {
+    //         left: '',
+    //         center: '',
+    //         right: ''
+    //     },
+    //     eventTimeFormat: {
+    //         hour: '2-digit',
+    //         minute: '2-digit',
+    //         omitZeroMinute: false,
+    //         hour12: false
+    //     },
+    //     eventClick: function (info) {
+    //         // info.event.remove();
+    //     }
+    // });
+    //
+    // calendar.render();
+}
+
+

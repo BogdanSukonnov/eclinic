@@ -133,7 +133,7 @@
             </div>
 
             <div class="form-group">
-                <table id="prescriptionEventsTable" class="table table-hover" style="width:100%">
+                <table id="prescriptionEventsTable" class="table table-bordered table-hover" style="width:100%">
                     <thead>
                     <tr>
                         <th>Status</th>

@@ -66,6 +66,20 @@ public class EventDaoImpl extends AbstractTableDao<Event> implements EventDao {
         return query.list();
     }
 
+    @Override
+    @Transactional(readOnly = true)
+    public List<Event> getAllScheduledByPatient(Long patientId, LocalDateTime startDate, LocalDateTime endDate) {
+        String queryStr = "from Event e where e.prescription.patient.id = :patientId " +
+                "and e.dateTime >= :startDate and e.dateTime <= :endDate " +
+                "and e.eventStatus = :status";
+        Query query = getCurrentSession().createQuery(queryStr);
+        query.setParameter("patientId", patientId);
+        query.setParameter("startDate", startDate);
+        query.setParameter("endDate", endDate);
+        query.setParameter("status", EventStatus.SCHEDULED);
+        return query.list();
+    }
+
     private String getQueryConditions(String search, boolean showCompleted, Long prescriptionId,
                                       LocalDateTime startDate, LocalDateTime endDate) {
         List<String> conditionsList = new ArrayList<>();

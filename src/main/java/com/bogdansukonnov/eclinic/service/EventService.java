@@ -1,9 +1,6 @@
 package com.bogdansukonnov.eclinic.service;
 
-import com.bogdansukonnov.eclinic.dto.EventDto;
-import com.bogdansukonnov.eclinic.dto.EventInfoListDto;
-import com.bogdansukonnov.eclinic.dto.RequestEventTableDto;
-import com.bogdansukonnov.eclinic.dto.TableDataDto;
+import com.bogdansukonnov.eclinic.dto.*;
 import com.bogdansukonnov.eclinic.entity.EventStatus;
 import com.bogdansukonnov.eclinic.entity.Prescription;
 import com.bogdansukonnov.eclinic.entity.TimePatternItem;
@@ -30,4 +27,6 @@ public interface EventService {
     void updateStatus(Long id, EventStatus status, String cancelReason, Integer version) throws EventStatusUpdateException;
 
     EventInfoListDto eventsInfo();
+
+    EventToCalendarDto[] patientEvents(Long patientId, LocalDateTime startDate, LocalDateTime endDate);
 }

@@ -19,4 +19,6 @@ public interface EventDao extends TableDao<Event> {
     List<Event> getAll(String search, String orderField, int offset, int limit,
                        boolean showCompleted, LocalDateTime startDate, LocalDateTime endDate,
                        Long prescriptionId);
+
+    List<Event> getAllScheduledByPatient(Long patientId, LocalDateTime startDate, LocalDateTime endDate);
 }

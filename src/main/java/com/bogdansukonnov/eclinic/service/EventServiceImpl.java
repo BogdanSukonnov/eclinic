@@ -2,10 +2,7 @@ package com.bogdansukonnov.eclinic.service;
 
 import com.bogdansukonnov.eclinic.converter.EventConverter;
 import com.bogdansukonnov.eclinic.dao.EventDao;
-import com.bogdansukonnov.eclinic.dto.EventDto;
-import com.bogdansukonnov.eclinic.dto.EventInfoListDto;
-import com.bogdansukonnov.eclinic.dto.RequestEventTableDto;
-import com.bogdansukonnov.eclinic.dto.TableDataDto;
+import com.bogdansukonnov.eclinic.dto.*;
 import com.bogdansukonnov.eclinic.entity.*;
 import com.bogdansukonnov.eclinic.exceptions.EventStatusUpdateException;
 import com.bogdansukonnov.eclinic.security.SecurityContextAdapter;
@@ -259,6 +256,25 @@ public class EventServiceImpl implements EventService {
                 .map(event -> converter.toInfoDto(event))
                 .collect(Collectors.toList()));
         return eventsDto;
+    }
+
+    /**
+     * return list of scheduled events of the patient
+     *
+     * @param patientId
+     * @param startDate
+     * @param endDate
+     * @return
+     */
+    @Override
+    @Transactional(readOnly = true)
+    public EventToCalendarDto[] patientEvents(Long patientId, LocalDateTime startDate, LocalDateTime endDate) {
+        List<Event> events = eventDao.getAllScheduledByPatient(patientId, startDate, endDate);
+        EventToCalendarDto[] dtoArray = new EventToCalendarDto[events.size()];
+        for (int i = 0; i < events.size(); ++i) {
+            dtoArray[i] = converter.toEventDateDto(events.get(i));
+        }
+        return dtoArray;
     }
 
 }

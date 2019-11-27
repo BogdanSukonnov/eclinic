@@ -318,6 +318,6 @@ function savePrescription(event) {
     })
         .done(function (msg) {
             let id = isNew() ? msg.id : getId();
-            window.location.assign('/doctor/prescription?id=' + id);
+            window.location.assign('/doctor/patient?id=' + getPatientId());
         });
 }

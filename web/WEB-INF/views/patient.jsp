@@ -53,6 +53,11 @@
             </table>
         </div>
 
+        <div class="container-fluid">
+            <div id="calendar">
+            </div>
+        </div>
+
     </div>
 </div>
     
@@ -86,9 +91,18 @@
 </jsp:attribute>
 <jsp:attribute name="pageScripts">
     <script src="${pageContext.request.contextPath}/static/lib/datatables/datatables.min.js"></script>
+    <script src="${pageContext.request.contextPath}/static/lib/fullcalendar/core/main.js"></script>
+    <script src="${pageContext.request.contextPath}/static/lib/fullcalendar/daygrid/main.js"></script>
+    <script src="${pageContext.request.contextPath}/static/lib/fullcalendar/timegrid/main.js"></script>
+    <script src="${pageContext.request.contextPath}/static/lib/fullcalendar/bootstrap/main.js"></script>
+    <script src="${pageContext.request.contextPath}/static/lib/fullcalendar/interaction/main.js"></script>
     <script src="${pageContext.request.contextPath}/static/script/patient.js"></script>
 </jsp:attribute>
 <jsp:attribute name="pageStyles">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/static/lib/fullcalendar/core/main.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/static/lib/fullcalendar/daygrid/main.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/static/lib/fullcalendar/timegrid/main.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/static/lib/fullcalendar/bootstrap/main.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/static/lib/datatables/datatables.min.css">
 </jsp:attribute>
 </t:generic-page>

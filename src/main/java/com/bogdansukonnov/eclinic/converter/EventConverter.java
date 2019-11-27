@@ -3,11 +3,14 @@ package com.bogdansukonnov.eclinic.converter;
 import com.bogdansukonnov.eclinic.config.EClinicConstants;
 import com.bogdansukonnov.eclinic.dto.EventDto;
 import com.bogdansukonnov.eclinic.dto.EventInfoDto;
+import com.bogdansukonnov.eclinic.dto.EventToCalendarDto;
 import com.bogdansukonnov.eclinic.entity.Event;
 import com.bogdansukonnov.eclinic.entity.TreatmentType;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
+
+import java.time.format.DateTimeFormatter;
 
 @Component
 @AllArgsConstructor
@@ -53,4 +56,10 @@ public class EventConverter {
                 .build();
     }
 
+    public EventToCalendarDto toEventDateDto(Event event) {
+        return new EventToCalendarDto(event.getTreatment().getName(),
+                event.getDateTime().format(DateTimeFormatter.ISO_DATE_TIME),
+                event.getDateTime().format(DateTimeFormatter.ISO_DATE_TIME),
+                event.getPrescription().getId());
+    }
 }

@@ -1,6 +1,7 @@
 package com.bogdansukonnov.eclinic.controller;
 
 import com.bogdansukonnov.eclinic.dto.EventInfoListDto;
+import com.bogdansukonnov.eclinic.dto.EventToCalendarDto;
 import com.bogdansukonnov.eclinic.dto.RequestEventTableDto;
 import com.bogdansukonnov.eclinic.dto.TableDataDto;
 import com.bogdansukonnov.eclinic.entity.EventStatus;
@@ -71,6 +72,15 @@ public class EventController {
     @ResponseBody
     public EventInfoListDto eventsInfo() {
         return eventService.eventsInfo();
+    }
+
+    @GetMapping("/doctor/patient-events")
+    @ResponseBody
+    public EventToCalendarDto[] patientEvents(
+            @RequestParam("patientId") Long patientId,
+            @RequestParam("start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startDate,
+            @RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endDate) {
+        return eventService.patientEvents(patientId, startDate, endDate);
     }
 
 }
