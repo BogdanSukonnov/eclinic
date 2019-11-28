@@ -175,7 +175,10 @@ function cancelPrescription() {
     $.ajax({
         url: '/doctor/cancel-prescription',
         type: 'POST',
-        data: {'id': prescriptionId()}
+        data: {
+            'id': prescriptionId(),
+            'version': $('#version').val()
+        }
     })
         .done(function () {
             window.history.back();
@@ -214,6 +217,14 @@ function periodInit() {
         period.customEnd = moment($('#endDate').val());
     }
 
+    function minSelectableDate() {
+        if (isNew()) {
+            return moment().startOf('day');
+        } else {
+            return moment($('#startDate').val());
+        }
+    }
+
     periodInput.daterangepicker({
         "showDropdowns": true,
         "timePicker": false,
@@ -224,6 +235,7 @@ function periodInit() {
         "opens": "right",
         "startDate": periodDates().start,
         "endDate": periodDates().end,
+        "minDate": minSelectableDate(),
         locale: {
             format: 'DD\.MM'
         }
