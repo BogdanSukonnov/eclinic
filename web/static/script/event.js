@@ -1,13 +1,16 @@
 const reasonInput = $('#cancellingReason');
 const submitReasonBtn = $('#submitReasonBtn');
+const completeEventBtn = $('#completeEventBtn');
 const submitReasonPopoverSpan = $('#submitReasonPopoverSpan');
 const statusIsScheduled = $('#status').val() === 'SCHEDULED';
+const canComplete = statusIsScheduled && $('#canComplete').val() === 'true';
 
 $(document).ready(function() {
     if (statusIsScheduled) {
-        $('#completeEventBtn').click(function () {
+        completeEventBtn.click(function () {
             completeEvent()
         });
+        completeEventBtn.prop('disabled', !canComplete);
         submitReasonBtn.click(function () {
             cancelEvent()
         });

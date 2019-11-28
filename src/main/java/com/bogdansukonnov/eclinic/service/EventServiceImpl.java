@@ -35,16 +35,9 @@ public class EventServiceImpl implements EventService {
     private MessagingService messagingService;
     private static final String ORDER_FIELD = "dateTime";
 
-    /**
-     * <p>finds event by it's id</p>
-     *
-     * @param id event id
-     * @return EventDto
-     */
-    @Override
-    @Transactional(readOnly = true)
-    public EventDto getOne(Long id) {
-        return converter.toDto(eventDao.findOne(id));
+    private static boolean isCanComplete(Event event) {
+        return event.getEventStatus().equals(EventStatus.SCHEDULED) &&
+                event.getDateTime().isBefore(LocalDateTime.of(LocalDate.now(), LocalTime.MAX));
     }
 
     /**
@@ -182,6 +175,19 @@ public class EventServiceImpl implements EventService {
     }
 
     /**
+     * <p>finds event by it's id</p>
+     *
+     * @param id event id
+     * @return EventDto
+     */
+    @Override
+    @Transactional(readOnly = true)
+    public EventDto getOne(Long id) {
+        Event event = eventDao.findOne(id);
+        return converter.toDto(event, isCanComplete(event));
+    }
+
+    /**
      * <p>REST service. Generates data for the table of
      * all events with given filters</p>
      *
@@ -196,7 +202,7 @@ public class EventServiceImpl implements EventService {
                 , data.getShowCompleted(), startDate, endDate, data.getParentId());
 
         List<EventDto> eventDtoS = events.stream()
-                .map(event -> converter.toDto(event))
+                .map(event -> converter.toDto(event, isCanComplete(event)))
                 .collect(Collectors.toList());
 
         Long totalFiltered = eventDao.getTotalFiltered(data.getSearch(), data.getShowCompleted(), startDate,

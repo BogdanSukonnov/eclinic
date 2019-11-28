@@ -74,11 +74,12 @@ public class EventServiceImplOtherTest extends EventServiceImplTest {
 
         when(eventDao.getAll("", ORDER_FIELD, 0, 0, false, startDate, endDate, 0L))
                 .thenReturn(Collections.singletonList(scheduledEvent));
+        scheduledEvent.setDateTime(startDate);
 
         TableDataDto tableDataDto = eventService.getEventTable(data, startDate, endDate);
 
         verify(eventDao).getAll("", ORDER_FIELD, 0, 0, false, startDate, endDate, 0L);
-        verify(converter).toDto(scheduledEvent);
+        verify(converter).toDto(scheduledEvent, false);
         assertEquals(tableDataDto.getDraw(), draw);
 
     }

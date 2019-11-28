@@ -25,7 +25,7 @@ public class EventConverter {
             return String.format("%s", f);
     }
 
-    public EventDto toDto(Event event) {
+    public EventDto toDto(Event event, boolean canComplete) {
         EventDto dto = modelMapper.map(event, EventDto.class);
         dto.setDateFormatted(event.getDateTime().format(EClinicConstants.dateFormatter));
         dto.setTimeFormatted(event.getDateTime().format(EClinicConstants.timeFormatter));
@@ -33,6 +33,7 @@ public class EventConverter {
                 ? event.getUpdatedDateTime().format(EClinicConstants.dateFormatter)
                 : null);
         dto.setDosage(formatDosage(event));
+        dto.setCanComplete(canComplete);
         return dto;
     }
 

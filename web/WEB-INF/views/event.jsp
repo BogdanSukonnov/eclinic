@@ -12,6 +12,7 @@
         <input type="hidden" id="eventId" value="${event.id}">
         <input type="hidden" id="version" value="${event.version}">
         <input type="hidden" id="status" value="${event.eventStatus}">
+        <input type="hidden" id="canComplete" value="${event.canComplete}">
         <div class="prop-list">
             <div class="prop-row">
                 <div class="field-label">Patient:</div>

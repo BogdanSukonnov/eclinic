@@ -25,6 +25,7 @@ public class EventDto extends AbstractDto {
     private String nurseFullName;
     private String updatedDateFormatted;
     private String timePatternName;
+    private Boolean canComplete;
 
     // both ways
     private EventStatus eventStatus;
