@@ -53,13 +53,21 @@ public class PatientController {
         patientService.dischargePatient(id, version);
     }
 
-    @PostMapping("patient-name-is-unique")
+    @GetMapping("patient-name-is-unique")
     public void patientNameIsUnique(@RequestParam("fullName") String fullName,
                                     HttpServletResponse response) {
         if (patientService.patientNameIsBusy(fullName)) {
             response.setStatus(HttpStatus.CONFLICT.value());
         }
         else response.setStatus(HttpStatus.OK.value());
+    }
+
+    @GetMapping("patient-insurance-is-unique")
+    public void patientInsuranceIsUnique(@RequestParam("insurance") String insurance,
+                                         HttpServletResponse response) {
+        if (patientService.patientInsuranceIsBusy(insurance)) {
+            response.setStatus(HttpStatus.CONFLICT.value());
+        } else response.setStatus(HttpStatus.OK.value());
     }
 
 }

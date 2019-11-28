@@ -38,7 +38,7 @@
         </div>
 
         <div class="container-fluid">
-            <table id="patientPrescriptionsTable" class="table table-hover" style="width:100%">
+            <table id="patientPrescriptionsTable" class="table table-hover table-bordered" style="width:100%">
                 <thead>
                 <tr>
                     <th>Status</th>
@@ -104,6 +104,7 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/static/lib/fullcalendar/timegrid/main.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/static/lib/fullcalendar/bootstrap/main.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/static/lib/datatables/datatables.min.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/patient.css">
 </jsp:attribute>
 </t:generic-page>
 <%--Common part end--%>

@@ -72,12 +72,12 @@
             <div id="dosageGroup" class="form-group row">
                 <label for="dosage" class="col-sm-2 col-form-label">Dosage</label>
                 <div class="col-sm-1">
-                    <input type="number" id="dosage" class="form-control" placeholder="Dosage"
+                    <input type="number" id="dosage" class="form-control" placeholder="Dosage" autocomplete="off"
                            name="dosage" value="${isNew ? 0 : prescription.dosage}" step="any" min="0" required>
                 </div>
                 <label for="dosageInfo" class="col-sm-1 col-form-label">info</label>
                 <div class="col-sm-6">
-                    <input type="text" id="dosageInfo" class="form-control" placeholder="Dosage info"
+                    <input type="text" id="dosageInfo" class="form-control" placeholder="Dosage info" autocomplete="off"
                            name="dosageInfo" value="${prescription.dosageInfo}">
                 </div>
             </div>

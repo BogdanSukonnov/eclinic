@@ -10,4 +10,6 @@ public interface PatientDao extends TableDao<Patient> {
     String getQueryConditions(String search, Long parentId);
 
     Optional<Patient> findOne(String fullName);
+
+    Optional<Patient> findOneByInsurance(String trim);
 }

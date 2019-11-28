@@ -32,4 +32,12 @@ public class PatientDaoImpl extends AbstractTableDao<Patient> implements Patient
         return query.uniqueResultOptional();
     }
 
+    @Override
+    @Transactional(readOnly = true)
+    public Optional<Patient> findOneByInsurance(String insurance) {
+        Query query = getCurrentSession().createQuery("from Patient where insuranceNumber=:insurance");
+        query.setParameter("insurance", insurance);
+        return query.uniqueResultOptional();
+    }
+
 }

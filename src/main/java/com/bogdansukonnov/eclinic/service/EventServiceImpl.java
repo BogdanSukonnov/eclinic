@@ -113,8 +113,9 @@ public class EventServiceImpl implements EventService {
                 .orElseGet(prescription::getStartDate);
 
         // find all dates when to create events
-        List<LocalDateTime> dates = patternDates(items, prescription.getStartDate(), prescription.getEndDate()
-                , timePattern.getCycleLength(), timePattern.getIsWeekCycle(), notSooner);
+        List<LocalDateTime> dates = patternDates(items, prescription.getStartDate(),
+                LocalDateTime.of(prescription.getEndDate().toLocalDate(), LocalTime.MAX),
+                timePattern.getCycleLength(), timePattern.getIsWeekCycle(), notSooner);
 
         // actually create all events
         for (LocalDateTime date : dates) {

@@ -87,9 +87,14 @@ public class PatientServiceImpl implements PatientService {
     }
 
     @Override
-    @Transactional
     public boolean patientNameIsBusy(String fullName) {
         Optional<Patient> patient = patientDao.findOne(fullName.trim());
+        return patient.isPresent();
+    }
+
+    @Override
+    public boolean patientInsuranceIsBusy(String insurance) {
+        Optional<Patient> patient = patientDao.findOneByInsurance(insurance.trim());
         return patient.isPresent();
     }
 }

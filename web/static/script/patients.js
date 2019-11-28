@@ -1,13 +1,18 @@
 let length = 8;
 let patientsTableId = '#patientsTable';
 let newPatientFullNameInput = $('#newPatientFullName');
+let newPatientInsuranceInput = $('#newPatientInsurance');
 let nameUniqueSpan = $('#nameUnique');
+let insuranceUniqueSpan = $('#insuranceUnique');
 
 $(document).ready(function() {
     length = lengthCalculate();
     patientsTableInit();
     newPatientFullNameInput.on('input', function () {
         onNewPatientFullNameChange();
+    });
+    newPatientInsuranceInput.on('input', function () {
+        onNewPatientInsuranceChange();
     });
     insuranceInit();
 } );
@@ -34,7 +39,7 @@ function insuranceInit() {
 }
 
 function onNewPatientFullNameChange() {
-    $.post("patient-name-is-unique",
+    $.get("patient-name-is-unique",
         {
             fullName: newPatientFullNameInput.val()
         },
@@ -113,4 +118,27 @@ function newPatientBtnInit() {
 
 function openPatient(id) {
     window.location.assign('patient?id=' + id);
+}
+
+function onNewPatientInsuranceChange() {
+    if (newPatientInsuranceInput.val().length < 11) {
+        insuranceUniqueSpan.text('   incorrect');
+        insuranceUniqueSpan.css('color', 'red');
+        newPatientInsuranceInput.prop('pattern', "^\d{3}-\d{2}-\d{4}$")
+    } else {
+        $.get("patient-insurance-is-unique",
+            {
+                insurance: newPatientInsuranceInput.val()
+            },
+            function () {
+                insuranceUniqueSpan.text('   free');
+                insuranceUniqueSpan.css('color', 'green');
+                newPatientInsuranceInput.prop('pattern', '*')
+            })
+            .fail(function () {
+                insuranceUniqueSpan.text('   busy');
+                insuranceUniqueSpan.css('color', 'red');
+                newPatientInsuranceInput.prop('pattern', 'BAD PATTERN')
+            });
+    }
 }

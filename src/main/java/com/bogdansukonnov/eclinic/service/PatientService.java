@@ -20,4 +20,6 @@ public interface PatientService {
     void dischargePatient(Long id, Integer version) throws PatientUpdateException;
 
     boolean patientNameIsBusy(String fullName);
+
+    boolean patientInsuranceIsBusy(String insurance);
 }
