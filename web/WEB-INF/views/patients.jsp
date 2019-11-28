@@ -50,7 +50,7 @@
                     <div class="form-group">
                         <label for="newPatientInsurance">Insurance</label>
                         <input type="text" class="form-control" id="newPatientInsurance" placeholder="Insurance"
-                               name="insuranceNumber" required>
+                               name="insuranceNumber" required pattern="^\d{3}-\d{2}-\d{4}$">
                     </div>
                     <div class="form-group">
                         <label for="newPatientDiagnosis">Diagnosis</label>

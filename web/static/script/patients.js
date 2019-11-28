@@ -3,14 +3,35 @@ let patientsTableId = '#patientsTable';
 let newPatientFullNameInput = $('#newPatientFullName');
 let nameUniqueSpan = $('#nameUnique');
 
-
 $(document).ready(function() {
     length = lengthCalculate();
     patientsTableInit();
     newPatientFullNameInput.on('input', function () {
         onNewPatientFullNameChange();
     });
+    insuranceInit();
 } );
+
+function insuranceInit() {
+    $('#newPatientInsurance').keyup(function () {
+        let val = this.value.replace(/\D/g, '');
+        let newVal = '';
+        if (val.length > 4) {
+            this.value = val;
+        }
+        if ((val.length > 3) && (val.length < 6)) {
+            newVal += val.substr(0, 3) + '-';
+            val = val.substr(3);
+        }
+        if (val.length > 5) {
+            newVal += val.substr(0, 3) + '-';
+            newVal += val.substr(3, 2) + '-';
+            val = val.substr(5);
+        }
+        newVal += val;
+        this.value = newVal.substring(0, 11);
+    });
+}
 
 function onNewPatientFullNameChange() {
     $.post("patient-name-is-unique",
