@@ -145,7 +145,7 @@ public class EventServiceImplOtherTest extends EventServiceImplTest {
         AppUser appUser = new AppUser();
         when(securityContextAdapter.getCurrentUser()).thenReturn(appUser);
 
-        String reason = "The reason";
+        String reason = "Tee reason";
         eventService.updateStatus(id, EventStatus.CANCELED, reason, version);
 
         verify(scheduledEventSpy).setEventStatus(EventStatus.CANCELED);
